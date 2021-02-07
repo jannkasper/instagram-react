@@ -1,0 +1,12 @@
+export { default as Activity } from "./ActivityIcon";
+export { default as ActivityActive } from "./ActivityIconActive";
+export { default as Comment } from "./CommentIcon";
+export { default as Explore } from "./ExploreIcon";
+export { default as ExploreActive } from "./ExploreIconActive";
+export { default as Home } from "./HomeIcon";
+export { default as HomeActive } from "./HomeIconActive";
+export { default as Message } from "./MessageIcon";
+export { default as MessageActive } from "./MessageIconActive";
+export { default as More } from "./MoreIcon";
+export { default as Save } from "./SaveIcon";
+export { default as Search } from "./SearchIcon";

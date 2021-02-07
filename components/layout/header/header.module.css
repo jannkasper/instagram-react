@@ -1,0 +1,80 @@
+.headerContainer {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    height: 54px;
+    width: 100%;
+    z-index: 3;
+
+    background: #fff;
+    border-bottom: solid 1px #dbdbdb;
+}
+
+.headerContent {
+    display: flex;
+    align-items: center;
+    max-width: 975px;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px 0 20px;
+}
+
+.headerLogo {
+    margin-top: 10px;
+    flex: 1 9999 0%;
+}
+
+.headerLogo > img {
+    width: 103px;
+    height: 29px;
+}
+
+.headerSearch {
+    position: relative;
+    flex: 0 1 auto;
+    height: 28px;
+    width: 215px;
+    min-width: 125px;
+}
+
+.headerSearch > input {
+    width: 100%;
+    height: 100%;
+    border: solid 1px #dbdbdb;
+    background-color: #fafafa;
+    border-radius: 3px;
+    color: #262626;
+    outline: 0;
+    padding: 3px 10px 3px 26px;
+    /*font-size: 14px;*/
+    font-weight: lighter;
+    /*text-align: center;*/
+
+}
+.headerSearchIcon {
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+}
+
+.headerIconGroup {
+    display: flex;
+    flex: 1 0 0%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.headerIcon {
+    margin-left: 22px;
+    cursor: pointer;
+}
+
+.headerUserAvatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}

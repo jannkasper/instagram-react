@@ -1,0 +1,38 @@
+.addCommentContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-height: 70px;
+    padding: 1rem;
+    margin-top: 4px;
+    border-top: 1px solid #efefef;
+}
+
+.addCommentEmoji {
+    padding-right: 16px;
+}
+
+.addCommentInput {
+    display: flex;
+    width: 100%;
+    height: 18px;
+    max-height: 60px;
+    /*margin-right: 15px;*/
+    padding: 0;
+
+    border: 0;
+    background-color: transparent;
+
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    white-space: normal;
+    resize: none;
+}
+
+.addCommentButton {
+    font-size: 14px;
+    color: #0095f6;
+    background-color: transparent;
+    border: 0 solid #e2e8f0;
+}

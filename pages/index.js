@@ -1,12 +1,14 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Layout from "../components/layout";
-import Post from "../components/post";
+import FeedItem from "../components/feed-item";
 
 export default function Home() {
   return (
       <Layout>
-          <Post />
+          <FeedItem />
+          <FeedItem />
+          <FeedItem />
       </Layout>
     // <div className={styles.container}>
     //   <Head>

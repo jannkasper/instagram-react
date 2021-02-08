@@ -1,0 +1,30 @@
+.feedItemCommentContainer {
+    margin: 0 1rem 4px 1rem;
+    /*display: flex;*/
+    /*vertical-align: bottom;*/
+
+}
+
+.commentUserName {
+    display: inline-block;
+    margin-right: 0.25rem;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.commentTextDescription {
+    vertical-align: top;
+    display: inline-block;
+    text-overflow: ellipsis;
+    width: 40ch;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow-wrap: break-word;
+    font-size: 14px;
+}
+
+.showMore {
+    font-size: 14px;
+    color: #9a9a9a;
+}

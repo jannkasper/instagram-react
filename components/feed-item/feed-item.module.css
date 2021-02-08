@@ -1,0 +1,9 @@
+.feedItemContainer {
+    width: 100%;
+    max-width: 614px;
+
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    margin-bottom: 60px;
+}

@@ -2,10 +2,12 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Layout from "../components/layout";
 import FeedItem from "../components/feed-item";
+import Stories from "../components/stories";
 
 export default function Home() {
   return (
       <Layout>
+          <Stories />
           <FeedItem />
           <FeedItem />
           <FeedItem />

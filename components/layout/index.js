@@ -1,8 +1,8 @@
 import React from "react";
 import Header from "./header";
-import Main from "./main";
 
 import styles from "./layout.module.css";
+import Sidebar from "./sidebar";
 
 const Layout = ({children}) => {
 
@@ -10,7 +10,10 @@ const Layout = ({children}) => {
         <div>
             <Header />
             <div className={styles.container}>
-                {children}
+                <div className={styles.mainContent} >
+                    {children}
+                </div>
+                <Sidebar />
             </div>
         </div>
     )

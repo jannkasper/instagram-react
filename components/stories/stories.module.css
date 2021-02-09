@@ -1,0 +1,28 @@
+.storiesContainer {
+    width: 100%;
+    padding: 16px 0;
+    margin-bottom: 24px;
+
+    border-radius: 3px;
+    border: 1px solid #dbdbdb;
+}
+
+.storiesContent {
+    height: 84px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    align-items: center;
+    outline: 0;
+}
+
+.storiesSlider {
+    padding: 0 10px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.storiesSlider::-webkit-scrollbar {
+    display: none;
+}

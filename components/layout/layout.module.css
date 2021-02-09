@@ -1,9 +1,15 @@
 .container {
     position: relative;
+    display: flex;
     top: 54px;
     width: 100%;
     max-width: 975px;
     margin: 0 auto;
-    padding: 0 20px 0 20px;
+    padding: 30px 20px 0 20px;
+}
 
+.mainContent {
+    width: 100%;
+    max-width: 614px;
+    margin-right: 28px;
 }

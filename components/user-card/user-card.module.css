@@ -1,0 +1,55 @@
+.userCardContainer {
+    display: flex;
+    /*justify-content: space-between;*/
+    padding: 8px 0 8px 0;
+    flex-direction: row;
+    align-items: center;
+}
+
+.userImage {
+    height: 32px;
+    width: 32px;
+    margin-right: 12px;
+    border-radius: 50%;
+}
+
+.userImage > img {
+    height: 32px;
+    width: 32px;
+    /*height: 100%;*/
+    /*width: 100%;*/
+}
+
+.userDetails {
+
+}
+
+.userName {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.userFollowers {
+    color: #8e8e8e;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+}
+
+.buttonFollow {
+    margin-left: auto;
+    right: 0;
+    border: none;
+    padding: 0;
+
+    color: #0095f6;
+    background: none;
+
+    font: inherit;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 14px;
+    cursor: pointer;
+    outline: inherit;
+}

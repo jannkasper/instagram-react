@@ -1,0 +1,108 @@
+.sidebarContainer {
+    position: relative;
+    height: 500px;
+    max-width: 293px;
+    width: 100%;
+    /*background-color: coral;*/
+}
+
+.fixedContent {
+    position: fixed;
+    top: 88px;
+    width: 100%;
+    max-width: 293px;
+
+}
+
+.sidebarUser {
+    display: flex;
+    align-items: center;
+    margin: 18px 0 10px 0;
+
+}
+
+.userImage {
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    color: #00376b;
+    cursor: pointer;
+}
+
+.userImage > img {
+    height: 100%;
+    width: 100%;
+}
+
+.userInfo {
+    margin-left: 20px;
+
+}
+
+.userName {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.userDescription {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+
+    color: #8e8e8e;
+}
+
+.sidebarContacts {
+    display: block;
+    padding: 4px 0 4px 0;
+}
+
+.contactsHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding: 4px 0 4px 0;
+
+}
+.headerTitle {
+    color: #8e8e8e;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+}
+
+.seeAll {
+    color: #262626;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 14px;
+}
+
+.contacts {
+    padding: 8px 0 8px 0;
+    margin-bottom: 12px;
+}
+
+.footer {
+    color: #c7c7c7;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 13px;
+}
+
+.subPages {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.pageTitle {
+    font: inherit;
+    margin-bottom: 3px;
+}
+
+.pageTitle::after {
+    content: '\00B7';
+    margin: 0 .25em 0 .25em;
+}

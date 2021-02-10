@@ -1,0 +1,37 @@
+.header {
+    display: flex;
+    height: 60px;
+    padding: 16px;
+    align-items: center;
+    flex-direction: row;
+    border-bottom: 1px solid #efefef;
+
+}
+
+.userImage {
+    width: 32px;
+    height: 32px;
+}
+
+.headerText {
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.userName {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.localization {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 18px;
+}
+
+.moreIcon {
+    margin-left: auto;
+    right: 4px;
+}

@@ -1,0 +1,53 @@
+.commentContainer {
+    /*margin: 0 1rem 4px 1rem;*/
+    padding: 12px 24px 12px 16px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.commentUserImage {
+    width: 32px;
+    height: 32px;
+    margin-right: 18px;
+}
+
+.commentContent {
+    flex: 1 1 auto;
+    padding-right: 5px;
+}
+
+.commentUserName {
+    display: inline-block;
+    margin-right: 0.25rem;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.commentActions {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 4px;
+}
+
+.commentDate {
+    line-height: 14px;
+    font-size: 12px;
+    font-weight: 400;
+    margin-right: 12px;
+    color: #8e8e8e;
+}
+
+.commentButton {
+    background: 0 0;
+    border: 0;
+    cursor: pointer;
+    display: inline;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 14px;
+    margin-right: 12px;
+    padding: 0;
+    color: #8e8e8e;
+}

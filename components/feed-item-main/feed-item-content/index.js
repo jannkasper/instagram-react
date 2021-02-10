@@ -6,7 +6,7 @@ const FeedItemContent = () => {
 
     return (
         <div className={styles.contentImage}>
-            <img src="../../../static/images/vertical.jpeg"/>
+            <img src="../../../static/images/horizontal.jpeg"/>
         </div>
     );
 }

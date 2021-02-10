@@ -1,15 +1,10 @@
 .container {
     position: relative;
     display: flex;
+    justify-content: center;
     top: 54px;
     width: 100%;
     max-width: 975px;
     margin: 0 auto;
     padding: 30px 20px 0 20px;
-}
-
-.mainContent {
-    width: 100%;
-    max-width: 614px;
-    margin-right: 28px;
 }

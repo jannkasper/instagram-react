@@ -1,0 +1,17 @@
+.feedItemCommentsContainer {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    outline: 0;
+}
+
+.feedItemCommentsSlider {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    /*white-space: nowrap;*/
+}
+
+.feedItemCommentsSlider::-webkit-scrollbar {
+    display: none;
+}

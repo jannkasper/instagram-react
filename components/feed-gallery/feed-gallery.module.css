@@ -1,0 +1,53 @@
+.feedGalleryContainer {
+    display: block;
+    padding-top: 6vh;
+    border-top: 1px solid #dbdbdb;
+}
+
+.galleryDescription {
+    /*flex: 1 1 auto;*/
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    color: #8e8e8e;
+}
+
+.galleryUserName {
+    display: inline;
+    color: #262626;
+}
+
+.feedGalleryContent {
+    display: flex;
+    flex-direction: column;
+    /*align-content: space-between;*/
+    /*flex-wrap: wrap;*/
+
+}
+
+.galleryRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.galleryImage {
+    /*flex: 1 0 0%;*/
+    /*display: flex;*/
+    /*max-height: 293px;*/
+    /*max-width: 293px;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+}
+
+.galleryImage >  img {
+    display: inline;
+    height: 293px;
+    width: 293px;
+    /*max-height: 293px;*/
+    /*max-width: 293px;*/
+    object-fit: cover;
+
+}

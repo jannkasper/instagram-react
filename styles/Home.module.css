@@ -126,3 +126,9 @@
   max-width: 614px;
   margin-right: 28px;
 }
+
+.postContainer {
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+}

@@ -4,6 +4,7 @@ import Stories from "../components/stories";
 import Sidebar from "../components/layout/sidebar";
 
 import styles from '../styles/Home.module.css'
+import FeedItemMain from "../components/feed-item-main";
 
 export default function Home() {
   return (
@@ -15,6 +16,13 @@ export default function Home() {
               <FeedItem />
           </div>
           <Sidebar />
+          <div className={styles.lightbox}>
+              <div className={styles.inner}>
+                  <div className={styles.inner2}>
+                      <FeedItemMain/>
+                  </div>
+              </div>
+          </div>
       </Layout>
     // <div className={styles.container}>
     //   <Head>

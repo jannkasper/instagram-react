@@ -1,20 +1,21 @@
 import React from "react";
 
 import styles from "./user-item-header.module.css"
-import {More} from "../../icons";
+import {More, Verified} from "../../icons";
+import {numFormatter, urlFormatter, bioFormatter} from "../../../util/formatter";
 
-const UserItemHeader = () => {
-
+const UserItemHeader = ({ userData }) => {
     return (
         <div className={styles.userItemHeaderContainer}>
             <div className={styles.userImageContainer}>
                 <div className={styles.userImage}>
-                    <img src="../../../static/images/avatar1.png"/>
+                    <img src={userData.userImageUrl}/>
                 </div>
             </div>
             <div className={styles.userDetails}>
                 <div className={styles.user1Line}>
-                    <h2 className={styles.userName}>dogs.lovers</h2>
+                    <h2 className={styles.userName}>{userData.username}</h2>
+                    {userData.isVerified ? <div className={styles.verifiedBandage}><Verified /></div> : null }
                     <div className={styles.userButtonGroup}>
                         <button className={styles.buttonFollow}>Follow</button>
                         {/*<button>Q^</button>*/}
@@ -23,19 +24,14 @@ const UserItemHeader = () => {
                     <More height={24} width={24} />
                 </div>
                 <div className={styles.user2Line}>
-                    <span className={styles.userScore}><span className={styles.bold}>500</span> posts</span>
-                    <span className={styles.userScore}><span className={styles.bold}>50k</span> followers</span>
-                    <span className={styles.userScore}><span className={styles.bold}>150</span> following</span>
+                    <span className={styles.userScore}><span className={styles.bold}>{userData.postCount}</span> posts</span>
+                    <span className={styles.userScore}><span className={styles.bold}>{numFormatter(userData.followersCount)}</span> followers</span>
+                    <span className={styles.userScore}><span className={styles.bold}>{numFormatter(userData.followingsCount)}</span> following</span>
                 </div>
                 <div className={styles.user3Line}>
-                    <span className={styles.descriptionHeader}>DAMIAN OLSZEWSKI | CZYSTY ZYSK</span>
-                    <span>
-                        💼 Inwestor, Finansista, Edukator
-                        <br/>
-                        💹 Inwestycje w nieruchomości i biznes
-                        <br/>
-                        🎥 Youtube 96K SUBS 🎥
-                    </span>
+                    <span className={styles.descriptionHeader}>{userData.name}</span>
+                    <span>{bioFormatter(userData.bio)}</span>
+                    {userData.bioUrlName ? <a className={styles.bioUrl} href={userData.bioUrl} target="_blank">{urlFormatter(userData.bioUrlName)}</a> : null }
                     <span className={styles.descriptionFollowed}>
                         {"Followed by "}
                         <a className={styles.followedUserName}>skoczylas_paulina</a>

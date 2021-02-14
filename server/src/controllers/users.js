@@ -156,6 +156,52 @@ export const userContent = async (req, res) => {
         return window._sharedData.entry_data.ProfilePage[0].graphql.user;
     });
 
-    return res.status(200).json(sharedData);
+    const cleanData = transformUserData(sharedData);
+
+    return res.status(200).json(cleanData);
+
+}
+
+
+const transformUserData = (fetchData) => {
+
+    const userData = {
+        username: fetchData.username,
+        isVerified: fetchData.is_verified,
+        userImageUrl: fetchData.profile_pic_url,
+        postCount: fetchData.edge_owner_to_timeline_media?.count,
+        followersCount: fetchData.edge_followed_by?.count,
+        followingsCount: fetchData.edge_follow?.count,
+        name: fetchData.full_name,
+        bio: fetchData.biography,
+        bioUrl: fetchData.external_url_linkshimmed,
+        bioUrlName: fetchData.external_url,
+        isPrivate: fetchData.is_private,
+    };
+
+    userData.mediaArray = transformMediaData(fetchData.edge_owner_to_timeline_media);
+
+    return userData;
+}
+
+const transformMediaData = (fetchData) => {
+
+    const mediaArray = [];
+
+    for (let edge of fetchData.edges) {
+        edge = edge.node;
+
+        const mediaData = {
+            postId: edge.shortcode,
+            likeCount: edge.edge_liked_by?.count,
+            commentCount: edge.edge_media_to_comment?.count,
+            isVideo: edge.is_video,
+            thumbnailArray : edge.thumbnail_resources
+        }
+
+        mediaArray.push(mediaData)
+    }
+
+    return mediaArray
 
 }

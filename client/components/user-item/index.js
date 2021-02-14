@@ -4,11 +4,11 @@ import UserItemHeader from "./user-item-header";
 import styles from "./user-item.module.css"
 import UserItemStories from "./user-item-stories";
 
-const UserItem = () => {
+const UserItem = ({ userData }) => {
 
     return (
         <div className={styles.userItemContainer}>
-            <UserItemHeader />
+            <UserItemHeader userData={userData} />
             <UserItemStories />
         </div>
     );

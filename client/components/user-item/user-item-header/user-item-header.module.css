@@ -41,6 +41,11 @@
     margin-bottom: 20px;
 }
 
+.verifiedBandage {
+    margin-top: 4px;
+    margin-left: 8px;
+}
+
 .userName {
     font-size: 28px;
     line-height: 32px;
@@ -122,6 +127,13 @@
 .descriptionHeader {
     display: inline;
     font-weight: 600;
+}
+
+.bioUrl {
+    font-weight: 600;
+    text-decoration: none;
+    color: #00376b;
+    cursor: pointer;
 }
 
 .descriptionFollowed {

@@ -1,4 +1,5 @@
 import {getPage} from "../utils/session.js";
+import delay from "delay";
 
 
 export const userContent = async (req, res) => {
@@ -9,23 +10,52 @@ export const userContent = async (req, res) => {
     await page.goto(`https://www.instagram.com/${username1}`);
     // await getPage().screenshot({path: `public/${Date.now()}.png`});
 
-    // // check username exists or not exists
-    // let isUsernameNotFound = await page.evaluate(() => {
-    //     // check selector exists
-    //     if(document.getElementsByTagName('h2')[0]) {
-    //         // check selector text content
-    //         if(document.getElementsByTagName('h2')[0].textContent == "Sorry, this page isn't available.") {
-    //             return true;
-    //         }
-    //     }
-    // });
-    //
-    // if(isUsernameNotFound) {
-    //     console.log('Account not exists!');
-    //
-    //     // close browser
-    //     return res.status(200).json({hasError: true, message: 'Account not exists!'});
-    // }
+    // check username exists or not exists
+    let isUsernameNotFound = await page.evaluate(() => {
+        // check selector exists
+        if(document.getElementsByTagName('h2')[0]) {
+            // check selector text content
+            if(document.getElementsByTagName('h2')[0].textContent == "Sorry, this page isn't available.") {
+                return true;
+            }
+        }
+    });
+
+    if(isUsernameNotFound) {
+        console.log('Account not exists!');
+
+        // close browser
+        return res.status(200).json({hasError: true, message: 'Account not exists!'});
+    }
+
+    // check if will contain stories
+    let hasStories = await page.evaluate(async () => {
+        // return document.querySelectorAll('header > section > div > h2')[0].innerHTML;
+        if(document.querySelector('div[role="presentation"]')) {
+            return  true;
+        }
+        return false;
+    });
+
+    // wait and get stories
+    let storiesArray = [];
+    if (hasStories) {
+        await delay(2000);
+        // get username picture URL
+        storiesArray = await page.evaluate(async () => {
+            return [...document
+                .querySelector('div[role="presentation"]')
+                .querySelectorAll('ul > li')]
+                .filter(el => el.querySelector('img'))
+                .map(el => {
+                    return {
+                        src: el.querySelector('img').getAttribute('src'),
+                        title: el.querySelector('img').parentNode.parentNode.nextSibling.innerHTML
+                    }
+                })
+        });
+    }
+
     //
     // // get username
     // let username = await page.evaluate(() => {
@@ -158,6 +188,9 @@ export const userContent = async (req, res) => {
 
     const cleanData = transformUserData(sharedData);
 
+    cleanData.storiesArray = storiesArray;
+
+
     return res.status(200).json(cleanData);
 
 }
@@ -178,9 +211,14 @@ const transformUserData = (fetchData) => {
         bioUrlName: fetchData.external_url,
         isPrivate: fetchData.is_private,
     };
+    if (fetchData.edge_mutual_followed_by && fetchData.edge_mutual_followed_by.count) {
+        userData.mutualFollow = {
+            count: fetchData.edge_mutual_followed_by.count,
+            usernameArray: fetchData.edge_mutual_followed_by.edges.map(element => element.node.username)
+        }
+    }
 
     userData.mediaArray = transformMediaData(fetchData.edge_owner_to_timeline_media);
-
     return userData;
 }
 

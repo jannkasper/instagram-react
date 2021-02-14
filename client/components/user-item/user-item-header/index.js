@@ -1,8 +1,9 @@
 import React from "react";
+import Link from 'next/link'
+import { More, Verified } from "../../icons";
+import { numFormatter, urlFormatter, bioFormatter } from "../../../util/formatter";
 
 import styles from "./user-item-header.module.css"
-import {More, Verified} from "../../icons";
-import {numFormatter, urlFormatter, bioFormatter} from "../../../util/formatter";
 
 const UserItemHeader = ({ userData }) => {
     return (
@@ -31,14 +32,23 @@ const UserItemHeader = ({ userData }) => {
                 <div className={styles.user3Line}>
                     <span className={styles.descriptionHeader}>{userData.name}</span>
                     <span>{bioFormatter(userData.bio)}</span>
-                    {userData.bioUrlName ? <a className={styles.bioUrl} href={userData.bioUrl} target="_blank">{urlFormatter(userData.bioUrlName)}</a> : null }
-                    <span className={styles.descriptionFollowed}>
-                        {"Followed by "}
-                        <a className={styles.followedUserName}>skoczylas_paulina</a>
-                        {" and "}
-                        <a className={styles.followedUserName}>joaaaskaaa</a>
-
-                    </span>
+                    { userData.bioUrlName ? <a className={styles.bioUrl} href={userData.bioUrl} target="_blank">{urlFormatter(userData.bioUrlName)}</a> : null }
+                    { userData.mutualFollow ?
+                            <span className={styles.descriptionFollowed}>
+                                {"Followed by "}
+                                {userData.mutualFollow.usernameArray.map((username, index) =>
+                                    <>
+                                        <span className={styles.followedUserName}>
+                                            <Link key={index} className={styles.followedUserName} href="/[username]" as={`/${username}`}>
+                                            {username}
+                                            </Link>
+                                        </span>
+                                        {index < userData.mutualFollow.usernameArray.length-1 ? ", " : " "}
+                                    </>)}
+                                {userData.mutualFollow.count - userData.mutualFollow.usernameArray.length > 0 ? `+${userData.mutualFollow.count - userData.mutualFollow.usernameArray.length} more` : null}
+                            </span>
+                            : null
+                    }
                 </div>
             </div>
         </div>

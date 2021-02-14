@@ -9,7 +9,9 @@ const UserItem = ({ userData }) => {
     return (
         <div className={styles.userItemContainer}>
             <UserItemHeader userData={userData} />
-            <UserItemStories />
+            {
+                userData.storiesArray ? <UserItemStories storiesArray={userData.storiesArray} /> : null
+            }
         </div>
     );
 }

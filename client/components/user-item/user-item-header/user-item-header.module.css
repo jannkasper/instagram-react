@@ -144,7 +144,7 @@
     margin-top: 14px;
 }
 
-.descriptionFollowed > .followedUserName {
+.followedUserName {
     color: #262626;
     font-weight: 500;
     cursor: pointer;

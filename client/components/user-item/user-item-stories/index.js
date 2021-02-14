@@ -1,27 +1,15 @@
 import React from "react";
-
-import styles from "./user-item-stories.module.css"
 import StoriesItem from "./stories-item";
 
-const UserItemStories = () => {
+import styles from "./user-item-stories.module.css"
+
+const UserItemStories = ({ storiesArray }) => {
 
     return (
         <div className={styles.userItemStoriesContainer}>
             <div className={styles.storiesContent}>
                 <div className={styles.storiesSlider}>
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
-                    <StoriesItem />
+                    { storiesArray.map((el, index) => <StoriesItem key={index} content={el} />)}
                 </div>
             </div>
 

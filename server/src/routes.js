@@ -1,11 +1,12 @@
 import express from "express";
-import { userContent } from "./controllers/users.js";
+import { userContent, nextPageContent } from "./controllers/users.js";
 import { postContent } from "./controllers/posts.js";
 
 const router = express.Router();
 
 //users
 router.get("/users/:username", userContent);
+router.get("/users/:username/page", nextPageContent);
 
 //posts
 router.get("/posts/:postId", postContent);

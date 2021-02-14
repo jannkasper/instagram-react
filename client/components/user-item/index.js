@@ -10,7 +10,7 @@ const UserItem = ({ userData }) => {
         <div className={styles.userItemContainer}>
             <UserItemHeader userData={userData} />
             {
-                userData.storiesArray ? <UserItemStories storiesArray={userData.storiesArray} /> : null
+                userData.storiesArray.length ? <UserItemStories storiesArray={userData.storiesArray} /> : null
             }
         </div>
     );

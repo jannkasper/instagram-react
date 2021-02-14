@@ -10,22 +10,62 @@ import {Instagram} from "../components/icons";
 
 export default function Username({ username }) {
     const [userData, setUserData] = useState(null)
+    const [isFetching, setIsFetching] = useState(false)
 
-    useEffect(() => {
+    useEffect( () => {
         const fetchUser = async () => {
             const { data } = await publicFetch.get(`/users/${username}`)
-            console.log(data);
             setUserData(data)
+            setIsFetching(false);
         }
+        setIsFetching(true);
         fetchUser();
-    }, [username])
+    }, [username]);
+
+
+    const fetchNextPage = async () => {
+        const params = {
+            userId: userData.id,
+            first: 12,
+            endCursor: userData.timelineMedia.pageInfo.endCursor
+        };
+        const { data } = await publicFetch.get(`/users/${username}/page`, { params })
+        setUserData(
+            {
+                ...userData,
+                timelineMedia: { pageInfo: data.pageInfo, mediaArray: userData.timelineMedia.mediaArray.concat(data.mediaArray) }
+            })
+        setIsFetching(false);
+    }
+
+    const scrollFunc = (event) => {
+        event.preventDefault();
+        let currentHeight = window.pageYOffset + document.documentElement.clientHeight;
+        let maxHeight = Math.max(
+            document.body.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.clientHeight,
+            document.documentElement.scrollHeight,
+            document.documentElement.offsetHeight );
+        if (!isFetching &&userData?.timelineMedia?.pageInfo.hasNextPage && currentHeight > maxHeight - 800) {
+            setIsFetching(true);
+            fetchNextPage();
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("scroll", scrollFunc, false)
+        return () => {
+            window.removeEventListener("scroll", scrollFunc)
+        }
+    }, [isFetching])
 
     return (
         userData ? (
             <Layout>
                 <main className={styles.postContainer}>
                     <UserItem userData={userData} />
-                    <FeedGallery mediaArray={userData.mediaArray} />
+                    <FeedGallery mediaArray={userData.timelineMedia.mediaArray} />
                 </main>
             </Layout>
             ) : <Instagram />

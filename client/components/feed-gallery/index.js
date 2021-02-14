@@ -4,14 +4,13 @@ import styles from "./feed-gallery.module.css";
 import FeedGalleryItem from "./feed-gallery-item";
 
 const FeedGallery = ({ mediaArray }) => {
-    console.log(mediaArray);
     let result = [];
 
     if (mediaArray) {
         mediaArray = mediaArray.map((element, index) => <FeedGalleryItem key={index} mediaData={element} />)
         for (let position = 0; position <= mediaArray.length; position += 3 ) {
             result.push(
-                <div className={styles.galleryRow}>
+                <div key={position} className={styles.galleryRow}>
                     {mediaArray.slice(position, position+3)}
                 </div>
             )

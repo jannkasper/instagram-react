@@ -1,5 +1,6 @@
 import {getPage} from "../utils/session.js";
 import delay from "delay";
+import axios from "axios";
 
 
 export const userContent = async (req, res) => {
@@ -40,7 +41,7 @@ export const userContent = async (req, res) => {
     // wait and get stories
     let storiesArray = [];
     if (hasStories) {
-        await delay(2000);
+        await delay(1000);
         // get username picture URL
         storiesArray = await page.evaluate(async () => {
             return [...document
@@ -199,6 +200,7 @@ export const userContent = async (req, res) => {
 const transformUserData = (fetchData) => {
 
     const userData = {
+        id: fetchData.id,
         username: fetchData.username,
         isVerified: fetchData.is_verified,
         userImageUrl: fetchData.profile_pic_url,
@@ -218,7 +220,7 @@ const transformUserData = (fetchData) => {
         }
     }
 
-    userData.mediaArray = transformMediaData(fetchData.edge_owner_to_timeline_media);
+    userData.timelineMedia = transformMediaData(fetchData.edge_owner_to_timeline_media);
     return userData;
 }
 
@@ -240,6 +242,35 @@ const transformMediaData = (fetchData) => {
         mediaArray.push(mediaData)
     }
 
-    return mediaArray
+    return {
+        mediaArray: mediaArray,
+        pageInfo: {
+            hasNextPage: fetchData.page_info?.has_next_page,
+            endCursor: fetchData.page_info?.end_cursor,
+        }
+    }
+
+}
+
+const url = 'https://instagram.com/graphql/query/';
+
+export const nextPageContent = async (req, res) => {
+    const { userId, first, endCursor} = req.query;
+
+    const { data } = await axios.get(url, {
+        params: {
+            query_id: '17888483320059182',
+            id: userId,
+            first: first,
+            after: endCursor
+        }
+    });
+
+    if (data?.data?.user?.edge_owner_to_timeline_media) {
+        const result = transformMediaData(data.data.user.edge_owner_to_timeline_media);
+        return res.status(200).json(result);
+    }
+
+    return res.status(200);
 
 }

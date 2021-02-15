@@ -5,25 +5,27 @@ import Sidebar from "../components/layout/sidebar";
 
 import styles from '../styles/Home.module.css'
 import FeedItemMain from "../components/feed-item-main";
+import {Instagram} from "../components/icons";
 
 export default function Home() {
   return (
-      <Layout>
-          <div className={styles.mainContent} >
-              <Stories />
-              <FeedItem />
-              <FeedItem />
-              <FeedItem />
-          </div>
-          <Sidebar />
-          <div className={styles.lightbox}>
-              <div className={styles.inner}>
-                  <div className={styles.inner2}>
-                      <FeedItemMain/>
-                  </div>
-              </div>
-          </div>
-      </Layout>
+      <Instagram />
+      // <Layout>
+      //     <div className={styles.mainContent} >
+      //         <Stories />
+      //         <FeedItem />
+      //         <FeedItem />
+      //         <FeedItem />
+      //     </div>
+      //     <Sidebar />
+      //     <div className={styles.lightbox}>
+      //         <div className={styles.inner}>
+      //             <div className={styles.inner2}>
+      //                 <FeedItemMain/>
+      //             </div>
+      //         </div>
+      //     </div>
+      // </Layout>
     // <div className={styles.container}>
     //   <Head>
     //     <title>Create Next App</title>

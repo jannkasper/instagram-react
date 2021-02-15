@@ -1,6 +1,7 @@
-import {getPage} from "../utils/session.js";
 import delay from "delay";
 import axios from "axios";
+import { getPage } from "../utils/session.js";
+import { setIsOpen } from "../routes.js";
 
 
 export const userContent = async (req, res) => {
@@ -41,7 +42,7 @@ export const userContent = async (req, res) => {
     // wait and get stories
     let storiesArray = [];
     if (hasStories) {
-        await delay(1000);
+        await delay(1500);
         // get username picture URL
         storiesArray = await page.evaluate(async () => {
             return [...document
@@ -186,6 +187,8 @@ export const userContent = async (req, res) => {
     let sharedData = await page.evaluate(() => {
         return window._sharedData.entry_data.ProfilePage[0].graphql.user;
     });
+
+    setIsOpen(true);
 
     const cleanData = transformUserData(sharedData);
 

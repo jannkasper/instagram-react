@@ -22,7 +22,7 @@ async function startBrowser() {
     page = await browser.newPage();
     await page.setViewport({width: 1680, height: 938});
     await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
-    page.on('console', consoleObj => console.log(consoleObj.text()));
+    // page.on('console', consoleObj => console.log(consoleObj.text()));
     await setCookies(page);
 
     return {browser, page};

@@ -15,16 +15,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 setRoutes(app);
 
-startSession("https://www.instagram.com/accounts/login/");
+// startSession("https://www.instagram.com/accounts/login/");
 
 const protocol = config.protocol === 'http' ? http : https;
 const server = protocol.createServer(app);
 
 const init = async () => {
+    await startSession("https://www.instagram.com/accounts/login/");
     server.listen(config.port, () => {console.log(`Instagram-clone is online at port ${config.port}`);});
 
-    // const page = await startSession("https://www.instagram.com/accounts/login/");
-    // process.exit(1);
 };
 
 init();

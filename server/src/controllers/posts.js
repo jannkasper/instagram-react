@@ -1,4 +1,5 @@
-import {getPage} from "../utils/session.js";
+import { getPage } from "../utils/session.js";
+import { setIsOpen } from "../routes.js";
 
 
 export const postContent = async (req, res) => {
@@ -11,6 +12,8 @@ export const postContent = async (req, res) => {
     let sharedData = await page.evaluate(() => {
         return window.__additionalData
     });
+
+    setIsOpen(true);
 
     sharedData = sharedData[`/p/${postId}/`].data.graphql.shortcode_media;
     const cleanData = transformPostData(sharedData);
@@ -26,6 +29,7 @@ const transformPostData = (fetchData) => {
         shortcode: fetchData.shortcode,
         isVideo: fetchData.is_video,
         resourceArray: fetchData.display_resources,
+        createdAt: fetchData.taken_at_timestamp,
         description: fetchData.edge_media_to_caption.edges?.map(el => el.node.text).shift(),
         location: fetchData.location?.name,
         owner: {

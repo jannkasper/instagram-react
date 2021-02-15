@@ -2,11 +2,11 @@ import React from "react";
 
 import styles from "./feed-item-content.module.css"
 
-const FeedItemContent = () => {
+const FeedItemContent = ({ resourceArray }) => {
 
     return (
         <div className={styles.contentImage}>
-            <img src="../../../static/images/horizontal.jpeg"/>
+            <img src={resourceArray[1].src}/>
         </div>
     );
 }

@@ -10,11 +10,14 @@
     width: 32px;
     height: 32px;
     margin-right: 18px;
+    border-radius: 50%;
 }
 
 .commentContent {
     flex: 1 1 auto;
     padding-right: 5px;
+    font-size: 14px;
+    line-height: 18px;
 }
 
 .commentUserName {
@@ -23,6 +26,10 @@
     font-size: 14px;
     font-weight: 700;
     line-height: 18px;
+}
+
+.commentUserName:hover {
+    text-decoration: underline;
 }
 
 .commentActions {

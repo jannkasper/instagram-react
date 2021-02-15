@@ -1,7 +1,7 @@
 import React from "react";
 import Link from 'next/link'
 import { More, Verified } from "../../icons";
-import { numFormatter, urlFormatter, bioFormatter } from "../../../util/formatter";
+import { numFormatter, urlFormatter, bioFormatter, numCommaFormatter } from "../../../util/formatter";
 
 import styles from "./user-item-header.module.css"
 
@@ -25,7 +25,7 @@ const UserItemHeader = ({ userData }) => {
                     <More height={24} width={24} />
                 </div>
                 <div className={styles.user2Line}>
-                    <span className={styles.userScore}><span className={styles.bold}>{userData.postCount}</span> posts</span>
+                    <span className={styles.userScore}><span className={styles.bold}>{numCommaFormatter(userData.postCount)}</span> posts</span>
                     <span className={styles.userScore}><span className={styles.bold}>{numFormatter(userData.followersCount)}</span> followers</span>
                     <span className={styles.userScore}><span className={styles.bold}>{numFormatter(userData.followingsCount)}</span> following</span>
                 </div>

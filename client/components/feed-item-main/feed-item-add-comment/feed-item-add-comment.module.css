@@ -30,6 +30,10 @@
     resize: none;
 }
 
+.addCommentInput::-webkit-scrollbar {
+    display: none;
+}
+
 .addCommentButton {
     font-size: 14px;
     color: #0095f6;

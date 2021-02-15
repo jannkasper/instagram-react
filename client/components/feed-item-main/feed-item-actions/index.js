@@ -1,10 +1,10 @@
 import React from "react";
-import Router from "next/router";
 import {Activity, Comment, Message, Save} from "../../icons";
+import { dateFormatter, numCommaFormatter } from "../../../util/formatter";
 
 import styles from "./feed-item-actions.module.css"
 
-const FeedItemActions = () => {
+const FeedItemActions = ({ likes, createdAt, viewerHasLiked, viewerHasSaved }) => {
 
     return (
         <div className={styles.feedItemActionsContainer}>
@@ -14,10 +14,10 @@ const FeedItemActions = () => {
                 <Message height={24} width={24} size={24} />
                 <Save height={24} width={24} size={24} />
             </div>
-            <a className={styles.itemLikes} href="#">{"0"} likes</a>
+            <a className={styles.itemLikes} href="#">{numCommaFormatter(likes.count)} likes</a>
             <br/>
-            <a className={styles.itemDateText} onClick={() => Router.push("/post/[pid]", `/post/${data?.pid || "post-test"}`)} >
-                {false || "12 hours ago"}
+            <a className={styles.itemDateText} href="#" >
+                {dateFormatter(createdAt)}
             </a>
         </div>
     );

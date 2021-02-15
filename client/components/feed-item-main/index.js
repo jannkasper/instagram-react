@@ -7,17 +7,27 @@ import styles from "./feed-item-main.module.css"
 import FeedItemAddComment from "./feed-item-add-comment";
 import FeedItemComments from "./feed-item-comments";
 
-const FeedItemMain = () => {
+const FeedItemMain = ({ postData }) => {
 
     return (
         <div className={styles.feedItemMainContainer}>
             <div className={styles.feedItemMainContent}>
-                <FeedItemContent />
+                <FeedItemContent resourceArray={postData.resourceArray} />
             </div>
             <div className={styles.feedItemMainDescription}>
-                <FeedItemHeader />
-                <FeedItemComments />
-                <FeedItemActions />
+                <FeedItemHeader owner={postData.owner} location={postData.location}/>
+                <FeedItemComments
+                    commentsData={postData.commentsData}
+                    owner={postData.owner}
+                    text={postData.description}
+                    createdAt={postData.createdAt}
+                />
+                <FeedItemActions
+                    likes={postData.likes}
+                    createdAt={postData.createdAt}
+                    viewerHasLiked={postData.viewerHasLiked}
+                    viewerHasSaved={postData.viewerHasSaved}
+                />
                 <FeedItemAddComment />
             </div>
         </div>

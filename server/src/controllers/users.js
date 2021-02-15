@@ -216,7 +216,7 @@ const transformUserData = (fetchData) => {
     if (fetchData.edge_mutual_followed_by && fetchData.edge_mutual_followed_by.count) {
         userData.mutualFollow = {
             count: fetchData.edge_mutual_followed_by.count,
-            usernameArray: fetchData.edge_mutual_followed_by.edges.map(element => element.node.username)
+            usernameArray: fetchData.edge_mutual_followed_by.edges?.map(element => element.node.username)
         }
     }
 
@@ -252,12 +252,12 @@ const transformMediaData = (fetchData) => {
 
 }
 
-const url = 'https://instagram.com/graphql/query/';
+const API_URL = 'https://instagram.com/graphql/query/';
 
 export const nextPageContent = async (req, res) => {
     const { userId, first, endCursor} = req.query;
 
-    const { data } = await axios.get(url, {
+    const { data } = await axios.get(API_URL, {
         params: {
             query_id: '17888483320059182',
             id: userId,

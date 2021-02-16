@@ -20,6 +20,12 @@
     line-height: 18px;
 }
 
+.verifiedBandage {
+    display: inline-flex;
+    margin-left: 2px;
+    margin-right: 4px;
+}
+
 .commentUserName {
     display: inline-block;
     margin-right: 0.25rem;

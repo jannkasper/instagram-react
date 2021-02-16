@@ -17,7 +17,12 @@
 .headerText {
     margin-left: 16px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+}
+
+.verifiedBandage {
+    margin-left: 8px;
+    margin-top: 2px;
 }
 
 .userName {

@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./feed-item-header.module.css"
-import { More } from "../../icons";
+import {More, Verified} from "../../icons";
 import Link from "next/link";
 
 const FeedItemHeader = ({ owner, location }) => {
@@ -13,6 +13,7 @@ const FeedItemHeader = ({ owner, location }) => {
                 <Link href="/[username]" as={`/${owner.username}`}>
                     <div className={styles.userName}>{owner.username}</div>
                 </Link>
+                {owner.isVerified ? <div className={styles.verifiedBandage}><Verified width={"15px"} height={"15px"} /></div> : null }
                 <div className={styles.localization}>{location}</div>
             </div>
             <div className={styles.moreIcon}>

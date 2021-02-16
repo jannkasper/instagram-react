@@ -34,6 +34,7 @@ const transformPostData = (fetchData) => {
             id: fetchData.owner.id,
             username: fetchData.owner.username,
             userImageUrl: fetchData.owner.profile_pic_url,
+            isVerified: fetchData.owner.is_verified,
         },
         likes: {
             count: fetchData.edge_media_preview_like.count,
@@ -71,6 +72,7 @@ const transformComments = (fetchData) => {
                 id: edge.owner.id,
                 username: edge.owner.username,
                 userImageUrl: edge.owner.profile_pic_url,
+                isVerified: edge.owner.is_verified,
             },
             text: edge.text,
             viewerHasLiked: edge.viewer_has_liked,

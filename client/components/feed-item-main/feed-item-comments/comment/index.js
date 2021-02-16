@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { Like } from "../../../icons";
+import {Like, Verified} from "../../../icons";
 import { bioFormatter, timeFormatter } from "../../../../util/formatter";
 
 import styles from "./feed-item-comment.module.css";
 
-const Comment = ({ feedDescription, owner, text, createdAt }) => {
+const Comment = ({ feedDescription, owner, text, createdAt, likes }) => {
     const [showMore, setShowMore] = useState(false);
 
     return (
@@ -17,12 +17,13 @@ const Comment = ({ feedDescription, owner, text, createdAt }) => {
                 <Link href="/[username]" as={`/${owner.username}`}>
                     <a className={styles.commentUserName}>{owner.username}</a>
                 </Link>
+                {owner.isVerified ? <div className={styles.verifiedBandage}><Verified width={"15px"} height={"15px"} /></div> : null }
                 {bioFormatter(text)}
                 <div className={styles.commentActions}>
                     <a className={styles.commentDate}>{timeFormatter(createdAt)}</a>
                     { feedDescription ? null :
                             <>
-                                <button className={styles.commentButton}>1 like</button>
+                                <button className={styles.commentButton}>{likes} like</button>
                                 <button className={styles.commentButton}>Reply</button>
                             </>
                     }

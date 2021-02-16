@@ -273,14 +273,16 @@ export const nextPageContent = async (req, res) => {
     // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
     console.log("START FETCH POSTS")
-    const { data } = await axios.get(API_URL, {
+    const config = {
+        headers: {'Access-Control-Allow-Origin': '*'},
         params: {
             query_id: '17888483320059182',
             id: userId,
             first: first,
             after: endCursor
         }
-    });
+    };
+    const { data } = await axios.get(API_URL, config);
     console.log("FINISH FETCH POSTS")
     if (data?.data?.user?.edge_owner_to_timeline_media) {
         console.log("TRANSFORM POSTS")
@@ -288,6 +290,6 @@ export const nextPageContent = async (req, res) => {
         return res.status(200).json(result);
     }
     console.log("EMPTY POSTS")
-    return res.status(200);
+    return res.status(200).json();
 
 }

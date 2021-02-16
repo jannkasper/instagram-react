@@ -32,7 +32,6 @@ export default function Username({ username }) {
         };
         const { data } = await publicFetch.get(`/users/${username}/page`, { params })
         if (!data) {
-            fetchNextPage();
             return;
         }
         setUserData(

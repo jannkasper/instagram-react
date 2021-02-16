@@ -259,7 +259,20 @@ const API_URL = 'https://instagram.com/graphql/query/';
 
 export const nextPageContent = async (req, res) => {
     const { userId, first, endCursor} = req.query;
+    console.log("SET HEADER")
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    console.log("START FETCH POSTS")
     const { data } = await axios.get(API_URL, {
         params: {
             query_id: '17888483320059182',
@@ -268,12 +281,13 @@ export const nextPageContent = async (req, res) => {
             after: endCursor
         }
     });
-
+    console.log("FINISH FETCH POSTS")
     if (data?.data?.user?.edge_owner_to_timeline_media) {
+        console.log("TRANSFORM POSTS")
         const result = transformMediaData(data.data.user.edge_owner_to_timeline_media);
         return res.status(200).json(result);
     }
-
+    console.log("EMPTY POSTS")
     return res.status(200);
 
 }

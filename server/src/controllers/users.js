@@ -274,7 +274,9 @@ export const nextPageContent = async (req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', true);
     console.log("START FETCH POSTS")
     const config = {
-        headers: {'Access-Control-Allow-Origin': '*'},
+        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/javascript'},
+        dataType: "jsonp",
+        crossdomain: true,
         params: {
             query_id: '17888483320059182',
             id: userId,

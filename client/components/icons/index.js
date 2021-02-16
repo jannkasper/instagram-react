@@ -1,6 +1,7 @@
 export { default as Activity } from "./ActivityIcon";
 export { default as ActivityActive } from "./ActivityIconActive";
 export { default as Comment } from "./CommentIcon";
+export { default as CommentActive } from "./CommentIconActive";
 export { default as Explore } from "./ExploreIcon";
 export { default as ExploreActive } from "./ExploreIconActive";
 export { default as Home } from "./HomeIcon";

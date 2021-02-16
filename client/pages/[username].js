@@ -6,6 +6,7 @@ import styles from '../styles/Home.module.css'
 import UserItem from "../components/user-item";
 import {publicFetch} from "../store/fetcher";
 import {Instagram} from "../components/icons";
+import UserPrivate from "../components/user-private";
 
 
 export default function Username({ username }) {
@@ -65,7 +66,7 @@ export default function Username({ username }) {
             <Layout>
                 <main className={styles.postContainer}>
                     <UserItem userData={userData} />
-                    <FeedGallery mediaArray={userData.timelineMedia.mediaArray} />
+                    { userData.isPrivate ? <UserPrivate /> : <FeedGallery mediaArray={userData.timelineMedia.mediaArray}/> }
                 </main>
             </Layout>
             ) : <Instagram />

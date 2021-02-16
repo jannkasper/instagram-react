@@ -6,7 +6,7 @@ import cors from "cors";
 import morgan from "morgan";
 import config from "./config.js";
 import setRoutes from "./routes.js"
-import { startSession } from "./utils/session.js";
+// import { startSession } from "./utils/session.js";
 
 const app = express();
 app.use(cors());
@@ -21,7 +21,7 @@ const protocol = config.protocol === 'http' ? http : https;
 const server = protocol.createServer(app);
 
 const init = async () => {
-    await startSession("https://www.instagram.com/accounts/login/");
+    // await startSession("https://www.instagram.com/accounts/login/");
     server.listen(config.port, () => {console.log(`Instagram-clone is online at port ${config.port}`);});
 
 };

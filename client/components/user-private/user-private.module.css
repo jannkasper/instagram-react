@@ -1,0 +1,22 @@
+.userPrivateContainer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    border: 1px solid #efefef;
+    border-top: 1px solid #dbdbdb;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+.userPrivateBox {
+    max-width: 230px;
+    color: #262626;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.privateHeader {
+    font-weight: 600;
+    margin-bottom: 13px;
+}

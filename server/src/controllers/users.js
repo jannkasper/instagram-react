@@ -1,16 +1,17 @@
 import delay from "delay";
 import axios from "axios";
-import { getPage } from "../utils/session.js";
-import { setIsOpen } from "../routes.js";
-
+import {getPage, startBrowser} from "../utils/session.js";
 
 export const userContent = async (req, res) => {
     const username1 = req.params.username;
-    const page = getPage()
+    // const page = getPage()
+    const {page} = await startBrowser();
 
     console.log("4\tEnter selected profile")
-    await page.goto(`https://www.instagram.com/${username1}`);
-    // await getPage().screenshot({path: `public/${Date.now()}.png`});
+    // await page.goto(`https://www.instagram.com/${username1}`);
+    await page.goto(`https://www.instagram.com/${username1}`, { waitUntil: 'networkidle0' });
+
+    // // await getPage().screenshot({path: `public/${Date.now()}.png`});
 
     // check username exists or not exists
     let isUsernameNotFound = await page.evaluate(() => {
@@ -188,8 +189,6 @@ export const userContent = async (req, res) => {
         return window._sharedData.entry_data.ProfilePage[0].graphql.user;
     });
 
-    setIsOpen(true);
-
     const cleanData = transformUserData(sharedData);
 
     cleanData.storiesArray = storiesArray;
@@ -222,8 +221,9 @@ const transformUserData = (fetchData) => {
             usernameArray: fetchData.edge_mutual_followed_by.edges?.map(element => element.node.username)
         }
     }
-
-    userData.timelineMedia = transformMediaData(fetchData.edge_owner_to_timeline_media);
+    if (!fetchData.is_private) {
+        userData.timelineMedia = transformMediaData(fetchData.edge_owner_to_timeline_media);
+    }
     return userData;
 }
 
@@ -236,7 +236,7 @@ const transformMediaData = (fetchData) => {
 
         const mediaData = {
             postId: edge.shortcode,
-            likeCount: edge.edge_liked_by?.count,
+            likeCount: edge.edge_liked_by?.count || edge.edge_media_preview_like?.count,
             commentCount: edge.edge_media_to_comment?.count,
             isVideo: edge.is_video,
             thumbnailArray : edge.thumbnail_resources

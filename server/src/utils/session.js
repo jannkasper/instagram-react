@@ -10,7 +10,7 @@ const CTA_SELECTOR = 'button[type="submit"]';
 let page = null;
 export const getPage = () => page;
 
-async function startBrowser() {
+export async function startBrowser() {
     const browser = await puppeteer.launch({
         headless: true,
         args: [
@@ -20,7 +20,7 @@ async function startBrowser() {
         ]
     });
     // const context = await browser.createIncognitoBrowserContext();
-    page = await browser.newPage();
+    const page = await browser.newPage();
     await page.setViewport({width: 1680, height: 938});
     await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
     // page.on('console', consoleObj => console.log(consoleObj.text()));

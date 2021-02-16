@@ -1,19 +1,17 @@
-import { getPage } from "../utils/session.js";
-import { setIsOpen } from "../routes.js";
-
+import {getPage, startBrowser} from "../utils/session.js";
 
 export const postContent = async (req, res) => {
     const postId = req.params.postId;
-    const page = getPage();
+    // const page = getPage();
+    const {page} = await startBrowser();
 
     console.log("4\tEnter selected post");
-    await page.goto(`https://www.instagram.com/p/${postId}`);
+    // await page.goto(`https://www.instagram.com/p/${postId}`);
+    await page.goto(`https://www.instagram.com/p/${postId}`, { waitUntil: 'networkidle0' });
 
     let sharedData = await page.evaluate(() => {
         return window.__additionalData
     });
-
-    setIsOpen(true);
 
     sharedData = sharedData[`/p/${postId}/`].data.graphql.shortcode_media;
     const cleanData = transformPostData(sharedData);

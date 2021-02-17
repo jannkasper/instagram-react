@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Layout from "../components/layout";
 import FeedGallery from "../components/feed-gallery";
-
-import styles from '../styles/Home.module.css'
 import UserItem from "../components/user-item";
 import {publicFetch} from "../store/fetcher";
 import {Instagram} from "../components/icons";
 import UserPrivate from "../components/user-private";
+
+import styles from '../styles/Home.module.css'
 
 
 export default function Username({ username }) {
@@ -16,7 +16,9 @@ export default function Username({ username }) {
     useEffect( () => {
         const fetchUser = async () => {
             const { data } = await publicFetch.get(`/users/${username}`)
-            setUserData(data)
+            if (!data.hasError) {
+                setUserData(data);
+            }
             setIsFetching(false);
         }
         setIsFetching(true);

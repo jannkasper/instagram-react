@@ -6,6 +6,26 @@ import { numFormatter, urlFormatter, bioFormatter, numCommaFormatter } from "../
 import styles from "./user-item-header.module.css"
 
 const UserItemHeader = ({ userData }) => {
+
+    const renderMutualFollow = () => {
+        if (userData.mutualFollow && userData.mutualFollow.usernameArray && userData.mutualFollow.usernameArray.length) {
+            return (
+            <span className={styles.descriptionFollowed}>
+                {"Followed by "}
+                {userData.mutualFollow.usernameArray.map((username, index) =>
+                    <>
+                        <span className={styles.followedUserName}>
+                            <Link key={index} className={styles.followedUserName} href="/[username]" as={`/${username}`}>
+                            {username}
+                            </Link>
+                        </span>
+                        {index < userData.mutualFollow.usernameArray.length-1 ? ", " : " "}
+                    </>)}
+                    {userData.mutualFollow.count - userData.mutualFollow.usernameArray.length > 0 ? `+${userData.mutualFollow.count - userData.mutualFollow.usernameArray.length} more` : null}
+            </span>
+            )}
+    }
+
     return (
         <div className={styles.userItemHeaderContainer}>
             <div className={styles.userImageContainer}>
@@ -33,22 +53,7 @@ const UserItemHeader = ({ userData }) => {
                     <span className={styles.descriptionHeader}>{userData.name}</span>
                     <span>{bioFormatter(userData.bio)}</span>
                     { userData.bioUrlName ? <a className={styles.bioUrl} href={userData.bioUrl} target="_blank">{urlFormatter(userData.bioUrlName)}</a> : null }
-                    { userData.mutualFollow ?
-                            <span className={styles.descriptionFollowed}>
-                                {"Followed by "}
-                                {userData.mutualFollow.usernameArray.map((username, index) =>
-                                    <>
-                                        <span className={styles.followedUserName}>
-                                            <Link key={index} className={styles.followedUserName} href="/[username]" as={`/${username}`}>
-                                            {username}
-                                            </Link>
-                                        </span>
-                                        {index < userData.mutualFollow.usernameArray.length-1 ? ", " : " "}
-                                    </>)}
-                                {userData.mutualFollow.count - userData.mutualFollow.usernameArray.length > 0 ? `+${userData.mutualFollow.count - userData.mutualFollow.usernameArray.length} more` : null}
-                            </span>
-                            : null
-                    }
+                    { renderMutualFollow() }
                 </div>
             </div>
         </div>

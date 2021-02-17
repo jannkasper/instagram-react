@@ -8,30 +8,47 @@ export const userContent = async (req, res) => {
     // const page = getPage()
     const {page} = await startBrowser();
 
-    console.log("4\tEnter selected profile")
-    // await page.goto(`https://www.instagram.com/${username1}`);
+    console.log("*\tOpen user in browser\t*")
     await page.goto(`https://www.instagram.com/${username1}`, { waitUntil: 'networkidle0' });
 
-    // // await getPage().screenshot({path: `public/${Date.now()}.png`});
+    const userExists = await validationUserExist(page);
+    if(!userExists) {
+        console.log("*\tUsername doesn't exist\t*")
+        return res.status(200).json({hasError: true, message: 'Account not exists!'});
+    }
 
+    let sharedData = await page.evaluate(() => {
+        return window._sharedData.entry_data.ProfilePage[0].graphql.user;
+    });
+
+    // const cleanData = oldFetchUserData(page);
+    const cleanData = convertUserData(sharedData);
+
+    if (!cleanData.isPrivate) {
+        cleanData.storiesArray = fetchUserStories(page);
+        cleanData.timelineMedia = transformMediaData(sharedData.edge_owner_to_timeline_media);
+    }
+
+    return res.status(200).json(cleanData);
+
+}
+
+const validationUserExist = async (page) => {
     // check username exists or not exists
-    let isUsernameNotFound = await page.evaluate(() => {
+    const isUsernameNotFound = await page.evaluate(() => {
         // check selector exists
         if(document.getElementsByTagName('h2')[0]) {
             // check selector text content
             if(document.getElementsByTagName('h2')[0].textContent == "Sorry, this page isn't available.") {
-                return true;
+                return false;
             }
+            return true;
         }
     });
+    return isUsernameNotFound
+}
 
-    if(isUsernameNotFound) {
-        console.log('Account not exists!');
-
-        // close browser
-        return res.status(200).json({hasError: true, message: 'Account not exists!'});
-    }
-
+const fetchUserStories = async (page) => {
     // check if will contain stories
     let hasStories = await page.evaluate(async () => {
         // return document.querySelectorAll('header > section > div > h2')[0].innerHTML;
@@ -60,171 +77,34 @@ export const userContent = async (req, res) => {
         });
     }
 
-    //
-    // // get username
-    // let username = await page.evaluate(() => {
-    //     return document.querySelectorAll('header > section > div > h2')[0].textContent;
-    // });
-    //
-    // // check the account is verified or not
-    // let isVerifiedAccount = await page.evaluate(() => {
-    //     // check selector exists
-    //     if(document.getElementsByClassName('coreSpriteVerifiedBadge')[0]) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // });
-    //
-    // // get username picture URL
-    // let usernamePictureUrl = await page.evaluate(() => {
-    //     return document.querySelectorAll('header img')[0].getAttribute('src');
-    // });
-    //
-    // // get number of total posts
-    // let postsCount = await page.evaluate(() => {
-    //     return document.querySelectorAll('header > section > ul > li span')[0].textContent.replace(/\,/g, '');
-    // });
-    //
-    // // get number of total followers
-    // let followersCount = await page.evaluate(() => {
-    //     return document.querySelectorAll('header > section > ul > li a span')[0].getAttribute('title').replace(/\,/g, '');
-    // });
-    //
-    // // get number of total followings
-    // let followingsCount = await page.evaluate(() => {
-    //     return document.querySelectorAll('header > section > ul > li a span')[1].textContent.replace(/\,/g, '');
-    // });
-    //
-    // // get bio name
-    // let name = await page.evaluate(() => {
-    //     // check selector exists
-    //     if(document.querySelectorAll('header > section h1')[0]) {
-    //         return document.querySelectorAll('header > section h1')[0].textContent;
-    //     } else {
-    //         return '';
-    //     }
-    // });
-    //
-    // // get bio description
-    // let bio = await page.evaluate(() => {
-    //     if(document.querySelectorAll('header > section > div')[1].querySelectorAll('span')[0]) {
-    //         return document.querySelectorAll('header > section > div')[1].querySelectorAll('span')[0].textContent;
-    //     } else {
-    //         return '';
-    //     }
-    // });
-    //
-    // // get bio URL
-    // let bioUrl = await page.evaluate(() => {
-    //     // check selector exists
-    //     if(document.querySelectorAll('header > section > div')[1].querySelectorAll('a')[0]) {
-    //         return document.querySelectorAll('header > section > div')[1].querySelectorAll('a')[0].getAttribute('href');
-    //     } else {
-    //         return '';
-    //     }
-    // });
-    //
-    // // get bio display
-    // let bioUrlDisplay = await page.evaluate(() => {
-    //     // check selector exists
-    //     if(document.querySelectorAll('header > section > div')[1].querySelectorAll('a')[0]) {
-    //         return document.querySelectorAll('header > section > div')[1].querySelectorAll('a')[0].textContent;
-    //     } else {
-    //         return '';
-    //     }
-    // });
-    //
-    // // check if account is private or not
-    // let isPrivateAccount = await page.evaluate(() => {
-    //     // check selector exists
-    //     if(document.getElementsByTagName('h2')[0]) {
-    //         // check selector text content
-    //         if(document.getElementsByTagName('h2')[0].textContent == 'This Account is Private') {
-    //             return true;
-    //         } else {
-    //             return false;
-    //         }
-    //     } else {
-    //         return false;
-    //     }
-    // });
-    //
-    // // get recent posts (array of url and photo)
-    // let recentPosts = await page.evaluate(() => {
-    //     let results = [];
-    //
-    //     // loop on recent posts selector
-    //     document.querySelectorAll('div[style*="flex-direction"] div > a').forEach((el) => {
-    //         // init the post object (for recent posts)
-    //         let post = {};
-    //
-    //         // fill the post object with URL and photo data
-    //         post.url = 'https://www.instagram.com' + el.getAttribute('href');
-    //         post.photo = el.querySelector('img').getAttribute('src');
-    //
-    //         // add the object to results array (by push operation)
-    //         results.push(post);
-    //     });
-    //
-    //     // recentPosts will contains data from results
-    //     return results;
-    // });
-    //
-    // // display the result to console
-    // const user = {'username': username,
-    //     'is_verified_account': isVerifiedAccount,
-    //     'username_picture_url': usernamePictureUrl,
-    //     'posts_count': postsCount,
-    //     'followers_count': followersCount,
-    //     'followings_count': followingsCount,
-    //     'name': name,
-    //     'bio': bio,
-    //     'bio_url': bioUrl,
-    //     'bio_url_display': bioUrlDisplay,
-    //     'is_private_account': isPrivateAccount,
-    //     'recent_posts': recentPosts};
-
-
-    let sharedData = await page.evaluate(() => {
-        return window._sharedData.entry_data.ProfilePage[0].graphql.user;
-    });
-
-    const cleanData = transformUserData(sharedData);
-
-    cleanData.storiesArray = storiesArray;
-
-
-    return res.status(200).json(cleanData);
-
+    return storiesArray;
 }
 
-
-const transformUserData = (fetchData) => {
+const convertUserData = (fetchData) => {
 
     const userData = {
         id: fetchData.id,
         username: fetchData.username,
-        isVerified: fetchData.is_verified,
-        userImageUrl: fetchData.profile_pic_url,
-        postCount: fetchData.edge_owner_to_timeline_media?.count,
-        followersCount: fetchData.edge_followed_by?.count,
-        followingsCount: fetchData.edge_follow?.count,
         name: fetchData.full_name,
+        userImageUrl: fetchData.profile_pic_url,
+
         bio: fetchData.biography,
         bioUrl: fetchData.external_url_linkshimmed,
         bioUrlName: fetchData.external_url,
+
+        postCount: fetchData.edge_owner_to_timeline_media.count,
+        followersCount: fetchData.edge_followed_by.count,
+        followingsCount: fetchData.edge_follow.count,
+
+        isVerified: fetchData.is_verified,
         isPrivate: fetchData.is_private,
-    };
-    if (fetchData.edge_mutual_followed_by && fetchData.edge_mutual_followed_by.count) {
-        userData.mutualFollow = {
+
+        mutualFollow: {
             count: fetchData.edge_mutual_followed_by.count,
-            usernameArray: fetchData.edge_mutual_followed_by.edges?.map(element => element.node.username)
+            usernameArray: fetchData.edge_mutual_followed_by.edges.map(element => element.node.username)
         }
-    }
-    if (!fetchData.is_private) {
-        userData.timelineMedia = transformMediaData(fetchData.edge_owner_to_timeline_media);
-    }
+    };
+
     return userData;
 }
 
@@ -246,6 +126,7 @@ export const nextPageContent = async (req, res) => {
         }
     };
     const { data } = await axios.get(API_URL, config);
+    console.log(data)
     console.log("FINISH FETCH POSTS")
     if (data?.data?.user?.edge_owner_to_timeline_media) {
         console.log("TRANSFORM POSTS")
@@ -255,4 +136,137 @@ export const nextPageContent = async (req, res) => {
     console.log("EMPTY POSTS")
     return res.status(200).json();
 
+}
+
+
+const oldFetchUserData = async (page) => {
+
+    // get username
+    let username = await page.evaluate(() => {
+        return document.querySelectorAll('header > section > div > h2')[0].textContent;
+    });
+
+    // check the account is verified or not
+    let isVerifiedAccount = await page.evaluate(() => {
+        // check selector exists
+        if(document.getElementsByClassName('coreSpriteVerifiedBadge')[0]) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    // get username picture URL
+    let usernamePictureUrl = await page.evaluate(() => {
+        return document.querySelectorAll('header img')[0].getAttribute('src');
+    });
+
+    // get number of total posts
+    let postsCount = await page.evaluate(() => {
+        return document.querySelectorAll('header > section > ul > li span')[0].textContent.replace(/\,/g, '');
+    });
+
+    // get number of total followers
+    let followersCount = await page.evaluate(() => {
+        return document.querySelectorAll('header > section > ul > li a span')[0].getAttribute('title').replace(/\,/g, '');
+    });
+
+    // get number of total followings
+    let followingsCount = await page.evaluate(() => {
+        return document.querySelectorAll('header > section > ul > li a span')[1].textContent.replace(/\,/g, '');
+    });
+
+    // get bio name
+    let name = await page.evaluate(() => {
+        // check selector exists
+        if(document.querySelectorAll('header > section h1')[0]) {
+            return document.querySelectorAll('header > section h1')[0].textContent;
+        } else {
+            return '';
+        }
+    });
+
+    // get bio description
+    let bio = await page.evaluate(() => {
+        if(document.querySelectorAll('header > section > div')[1].querySelectorAll('span')[0]) {
+            return document.querySelectorAll('header > section > div')[1].querySelectorAll('span')[0].textContent;
+        } else {
+            return '';
+        }
+    });
+
+    // get bio URL
+    let bioUrl = await page.evaluate(() => {
+        // check selector exists
+        if(document.querySelectorAll('header > section > div')[1].querySelectorAll('a')[0]) {
+            return document.querySelectorAll('header > section > div')[1].querySelectorAll('a')[0].getAttribute('href');
+        } else {
+            return '';
+        }
+    });
+
+    // get bio display
+    let bioUrlDisplay = await page.evaluate(() => {
+        // check selector exists
+        if(document.querySelectorAll('header > section > div')[1].querySelectorAll('a')[0]) {
+            return document.querySelectorAll('header > section > div')[1].querySelectorAll('a')[0].textContent;
+        } else {
+            return '';
+        }
+    });
+
+    // check if account is private or not
+    let isPrivateAccount = await page.evaluate(() => {
+        // check selector exists
+        if(document.getElementsByTagName('h2')[0]) {
+            // check selector text content
+            if(document.getElementsByTagName('h2')[0].textContent == 'This Account is Private') {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    });
+
+    // get recent posts (array of url and photo)
+    let recentPosts = await page.evaluate(() => {
+        let results = [];
+
+        // loop on recent posts selector
+        document.querySelectorAll('div[style*="flex-direction"] div > a').forEach((el) => {
+            // init the post object (for recent posts)
+            let post = {};
+
+            // fill the post object with URL and photo data
+            post.url = 'https://www.instagram.com' + el.getAttribute('href');
+            post.photo = el.querySelector('img').getAttribute('src');
+
+            // add the object to results array (by push operation)
+            results.push(post);
+        });
+
+        // recentPosts will contains data from results
+        return results;
+    });
+
+    return {
+        username: username,
+        name: name,
+        userImageUrl: usernamePictureUrl,
+
+        bio: bio,
+        bioUrl: bioUrl,
+        bioUrlName: bioUrlDisplay,
+
+        postCount: postsCount,
+        followersCount: followersCount,
+        followingsCount: followingsCount,
+
+        isVerified: isVerifiedAccount,
+        isPrivate: isPrivateAccount,
+
+        recentPosts: recentPosts
+    }
 }

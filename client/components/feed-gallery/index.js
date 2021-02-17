@@ -6,7 +6,6 @@ import {Camera, Posts, Tagged} from "../icons";
 
 const FeedGallery = ({ mediaArray }) => {
     let result = [];
-    console.log(mediaArray)
     if (mediaArray && mediaArray.length > 0) {
         mediaArray = mediaArray.map((element, index) => <FeedGalleryItem key={index} mediaData={element} />)
         for (let position = 0; position <= mediaArray.length; position += 3 ) {

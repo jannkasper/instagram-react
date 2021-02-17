@@ -6,12 +6,16 @@ import UserItemStories from "./user-item-stories";
 
 const UserItem = ({ userData }) => {
 
+    const renderStories = () => {
+        if (userData.storiesArray && userData.storiesArray.length) {
+            return <UserItemStories storiesArray={userData.storiesArray} />
+        }
+    }
+
     return (
         <div className={styles.userItemContainer}>
             <UserItemHeader userData={userData} />
-            {
-                userData.storiesArray.length ? <UserItemStories storiesArray={userData.storiesArray} /> : null
-            }
+            {renderStories()}
         </div>
     );
 }

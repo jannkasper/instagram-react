@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 const config = {
-    port: process.env.PORT || 3003,
+    port: process.env.PORT || 3004,
     protocol: process.env.PROTOCOL || 'http',
     cookiesFilePath: process.env.COOKIE_FILE_PATH || 'cookies.json',
     cookieString: process.env.COOKIE_JSON || '',

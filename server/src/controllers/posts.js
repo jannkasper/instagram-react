@@ -1,4 +1,5 @@
 import {getPage, startBrowser} from "../utils/session.js";
+import axios from "axios";
 
 export const postContent = async (req, res) => {
     const postId = req.params.postId;
@@ -102,4 +103,61 @@ const transformMediaCollection = (fetchData) => {
     }
 
     return mediaArray
+}
+
+const API_URL = 'https://instagram.com/graphql/query/';
+
+export const morePostsContent = async (req, res) => {
+    const { userId, first, endCursor} = req.query;
+    const postId = req.params.postId;
+
+    console.log("START FETCH POSTS")
+    const config = {
+        params: {
+            query_id: '17888483320059182',
+            id: userId,
+            first: first,
+            after: endCursor
+        }
+    };
+    const { data } = await axios.get(API_URL, config);
+    console.log("FINISH FETCH POSTS")
+    if (data?.data?.user?.edge_owner_to_timeline_media) {
+        console.log("TRANSFORM POSTS")
+        const result = transformMediaData(data.data.user.edge_owner_to_timeline_media);
+        result.mediaArray = result.mediaArray.filter(el => el.postId != postId).slice(0, 6);
+        return res.status(200).json(result);
+    }
+    console.log("EMPTY POSTS")
+    return res.status(200).json();
+}
+
+// https://instagram.com/graphql/query/?query_id=17888483320059182&id=489992346&first=12
+
+export const transformMediaData = (fetchData) => {
+
+    const mediaArray = [];
+
+    for (let edge of fetchData.edges) {
+        edge = edge.node;
+
+        const mediaData = {
+            postId: edge.shortcode,
+            likeCount: edge.edge_liked_by?.count || edge.edge_media_preview_like?.count,
+            commentCount: edge.edge_media_to_comment?.count,
+            isVideo: edge.is_video,
+            thumbnailArray : edge.thumbnail_resources
+        }
+
+        mediaArray.push(mediaData)
+    }
+
+    return {
+        mediaArray: mediaArray,
+        pageInfo: {
+            hasNextPage: fetchData.page_info?.has_next_page,
+            endCursor: fetchData.page_info?.end_cursor,
+        }
+    }
+
 }

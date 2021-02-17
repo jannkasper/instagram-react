@@ -1,6 +1,6 @@
 import express from "express";
 import { userContent, nextPageContent } from "./controllers/users.js";
-import { postContent } from "./controllers/posts.js";
+import { postContent, morePostsContent } from "./controllers/posts.js";
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.get("/users/:username/page", nextPageContent);
 
 //posts
 router.get("/posts/:postId", postContent);
+router.get("/posts/:postId/more", morePostsContent);
 
 export default (app) => {
     app.use("/api", router);

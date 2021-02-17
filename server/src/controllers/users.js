@@ -1,6 +1,7 @@
 import delay from "delay";
 import axios from "axios";
 import {getPage, startBrowser} from "../utils/session.js";
+import { transformMediaData } from "./posts.js";
 
 export const userContent = async (req, res) => {
     const username1 = req.params.username;
@@ -225,34 +226,6 @@ const transformUserData = (fetchData) => {
         userData.timelineMedia = transformMediaData(fetchData.edge_owner_to_timeline_media);
     }
     return userData;
-}
-
-const transformMediaData = (fetchData) => {
-
-    const mediaArray = [];
-
-    for (let edge of fetchData.edges) {
-        edge = edge.node;
-
-        const mediaData = {
-            postId: edge.shortcode,
-            likeCount: edge.edge_liked_by?.count || edge.edge_media_preview_like?.count,
-            commentCount: edge.edge_media_to_comment?.count,
-            isVideo: edge.is_video,
-            thumbnailArray : edge.thumbnail_resources
-        }
-
-        mediaArray.push(mediaData)
-    }
-
-    return {
-        mediaArray: mediaArray,
-        pageInfo: {
-            hasNextPage: fetchData.page_info?.has_next_page,
-            endCursor: fetchData.page_info?.end_cursor,
-        }
-    }
-
 }
 
 const API_URL = 'https://instagram.com/graphql/query/';

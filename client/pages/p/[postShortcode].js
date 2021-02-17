@@ -10,11 +10,25 @@ import {Instagram} from "../../components/icons";
 
 export default function Post({ postShortcode }) {
     const [postData, setPostData] = useState(null)
+    const [mediaData, setMediaData] = useState(null)
+
+    const fetchMoreMedia = async (userId, first, endCursor) => {
+        const config = {
+            params: {
+                userId: userId,
+                first: first,
+                after: endCursor
+            }
+        }
+        const { data } = await publicFetch.get(`/posts/${postShortcode}/more`, config);
+        setMediaData(data);
+    }
 
     useEffect( () => {
         const fetchPost = async () => {
             const { data } = await publicFetch.get(`/posts/${postShortcode}`);
             setPostData(data);
+            fetchMoreMedia(data.owner.id, 12 , undefined)
         }
         fetchPost();
     }, [postShortcode]);
@@ -24,7 +38,7 @@ export default function Post({ postShortcode }) {
             <Layout>
                 <div className={styles.postContainer}>
                     <FeedItemMain postData={postData} />
-                    <FeedGallery />
+                    <FeedGallery mediaArray={mediaData?.mediaArray}/>
                 </div>
             </Layout>
         ) : <Instagram />

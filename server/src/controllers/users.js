@@ -113,24 +113,21 @@ const API_URL = 'https://instagram.com/graphql/query/';
 export const nextPageContent = async (req, res) => {
     const { userId, first, endCursor} = req.query;
 
-    console.log("START FETCH POSTS")
-    const config = {
-        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/javascript'},
-        dataType: "jsonp",
-        crossdomain: true,
-        params: {
-            query_id: '17888483320059182',
-            id: userId,
-            first: first,
-            after: endCursor
-        }
-    };
-    const { data } = await axios.get(API_URL, config);
-    console.log(data)
+    const {page} = await startBrowser();
+
+    console.log("*\tOpen user in browser\t*")
+    await page.goto(`https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${first}&after=${endCursor}`, { waitUntil: 'networkidle0' });
+
+    const content = await page.content();
+
+    const { data } = await page.evaluate(() =>  {
+        return JSON.parse(document.querySelector("body").innerText);
+    });
+
     console.log("FINISH FETCH POSTS")
-    if (data?.data?.user?.edge_owner_to_timeline_media) {
+    if (data?.user?.edge_owner_to_timeline_media) {
         console.log("TRANSFORM POSTS")
-        const result = transformMediaData(data.data.user.edge_owner_to_timeline_media);
+        const result = transformMediaData(data.user.edge_owner_to_timeline_media);
         return res.status(200).json(result);
     }
     console.log("EMPTY POSTS")

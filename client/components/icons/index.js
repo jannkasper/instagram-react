@@ -15,3 +15,6 @@ export { default as Emoji } from "./EmojiIcon";
 export { default as Like } from "./LikeIcon";
 export { default as Instagram } from "./InstagramIcon";
 export { default as Verified } from "./VerifiedIcon";
+export { default as Camera } from "./CameraIcon";
+export { default as Posts } from "./PostsIcon";
+export { default as Tagged } from "./TaggedIcon";

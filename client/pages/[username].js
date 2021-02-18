@@ -53,8 +53,9 @@ export default function Username({ username }) {
             document.documentElement.clientHeight,
             document.documentElement.scrollHeight,
             document.documentElement.offsetHeight );
-        if (!isFetching &&userData?.timelineMedia?.pageInfo.hasNextPage && currentHeight > maxHeight - 800) {
+        if (!isFetching && userData?.timelineMedia?.pageInfo.hasNextPage && currentHeight > maxHeight - 800) {
             setIsFetching(true);
+            console.log("HIII")
             fetchNextPage();
         }
     }

@@ -120,6 +120,17 @@ export const nextPageContent = async (req, res) => {
             id: userId,
             first: first,
             after: endCursor
+        },
+        withCredentials: true,
+        headers: {
+            'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+            'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+            'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY',
+            Cookie: {
+                'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+                'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+                'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY'
+            }
         }
     };
     console.log(`https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${first}&after=${endCursor}`)

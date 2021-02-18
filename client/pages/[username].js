@@ -56,7 +56,7 @@ export default function Username({ username }) {
         if (!isFetching && userData?.timelineMedia?.pageInfo.hasNextPage && currentHeight > maxHeight - 800) {
             setIsFetching(true);
             console.log("HIII")
-            fetchNextPage();
+            // fetchNextPage();
         }
     }
 
@@ -72,6 +72,7 @@ export default function Username({ username }) {
             <Layout>
                 <main className={styles.postContainer}>
                     <UserItem userData={userData} />
+                    <button onClick={() => fetchNextPage()}>HERE</button>
                     { userData.isPrivate ? <UserPrivate /> : <FeedGallery mediaArray={userData.timelineMedia.mediaArray}/> }
                 </main>
             </Layout>

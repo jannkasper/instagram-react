@@ -131,6 +131,17 @@ export const morePostsContent = async (req, res) => {
             id: userId,
             first: first,
             after: endCursor
+        },
+        withCredentials: true,
+        headers: {
+            'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+            'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+            'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY',
+            Cookie: {
+                'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+                'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+                'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY'
+            }
         }
     };
     const data = await axios.get(API_URL, config)

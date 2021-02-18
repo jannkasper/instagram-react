@@ -11,9 +11,9 @@ import setRoutes from "./routes.js"
 const app = express();
 app.use(morgan('dev'));
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser())
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(cookieParser())
 setRoutes(app);
 
 // startSession("https://www.instagram.com/accounts/login/");

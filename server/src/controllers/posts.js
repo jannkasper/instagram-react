@@ -4,19 +4,31 @@ import axios from "axios";
 export const postContent = async (req, res) => {
     const postId = req.params.postId;
     // const page = getPage();
-    const {page} = await startBrowser();
+    // const {page} = await startBrowser();
 
     console.log("4\tEnter selected post");
     // await page.goto(`https://www.instagram.com/p/${postId}`);
-    await page.goto(`https://www.instagram.com/p/${postId}`, { waitUntil: 'networkidle0' });
+    // await page.goto(`https://www.instagram.com/p/${postId}`, { waitUntil: 'networkidle0' });
+    //
+    // let sharedData = await page.evaluate(() => {
+    //     return window.__additionalData
+    // });
+    //
+    // let sharedData = await page.evaluate(() => {
+    //     return window.__additionalData
+    // });
 
-    let sharedData = await page.evaluate(() => {
-        return window.__additionalData
-    });
+    const sharedData = await axios.get(`https://www.instagram.com/p/${postId}`)
+        .then(function (response) {
+            // handle success
+            const jsonObject = response.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0, -1)
+            const userInfo = JSON.parse(jsonObject)
+            return userInfo.entry_data.PostPage[0].graphql.shortcode_media
+        })
 
-    sharedData = sharedData[`/p/${postId}/`].data.graphql.shortcode_media;
+    // sharedData = sharedData[`/p/${postId}/`].data.graphql.shortcode_media;
     const cleanData = transformPostData(sharedData);
-
+    //
     return res.status(200).json(cleanData);
 
 }
@@ -125,26 +137,34 @@ export const morePostsContent = async (req, res) => {
 
     console.log("*\tOpen user in browser\t*")
     console.log(`https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${first}`)
-    const config = {
-        params: {
-            query_id: '17888483320059182',
-            id: userId,
-            first: first,
-            after: endCursor
-        },
-        withCredentials: true,
-        headers: {
-            'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-            'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-            'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY',
-            Cookie: {
-                'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-                'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-                'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY'
-            }
-        }
-    };
-    const data = await axios.get(API_URL, config)
+    // const config = {
+    //     params: {
+    //         query_id: '17888483320059182',
+    //         id: userId,
+    //         first: first,
+    //         after: endCursor
+    //     },
+    //     withCredentials: true,
+    //     headers: {
+    //         'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+    //         'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+    //         'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY',
+    //         Cookie: {
+    //             'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+    //             'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+    //             'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY'
+    //         }
+    //     }
+    // };
+    const url = 'https://www.instagram.com/graphql/query/?query_hash=003056d32c2554def87228bc3fd9668a&variables=';
+    const params = `{"id":"${userId}","first":${first}}`
+    const transformParams = params.replace(',', '%2C')
+        .replace('{', '%7B')
+        .replace('}', '%7D')
+        .replace(':', '%3A')
+        .replace('"', '%22')
+        .replace('=', '%3D');
+    const data = await axios.get(url + transformParams)
         .then(function (response) {
             // handle success
             return response.data;

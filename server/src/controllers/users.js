@@ -6,26 +6,33 @@ import { transformMediaData } from "./posts.js";
 export const userContent = async (req, res) => {
     const username1 = req.params.username;
     // const page = getPage()
-    const {page} = await startBrowser();
+    // const {page} = await startBrowser();
+    //
+    // console.log("*\tOpen user in browser\t*")
+    // await page.goto(`https://www.instagram.com/${username1}`, { waitUntil: 'networkidle0' });
+    //
+    // const userExists = await validationUserExist(page);
+    // if(!userExists) {
+    //     console.log("*\tUsername doesn't exist\t*")
+    //     return res.status(200).json({hasError: true, message: 'Account not exists!'});
+    // }
+    //
+    // let sharedData = await page.evaluate(() => {
+    //     return window._sharedData.entry_data.ProfilePage[0].graphql.user;
+    // });
 
-    console.log("*\tOpen user in browser\t*")
-    await page.goto(`https://www.instagram.com/${username1}`, { waitUntil: 'networkidle0' });
-
-    const userExists = await validationUserExist(page);
-    if(!userExists) {
-        console.log("*\tUsername doesn't exist\t*")
-        return res.status(200).json({hasError: true, message: 'Account not exists!'});
-    }
-
-    let sharedData = await page.evaluate(() => {
-        return window._sharedData.entry_data.ProfilePage[0].graphql.user;
-    });
-
+    const sharedData = await axios.get(`https://www.instagram.com/${username1}`)
+        .then(function (response) {
+            // handle success
+            const jsonObject = response.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0, -1)
+            const userInfo = JSON.parse(jsonObject)
+            return userInfo.entry_data.ProfilePage[0].graphql.user
+        })
     // const cleanData = oldFetchUserData(page);
     const cleanData = convertUserData(sharedData);
 
     if (!cleanData.isPrivate) {
-        cleanData.storiesArray = fetchUserStories(page);
+        // cleanData.storiesArray = fetchUserStories(page);
         cleanData.timelineMedia = transformMediaData(sharedData.edge_owner_to_timeline_media);
     }
 
@@ -114,27 +121,35 @@ export const nextPageContent = async (req, res) => {
     const { userId, first, endCursor} = req.query;
 
     console.log("START FETCH POSTS")
-    const config = {
-        params: {
-            query_id: '17888483320059182',
-            id: userId,
-            first: first,
-            after: endCursor
-        },
-        withCredentials: true,
-        headers: {
-            'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-            'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-            'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY',
-            Cookie: {
-                'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-                'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-                'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY'
-            }
-        }
-    };
-    console.log(`https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${first}&after=${endCursor}`)
-    const data = await axios.get(API_URL, config)
+    // const config = {
+    //     params: {
+    //         query_id: '17888483320059182',
+    //         id: userId,
+    //         first: first,
+    //         after: endCursor
+    //     },
+    //     withCredentials: true,
+    //     headers: {
+    //         'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+    //         'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+    //         'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY',
+    //         Cookie: {
+    //             'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+    //             'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
+    //             'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY'
+    //         }
+    //     }
+    // };
+    // console.log(`https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${first}&after=${endCursor}`)
+    const url = 'https://www.instagram.com/graphql/query/?query_hash=003056d32c2554def87228bc3fd9668a&variables=';
+    const params = `{"id":"${userId}","first":${first},"after":"${endCursor}"}`
+    const transformParams = params.replace(',', '%2C')
+        .replace('{', '%7B')
+        .replace('}', '%7D')
+        .replace(':', '%3A')
+        .replace('"', '%22')
+        .replace('=', '%3D');
+    const data = await axios.get(url + transformParams)
         .then(function (response) {
             // handle success
             return response.data;

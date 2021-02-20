@@ -39,15 +39,24 @@ export const postContent = async (req, res) => {
     const sharedData = await axios.get(`https://www.instagram.com/p/${postId}`, config)
         .then(function (response) {
             // handle success
-            const jsonObject = response.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0, -1)
-            const userInfo = JSON.parse(jsonObject)
+            // const jsonObject = response.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0, -1)
+            // const userInfo = JSON.parse(jsonObject)
+            let jsonObject2 = response.data.match(/<script type="text\/javascript">window\.__additionalDataLoaded(.*)<\/script>/);
 
-            const jsonObject2 = response.data.match(/<script type="text\/javascript">window\.__additionalDataLoaded(.*)<\/script>/)[1];
-            const jsonObject3 = jsonObject2.match(/\{(.*)\}/)[0];
-            const userInfo2 = JSON.parse(jsonObject3)
+            if (jsonObject2) {
+                jsonObject2 = jsonObject2[1]
+                const jsonObject3 = jsonObject2.match(/\{(.*)\}/)[0];
+                const userInfo2 = JSON.parse(jsonObject3)
 
-            return userInfo2.graphql.shortcode_media
+                return userInfo2.graphql.shortcode_media
+            }
+            console.log(jsonObject2);
+            return null;
         })
+
+    if (sharedData == null) {
+        return res.status(200).json(null);
+    }
 
     // sharedData = sharedData[`/p/${postId}/`].data.graphql.shortcode_media;
     const cleanData = transformPostData(sharedData);

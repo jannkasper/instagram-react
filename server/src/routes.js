@@ -1,6 +1,7 @@
 import express from "express";
 import { userContent, nextPageContent } from "./controllers/users.js";
 import { postContent, morePostsContent } from "./controllers/posts.js";
+import { searchContent } from "./controllers/search.js"
 
 const router = express.Router();
 
@@ -11,6 +12,9 @@ router.get("/users/:username/page", nextPageContent);
 //posts
 router.get("/posts/:postId", postContent);
 router.get("/posts/:postId/more", morePostsContent);
+
+//search
+router.get("/search/:query", searchContent);
 
 export default (app) => {
     app.use("/api", router);

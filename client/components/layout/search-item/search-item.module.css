@@ -3,6 +3,7 @@
 .searchItemContainer {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
 .searchItemContainer:hover {
@@ -21,13 +22,14 @@
 .searchItemImage {
     height: 44px;
     width: 44px;
-    margin-right: 12px;
     border-radius: 50%;
+    margin-right: 12px;
 }
 
 .searchItemImage > img {
     height: 100%;
     width: 100%;
+    border-radius: 50%;
 }
 
 .text {

@@ -3,6 +3,7 @@ import { userContent, nextPageContent } from "./controllers/users.js";
 import { postContent, morePostsContent } from "./controllers/posts.js";
 import { searchContent } from "./controllers/search.js"
 import { tagContent, nextPageTagContent } from "./controllers/tags.js";
+import { locationContent, nextPageLocationContent } from "./controllers/locations.js";
 
 const router = express.Router();
 
@@ -17,6 +18,10 @@ router.get("/posts/:postId/more", morePostsContent);
 //tag
 router.get("/tags/:tag", tagContent);
 router.get("/tags/:tag/page", nextPageTagContent);
+
+//location
+router.get("/locations/:locationId/:locationName", locationContent);
+router.get("/locations/:locationId/:locationName/page", nextPageLocationContent);
 
 //search
 router.get("/search/:query", searchContent);

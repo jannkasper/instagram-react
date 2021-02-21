@@ -2,6 +2,7 @@ import express from "express";
 import { userContent, nextPageContent } from "./controllers/users.js";
 import { postContent, morePostsContent } from "./controllers/posts.js";
 import { searchContent } from "./controllers/search.js"
+import { tagContent, nextPageTagContent } from "./controllers/tags.js";
 
 const router = express.Router();
 
@@ -12,6 +13,10 @@ router.get("/users/:username/page", nextPageContent);
 //posts
 router.get("/posts/:postId", postContent);
 router.get("/posts/:postId/more", morePostsContent);
+
+//tag
+router.get("/tags/:tag", tagContent);
+router.get("/tags/:tag/page", nextPageTagContent);
 
 //search
 router.get("/search/:query", searchContent);

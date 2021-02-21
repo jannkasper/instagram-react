@@ -1,14 +1,15 @@
 import React from "react";
 import { useRouter } from 'next/router'
 
-import { Verified } from "../../icons";
+import {Location, Verified} from "../../icons";
 
 import styles from "./search-item.module.css";
+import {numCommaFormatter} from "../../../util/formatter";
 
-const SearchItem = ({position, user, handleChangeValue}) => {
+const SearchItem = ({item, handleChangeValue}) => {
     const router = useRouter()
     const verifiedUser = () => {
-        if (user && user.is_verified) {
+        if (item && item.isVerified) {
             return (
                 <div className={styles.verified}>
                     <Verified width={"13px"} height={"13px"} />
@@ -16,25 +17,46 @@ const SearchItem = ({position, user, handleChangeValue}) => {
             )}
     }
 
+    const determineDescription = () => {
+        if (item.hashtag) {
+            return <div className={styles.description}>{numCommaFormatter(item.postCount) + ' posts'}</div>
+        } else if (item.description) {
+            return <div className={styles.description}>{item.description}</div>
+        }
+    }
+
+    const determineImage = () => {
+        if (item.imageUrl) {
+            return <img src={item.imageUrl}/>
+        } else if (item.place) {
+            return <Location />
+        }
+    }
+
     const handleClick = (e) => {
         e.preventDefault();
         handleChangeValue('');
-        router.push(`/${user.username}`)
+        if (item.user) {
+            router.push(`/${item.username}`)
+        } else if (item.hashtag) {
+            router.push(`/explore/tags/${item.name}`)
+        } else if (item.place) {
+            router.push(`/explore/locations/${item.id}/${item.slug}`)
+        }
     }
 
     return (
         <div className={styles.searchItemContainer}>
-            <a href={user.username} onClick={handleClick}>
+            <a href={item.name} onClick={handleClick}>
                 <div className={styles.searchItemContent}>
                     <div className={styles.searchItemImage}>
-                        <img src={user.profile_pic_url}/>
+                        {determineImage()}
                     </div>
                     <div className={styles.text}>
                         <div className={styles.username}>
-                            {user.username}
-                            {verifiedUser()}
+                            {item.hashtag ? '#':''}{item.name}{verifiedUser()}
                         </div>
-                        <div className={styles.description}>{user.full_name}</div>
+                        {determineDescription()}
                     </div>
                 </div>
             </a>

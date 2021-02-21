@@ -23,7 +23,11 @@
     height: 44px;
     width: 44px;
     border-radius: 50%;
+    border: 1px solid rgba(0,0,0,.0975);
+    flex-shrink: 0;
     margin-right: 12px;
+    text-align: center;
+
 }
 
 .searchItemImage > img {
@@ -32,8 +36,15 @@
     border-radius: 50%;
 }
 
+.searchItemImage > svg {
+    transform: translate(0%,25%);
+}
+
 .text {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
     flex: 1 1 auto;
 
 }

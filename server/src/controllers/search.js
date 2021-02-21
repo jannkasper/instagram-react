@@ -21,7 +21,7 @@ const config = {
 export const searchContent = async (req, res) => {
     const query = req.params.query;
 
-    const url = `https://www.instagram.com/web/search/topsearch/?context=blended&query=${query}&rank_token=0.1539532110821067&include_reel=true`;
+    const url = `https://www.instagram.com/web/search/topsearch/?context=blended&query=${query}&rank_token=0.9681968460805339&include_reel=true`;
     // const params = `{"id":"${userId}","first":${first},"after":"${endCursor}"}`
     // const transformParams = params.replace(',', '%2C')
     //     .replace('{', '%7B')
@@ -29,7 +29,7 @@ export const searchContent = async (req, res) => {
     //     .replace(':', '%3A')
     //     .replace('"', '%22')
     //     .replace('=', '%3D');
-    const data = await axios.get(url)
+    const data = await axios.get(url, config)
         .then(function (response) {
             // handle success
             return response.data;
@@ -39,5 +39,11 @@ export const searchContent = async (req, res) => {
             console.log(error);
         })
 
-    return res.status(200).json(data.users);
+    const result = [];
+    data.users.forEach(item => result.push({user: true, position: item.position, username:item.user.username, name: item.user.username, description: item.user.full_name, imageUrl: item.user.profile_pic_url, isVerified: item.user.is_verified }));
+    data.places.forEach(item => result.push({place: true, position: item.position, id: item.place.location.pk, slug: item.place.slug, name: item.place.title, description: item.place.subtitle }))
+    data.hashtags.forEach(item => result.push({hashtag: true, position: item.position,  name: item.hashtag.name, postCount: item.hashtag.media_count, imageUrl: item.hashtag.profile_pic_url}))
+
+    result.sort((a,b) => a.position - b.position);
+    return res.status(200).json(result);
 }

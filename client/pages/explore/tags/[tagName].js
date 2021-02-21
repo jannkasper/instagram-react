@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from "../../../components/layout";
 import FeedGallery from "../../../components/feed-gallery";
-// import UserItem from "../components/user-item";
+import ExploreHeader from "../../../components/explore-header";
 import { Instagram } from "../../../components/icons";
 import { ScrollContext } from "../../../store/scroll";
 import { publicFetch } from "../../../util/fetcher";
 
 import styles from '../../../styles/Home.module.css'
+
 
 
 export default function TagName({ tagName }) {
@@ -43,7 +44,7 @@ export default function TagName({ tagName }) {
         tagData ? (
             <Layout>
                 <main className={styles.postContainer}>
-                    {/*<UserItem userData={userData} />*/}
+                    <ExploreHeader isTag id={tagData.id} postCount={tagData.postCount} name={tagData.tagName} imageUrl={tagData.tagImageUrl} />
                     <FeedGallery mediaArray={tagData.topMedia.mediaArray}/>
                     <FeedGallery mediaArray={tagData.timelineMedia.mediaArray}/>
                 </main>

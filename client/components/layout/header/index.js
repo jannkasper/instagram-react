@@ -63,7 +63,7 @@ const Header = ({ className, ...props}) => {
                         <div className={styles.triangle}/>
                         <div className={styles.storiesContent}>
                             <div className={styles.storiesSlider} >
-                                { searchResult.map((item, index) => <SearchItem key={index} {...item} handleChangeValue={handleChangeValue}/>)}
+                                { searchResult.map((item, index) => <SearchItem key={index} item={item} handleChangeValue={handleChangeValue}/>)}
 
                             </div>
                         </div>

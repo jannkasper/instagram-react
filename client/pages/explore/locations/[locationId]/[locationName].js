@@ -7,6 +7,7 @@ import { ScrollContext } from "../../../../store/scroll";
 import { publicFetch } from "../../../../util/fetcher";
 
 import styles from '../../../../styles/Home.module.css'
+import ExploreHeader from "../../../../components/explore-header";
 
 
 export default function LocationName ({ locationId, locationName }) {
@@ -42,7 +43,7 @@ export default function LocationName ({ locationId, locationName }) {
         locationData ? (
             <Layout>
                 <main className={styles.postContainer}>
-                    {/*<UserItem userData={userData} />*/}
+                    <ExploreHeader isLocation id={locationData.id} postCount={locationData.postCount} name={locationData.locationName} imageUrl={locationData.locationImageUrl} />
                     <FeedGallery mediaArray={locationData.topMedia.mediaArray}/>
                     <FeedGallery mediaArray={locationData.timelineMedia.mediaArray}/>
                 </main>

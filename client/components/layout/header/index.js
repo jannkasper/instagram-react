@@ -6,7 +6,7 @@ import {Activity, Explore, Home, HomeActive, Message, Search} from "../../icons"
 import StoriesItem from "../../stories/stories-item";
 import SearchItem from "../search-item";
 import UserCard from "../../user-card";
-import {publicFetch} from "../../../store/fetcher";
+import {publicFetch} from "../../../util/fetcher";
 
 const Header = ({ className, ...props}) => {
     const wrapperRef = useRef(null);

@@ -1,69 +1,42 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Layout from "../../../../components/layout";
 import FeedGallery from "../../../../components/feed-gallery";
 // import UserItem from "../components/user-item";
-import {publicFetch} from "../../../../store/fetcher";
-import {Instagram} from "../../../../components/icons";
+import { Instagram } from "../../../../components/icons";
+import { ScrollContext } from "../../../../store/scroll";
+import { publicFetch } from "../../../../util/fetcher";
 
 import styles from '../../../../styles/Home.module.css'
 
 
 export default function LocationName ({ locationId, locationName }) {
+    const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
     const [locationData, setLocationData] = useState(null)
-    const [isFetching, setIsFetching] = useState(false)
 
     useEffect( () => {
-        const fetchLocation = async () => {
-            const { data } = await publicFetch.get(`/locations/${locationId}/${locationName}`)
-            if (!data.hasError) {
-                setLocationData(data);
+        publicFetch.get(`/locations/${locationId}/${locationName}`).then( response => {
+            if (!response.data.hasError) {
+                setLocationData(response.data);
             }
-            setIsFetching(false);
-        }
-        setIsFetching(true);
-        fetchLocation();
+        })
     }, [locationId]);
 
-
-    const fetchNextPage = async () => {
-        const params = {
-            locationId: locationId,
-            first: 12,
-            endCursor: locationData.timelineMedia.pageInfo.endCursor
-        };
-        const { data } = await publicFetch.get(`/locations/${locationId}/${locationName}/page`, { params })
-        if (!data) {
-            return;
-        }
-        setLocationData(
-            {
-                ...locationData,
-                timelineMedia: { pageInfo: data.pageInfo, mediaArray: locationData.timelineMedia.mediaArray.concat(data.mediaArray) }
+    useEffect( () => {
+        if (triggerLoad && locationData) {
+            const params = {
+                locationId: locationId,
+                first: 12,
+                endCursor: locationData.timelineMedia.pageInfo.endCursor
+            };
+            publicFetch.get(`/locations/${locationId}/${locationName}/page`, { params }).then( response => {
+                setTriggerLoad(false);
+                setLocationData({
+                    ...locationData,
+                    timelineMedia: { pageInfo: response.data.pageInfo, mediaArray: locationData.timelineMedia.mediaArray.concat(response.data.mediaArray) }
+                })
             })
-        setIsFetching(false);
-    }
-
-    const scrollFunc = (event) => {
-        event.preventDefault();
-        let currentHeight = window.pageYOffset + document.documentElement.clientHeight;
-        let maxHeight = Math.max(
-            document.body.scrollHeight,
-            document.body.offsetHeight,
-            document.documentElement.clientHeight,
-            document.documentElement.scrollHeight,
-            document.documentElement.offsetHeight );
-        if (!isFetching && locationData?.timelineMedia?.pageInfo.hasNextPage && currentHeight > maxHeight - 800) {
-            setIsFetching(true);
-            fetchNextPage();
         }
-    }
-
-    useEffect(() => {
-        window.addEventListener("scroll", scrollFunc, false)
-        return () => {
-            window.removeEventListener("scroll", scrollFunc)
-        }
-    }, [isFetching])
+    }, [triggerLoad]);
 
     return (
         locationData ? (

@@ -19,7 +19,7 @@ const SearchItem = ({position, user, handleChangeValue}) => {
     const handleClick = (e) => {
         e.preventDefault();
         handleChangeValue('');
-        router.push(user.username)
+        router.push(`/${user.username}`)
     }
 
     return (

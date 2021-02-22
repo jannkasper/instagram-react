@@ -35,10 +35,8 @@ export default function Post({ postShortcode }) {
     return (
         postData ? (
             <Layout>
-                <div className={styles.postContainer}>
-                    <FeedItemMain postData={postData} />
-                    <FeedGallery mediaArray={mediaData?.mediaArray} title={`More posts from ${postData.owner.username}`} />
-                </div>
+                <FeedItemMain postData={postData} />
+                <FeedGallery mediaArray={mediaData?.mediaArray} title={`More posts from ${postData.owner.username}`} />
             </Layout>
         ) : <Instagram />
     )

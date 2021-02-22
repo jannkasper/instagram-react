@@ -42,10 +42,8 @@ export default function Username({ username }) {
     return (
         userData ? (
             <Layout>
-                <main className={styles.postContainer}>
-                    <UserItem userData={userData} />
-                    { userData.isPrivate ? <UserPrivate /> : <FeedGallery mediaArray={userData.timelineMedia.mediaArray}/> }
-                </main>
+                <UserItem userData={userData} />
+                { userData.isPrivate ? <UserPrivate /> : <FeedGallery mediaArray={userData.timelineMedia.mediaArray}/> }
             </Layout>
             ) : <Instagram />
     )

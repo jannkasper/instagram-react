@@ -43,11 +43,9 @@ export default function TagName({ tagName }) {
     return (
         tagData ? (
             <Layout>
-                <main className={styles.postContainer}>
-                    <ExploreHeader isTag id={tagData.id} postCount={tagData.postCount} name={tagData.tagName} imageUrl={tagData.tagImageUrl} />
-                    <FeedGallery mediaArray={tagData.topMedia.mediaArray} title='Top posts' />
-                    <FeedGallery mediaArray={tagData.timelineMedia.mediaArray} title='Most recent' />
-                </main>
+                <ExploreHeader isTag id={tagData.id} postCount={tagData.postCount} name={tagData.tagName} imageUrl={tagData.tagImageUrl} />
+                <FeedGallery mediaArray={tagData.topMedia.mediaArray} title='Top posts' />
+                <FeedGallery mediaArray={tagData.timelineMedia.mediaArray} title='Most recent' />
             </Layout>
         ) : <Instagram />
     )

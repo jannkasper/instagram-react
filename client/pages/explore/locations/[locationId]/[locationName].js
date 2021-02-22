@@ -44,8 +44,8 @@ export default function LocationName ({ locationId, locationName }) {
             <Layout>
                 <main className={styles.postContainer}>
                     <ExploreHeader isLocation id={locationData.id} postCount={locationData.postCount} name={locationData.locationName} imageUrl={locationData.locationImageUrl} />
-                    <FeedGallery mediaArray={locationData.topMedia.mediaArray}/>
-                    <FeedGallery mediaArray={locationData.timelineMedia.mediaArray}/>
+                    <FeedGallery mediaArray={locationData.topMedia.mediaArray} title='Top posts' />
+                    <FeedGallery mediaArray={locationData.timelineMedia.mediaArray} title='Most recent' />
                 </main>
             </Layout>
         ) : <Instagram />

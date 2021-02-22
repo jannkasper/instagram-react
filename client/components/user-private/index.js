@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./user-private.module.css"
 
-const UserPrivate = ({ userData }) => {
+const UserPrivate = () => {
 
     return (
         <div className={styles.userPrivateContainer}>

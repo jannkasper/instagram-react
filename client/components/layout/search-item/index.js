@@ -37,11 +37,11 @@ const SearchItem = ({item, handleChangeValue}) => {
         e.preventDefault();
         handleChangeValue('');
         if (item.user) {
-            router.push(`/${item.username}`)
+            router.replace(`/${item.username}`)
         } else if (item.hashtag) {
-            router.push(`/explore/tags/${item.name}`)
+            router.replace(`/explore/tags/${item.name}`)
         } else if (item.place) {
-            router.push(`/explore/locations/${item.id}/${item.slug}`)
+            router.replace(`/explore/locations/${item.id}/${item.slug}`)
         }
     }
 

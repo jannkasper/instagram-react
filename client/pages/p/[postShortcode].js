@@ -1,12 +1,9 @@
+import React, {useEffect, useState} from "react";
 import Layout from "../../components/layout";
 import FeedItemMain from "../../components/feed-item-main";
 import FeedGallery from "../../components/feed-gallery";
-
-import styles from '../../styles/Home.module.css'
-import {useEffect, useState} from "react";
-import {publicFetch} from "../../util/fetcher";
-import {Instagram} from "../../components/icons";
-
+import { Instagram } from "../../components/icons";
+import { publicFetch } from "../../util/fetcher";
 
 export default function Post({ postShortcode }) {
     const [postData, setPostData] = useState(null)
@@ -32,14 +29,16 @@ export default function Post({ postShortcode }) {
         });
     }
 
-    return (
-        postData ? (
+    if (postData) {
+        return (
             <Layout>
                 <FeedItemMain postData={postData} />
                 <FeedGallery mediaArray={mediaData?.mediaArray} title={`More posts from ${postData.owner.username}`} />
             </Layout>
-        ) : <Instagram />
-    )
+        )
+    } else {
+        return ( <Instagram /> );
+    }
 };
 
 

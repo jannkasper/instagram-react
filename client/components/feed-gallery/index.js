@@ -1,52 +1,37 @@
 import React from "react";
+import FeedGalleryItem from "./feed-gallery-item";
+import FeedGalleryTabs from "./feed-gallery-tabs";
+import FeedGalleryEmpty from "./feed-gallery-empty";
 
 import styles from "./feed-gallery.module.css";
-import FeedGalleryItem from "./feed-gallery-item";
-import {Camera} from "../icons";
-import FeedGalleryTabs from "./feed-gallery-tabs";
 
 const FeedGallery = ({ mediaArray, title }) => {
-    const determineContent = () => {
-        const result = []
-        if (mediaArray && mediaArray.length > 0) {
-            mediaArray = mediaArray.map((element, index) => <FeedGalleryItem key={index} mediaData={element} />)
-            for (let position = 0; position <= mediaArray.length; position += 3 ) {
-                result.push(
-                    <div key={position} className={styles.galleryRow}>
-                        {mediaArray.slice(position, position+3)}
-                    </div>
-                )
-            }
-        return result
-        } else {
-            return (
-                <>
-                    <div className={styles.emptyIconCircle}>
-                        <Camera />
-                    </div>
-                    <div className={styles.emptyMessage}>No Posts Yet</div>
-                </>
-            )
-        }
-    }
 
-    const determineHeader = () => {
-        if (title) {
-            return (
-                <div className={styles.galleryDescription}>
-                    {title}
-                    {/*<a className={styles.galleryUserName}>partieangelique</a>*/}
+    const Content = [];
+    if (mediaArray && mediaArray.length > 0) {
+        for (let index = 0; index <= mediaArray.length; index += 3 ) {
+            Content.push(
+                <div key={index} className={styles.feedGallery_row}>
+                    {mediaArray.slice(index, index + 3).map((element, index) => <FeedGalleryItem key={index} mediaData={element}/>)}
                 </div>
             )
-        } else {
-            return <FeedGalleryTabs />
         }
+    } else {
+        Content.push( <FeedGalleryEmpty /> )
     }
+
+    const Header = title ? (
+        <div className={styles.feedGallery_header}>
+            {title}
+            {/*<a className={styles.galleryUserName}>partieangelique</a>*/}
+        </div>
+    ) : <FeedGalleryTabs />
+
     return (
         <div className={styles.feedGalleryContainer}>
-            { determineHeader() }
+            { Header }
             <div className={styles.feedGalleryContent}>
-                { determineContent() }
+                { Content }
             </div>
 
         </div>

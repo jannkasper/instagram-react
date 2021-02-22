@@ -9,15 +9,16 @@ const FeedGalleryItem = ({ mediaData }) => {
 
     return (
         <Link href="/p/[postId]" as={`/p/${mediaData.postId}`}>
-            <div className={styles.galleryImage}>
+            <div className={styles.feedGalleryItem}>
                     <img src={mediaData.thumbnailArray[1].src} />
-                    <div className={styles.hover}>
-                        <div className={styles.details}>
+
+                    <div className={styles.feedGalleryItem_hover}>
+                        <div className={styles.feedGalleryItem_count}>
                             <ActivityActive fill={"white"} style={{marginRight: "10px"}} />
                             <p>{numFormatter(mediaData.likeCount)}</p>
                         </div>
-                        <div className={styles.details}>
-                            <CommentActive fill={"white"} background-color={"black"} style={{marginRight: "10px"}} />
+                        <div className={styles.feedGalleryItem_count}>
+                            <CommentActive fill={"white"} style={{marginRight: "10px"}} />
                             <p>{numFormatter(mediaData.commentCount)}</p>
                         </div>
                     </div>

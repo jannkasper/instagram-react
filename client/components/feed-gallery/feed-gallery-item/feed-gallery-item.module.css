@@ -1,4 +1,4 @@
-.galleryImage {
+.feedGalleryItem {
     position: relative;
     /*flex: 1 0 0%;*/
     /*display: flex;*/
@@ -7,20 +7,17 @@
     /*width: 100%;*/
     /*height: 100%;*/
 }
-.galleryImage:hover {
-}
 
-.galleryImage >  img {
+.feedGalleryItem >  img {
     display: inline;
     height: 293px;
     width: 293px;
     /*max-height: 293px;*/
     /*max-width: 293px;*/
     object-fit: cover;
-
 }
 
-.hover {
+.feedGalleryItem_hover {
     position: absolute;
     display: flex;
     opacity:0;
@@ -32,12 +29,12 @@
     width: 293px;
 }
 
-.hover:hover {
+.feedGalleryItem_hover:hover {
     opacity: 1;
     background-color: rgba(0,0,0,0.3);
 }
 
-.details {
+.feedGalleryItem_count {
     padding: 15px;
     font-size: 16px;
     font-weight: 600;

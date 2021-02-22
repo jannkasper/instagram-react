@@ -6,10 +6,6 @@ import { Instagram } from "../../../components/icons";
 import { ScrollContext } from "../../../store/scroll";
 import { publicFetch } from "../../../util/fetcher";
 
-import styles from '../../../styles/Home.module.css'
-
-
-
 export default function TagName({ tagName }) {
     const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
     const [tagData, setTagData] = useState(null);
@@ -40,15 +36,17 @@ export default function TagName({ tagName }) {
         }
     }, [triggerLoad]);
 
-    return (
-        tagData ? (
+    if (tagData) {
+        return (
             <Layout>
                 <ExploreHeader isTag id={tagData.id} postCount={tagData.postCount} name={tagData.tagName} imageUrl={tagData.tagImageUrl} />
                 <FeedGallery mediaArray={tagData.topMedia.mediaArray} title='Top posts' />
                 <FeedGallery mediaArray={tagData.timelineMedia.mediaArray} title='Most recent' />
             </Layout>
-        ) : <Instagram />
-    )
+        )
+    } else {
+        return ( <Instagram /> );
+    }
 }
 
 export async function getServerSideProps(context) {

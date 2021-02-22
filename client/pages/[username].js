@@ -7,9 +7,6 @@ import { Instagram } from "../components/icons";
 import { ScrollContext } from "../store/scroll";
 import { publicFetch } from "../util/fetcher";
 
-import styles from '../styles/Home.module.css'
-
-
 export default function Username({ username }) {
     const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
     const [userData, setUserData] = useState(null);
@@ -39,14 +36,16 @@ export default function Username({ username }) {
         }
     }, [triggerLoad]);
 
-    return (
-        userData ? (
+    if (userData) {
+        return (
             <Layout>
                 <UserItem userData={userData} />
                 { userData.isPrivate ? <UserPrivate /> : <FeedGallery mediaArray={userData.timelineMedia.mediaArray}/> }
             </Layout>
-            ) : <Instagram />
-    )
+        )
+    } else {
+        return ( <Instagram /> );
+    }
 }
 
 export async function getServerSideProps(context) {

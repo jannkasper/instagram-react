@@ -1,0 +1,31 @@
+.headerContainer {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    height: 54px;
+    width: 100%;
+    z-index: 3;
+
+    background: #fff;
+    border-bottom: solid 1px #dbdbdb;
+}
+
+.headerContent {
+    display: flex;
+    align-items: center;
+    max-width: 975px;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px 0 20px;
+}
+
+.headerLogo {
+    margin-top: 10px;
+    flex: 1 9999 0%;
+}
+
+.headerLogo > img {
+    width: 103px;
+    height: 29px;
+}

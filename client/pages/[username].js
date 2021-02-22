@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from "../components/layout";
-import FeedGallery from "../components/feed-gallery";
-import UserItem from "../components/user-item";
-import UserPrivate from "../components/user-private";
+import FeedGallery from "../components/page-gallery";
+import ContentPrivate from "../components/page-header/content-private";
 import { Instagram } from "../components/icons";
 import { ScrollContext } from "../store/scroll";
 import { publicFetch } from "../util/fetcher";
+import UserItemStories from "../components/page-header/user-item-stories";
+import HeaderUser from "../components/page-header/header-user";
 
 export default function Username({ username }) {
     const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
@@ -39,8 +40,9 @@ export default function Username({ username }) {
     if (userData) {
         return (
             <Layout>
-                <UserItem userData={userData} />
-                { userData.isPrivate ? <UserPrivate /> : <FeedGallery mediaArray={userData.timelineMedia.mediaArray}/> }
+                <HeaderUser userData={userData} />
+                { userData.storiesArray && userData.storiesArray.length && <UserItemStories storiesArray={userData.storiesArray} /> }
+                { userData.isPrivate ? <ContentPrivate /> : <FeedGallery mediaArray={userData.timelineMedia.mediaArray}/> }
             </Layout>
         )
     } else {

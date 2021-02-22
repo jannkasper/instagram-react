@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from "../../../components/layout";
-import FeedGallery from "../../../components/feed-gallery";
-import ExploreHeader from "../../../components/explore-header";
+import FeedGallery from "../../../components/page-gallery";
+import HeaderExplore from "../../../components/page-header/header-explore";
 import { Instagram } from "../../../components/icons";
 import { ScrollContext } from "../../../store/scroll";
 import { publicFetch } from "../../../util/fetcher";
@@ -39,7 +39,7 @@ export default function TagName({ tagName }) {
     if (tagData) {
         return (
             <Layout>
-                <ExploreHeader isTag id={tagData.id} postCount={tagData.postCount} name={tagData.tagName} imageUrl={tagData.tagImageUrl} />
+                <HeaderExplore isTag id={tagData.id} postCount={tagData.postCount} name={tagData.tagName} imageUrl={tagData.tagImageUrl} />
                 <FeedGallery mediaArray={tagData.topMedia.mediaArray} title='Top posts' />
                 <FeedGallery mediaArray={tagData.timelineMedia.mediaArray} title='Most recent' />
             </Layout>

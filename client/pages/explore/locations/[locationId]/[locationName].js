@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from "../../../../components/layout";
-import FeedGallery from "../../../../components/feed-gallery";
-import ExploreHeader from "../../../../components/explore-header";
+import FeedGallery from "../../../../components/page-gallery";
+import HeaderExplore from "../../../../components/page-header/header-explore";
 import { Instagram } from "../../../../components/icons";
 import { ScrollContext } from "../../../../store/scroll";
 import { publicFetch } from "../../../../util/fetcher";
@@ -38,7 +38,7 @@ export default function LocationName ({ locationId, locationName }) {
     if (locationData) {
         return (
             <Layout>
-                <ExploreHeader isLocation id={locationData.id} postCount={locationData.postCount} name={locationData.locationName} imageUrl={locationData.locationImageUrl} />
+                <HeaderExplore isLocation id={locationData.id} postCount={locationData.postCount} name={locationData.locationName} imageUrl={locationData.locationImageUrl} />
                 <FeedGallery mediaArray={locationData.topMedia.mediaArray} title='Top posts' />
                 <FeedGallery mediaArray={locationData.timelineMedia.mediaArray} title='Most recent' />
             </Layout>

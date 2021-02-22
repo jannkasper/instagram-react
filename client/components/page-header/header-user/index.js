@@ -5,7 +5,7 @@ import { numFormatter, urlFormatter, bioFormatter, numCommaFormatter } from "../
 
 import styles from "./user-item-header.module.css"
 
-const UserItemHeader = ({ userData }) => {
+const HeaderUser = ({ userData }) => {
 
     const renderMutualFollow = () => {
         if (userData.mutualFollow && userData.mutualFollow.usernameArray && userData.mutualFollow.usernameArray.length) {
@@ -60,4 +60,4 @@ const UserItemHeader = ({ userData }) => {
     );
 }
 
-export default UserItemHeader
+export default HeaderUser

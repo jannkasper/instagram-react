@@ -3,7 +3,7 @@ import FeedGalleryItem from "./feed-gallery-item";
 import FeedGalleryTabs from "./feed-gallery-tabs";
 import FeedGalleryEmpty from "./feed-gallery-empty";
 
-import styles from "./feed-gallery.module.css";
+import styles from "./page-gallery.module.css";
 
 const FeedGallery = ({ mediaArray, title }) => {
 

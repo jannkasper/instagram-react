@@ -1,10 +1,10 @@
 import React from "react";
-import {numCommaFormatter} from "../../util/formatter";
+import {numCommaFormatter} from "../../../util/formatter";
 
-import styles from "./explore-header.module.css";
+import styles from "./header-explore.module.css";
 
 
-const ExploreHeader = ({ isTag, postCount, name, imageUrl}) => {
+const HeaderExplore = ({ isTag, postCount, name, imageUrl}) => {
 
     const additionalInfo = () => {
         if (isTag) {
@@ -32,4 +32,4 @@ const ExploreHeader = ({ isTag, postCount, name, imageUrl}) => {
     )
 }
 
-export default ExploreHeader
+export default HeaderExplore

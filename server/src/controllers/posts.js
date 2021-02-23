@@ -71,6 +71,7 @@ const transformPostData = (fetchData) => {
         id: fetchData.id,
         shortcode: fetchData.shortcode,
         isVideo: fetchData.is_video,
+        isSidecar: Boolean(fetchData.edge_sidecar_to_children),
         videoUrl: fetchData.video_url,
         resourceArray: fetchData.display_resources,
         createdAt: fetchData.taken_at_timestamp,
@@ -94,7 +95,7 @@ const transformPostData = (fetchData) => {
     postData.commentsData = transformComments(fetchData.edge_media_to_parent_comment);
 
     if (fetchData.edge_sidecar_to_children) {
-        postData.mediaCollection = transformMediaCollection(fetchData.edge_sidecar_to_children);
+        postData.sidecarArray = transformMediaCollection(fetchData.edge_sidecar_to_children);
     }
 
     return postData;

@@ -4,7 +4,7 @@ import Stories from "../components/page-main/stories";
 import Sidebar from "../components/page-main/sidebar";
 
 import styles from '../styles/Home.module.css'
-import FeedItemMain from "../components/feed-item-main";
+// import FeedItemMain from "../components/feed-item-main";
 import {Instagram} from "../components/icons";
 
 export default function Home() {

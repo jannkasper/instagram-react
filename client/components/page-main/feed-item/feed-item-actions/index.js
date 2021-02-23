@@ -2,7 +2,7 @@ import React from "react";
 import Router from "next/router";
 
 import styles from "./feed-item-actions.module.css"
-import {Activity, Comment, Message, Save} from "../../icons";
+import {Activity, Comment, Message, Save} from "../../../icons";
 import FeedItemComment from "../feed-item-comment";
 import FeedItemAddComment from "../feed-item-add-comment";
 

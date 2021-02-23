@@ -1,12 +1,12 @@
 import React from "react";
 import StoriesItem from "./stories-item";
 
-import styles from "./user-item-stories.module.css"
+import styles from "./header-stories.module.css"
 
-const UserItemStories = ({ storiesArray }) => {
+const HeaderStories = ({ storiesArray }) => {
 
     return (
-        <div className={styles.userItemStoriesContainer}>
+        <div className={styles.headerStoriesContainer}>
             <div className={styles.storiesContent}>
                 <div className={styles.storiesSlider}>
                     { storiesArray.map((el, index) => <StoriesItem key={index} content={el} />)}
@@ -17,4 +17,4 @@ const UserItemStories = ({ storiesArray }) => {
     );
 }
 
-export default UserItemStories
+export default HeaderStories

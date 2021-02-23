@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./feed-item-header.module.css"
-import { More } from "../../icons";
+import { More } from "../../../icons";
 
 const FeedItemHeader = () => {
 

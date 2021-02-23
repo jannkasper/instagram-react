@@ -6,7 +6,7 @@ const UserCard = () => {
     return (
         <div className={styles.userCardContainer}>
             <div className={styles.userImage}>
-                <img src="../../static/images/avatar1.png"/>
+                <img src="../../../static/images/avatar1.png"/>
             </div>
             <div className={styles.userDetails}>
                 <div className={styles.userName}>wilczynskarolina</div>

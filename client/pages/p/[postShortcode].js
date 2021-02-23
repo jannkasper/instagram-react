@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Layout from "../../components/layout";
-import FeedItemMain from "../../components/feed-item-main";
+import FeedItemMain from "../../components/page-post";
 import FeedGallery from "../../components/page-gallery";
 import { Instagram } from "../../components/icons";
 import { publicFetch } from "../../util/fetcher";

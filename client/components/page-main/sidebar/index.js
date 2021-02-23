@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./sidebar.module.css";
-import UserCard from "../../user-card";
+import UserCard from "../user-card";
 
 const Sidebar = ({children}) => {
 

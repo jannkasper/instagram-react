@@ -1,0 +1,40 @@
+
+.contentImage {
+    max-width: inherit;
+    height: inherit;
+    position: relative;
+}
+
+.contentImage >  img {
+    max-width: inherit;
+    height: inherit;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+}
+
+.contentImage >  video {
+    max-width: inherit;
+    height: inherit;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+}
+
+.contentSound {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    bottom: 0;
+    height: 28px;
+    width: 28px;
+    margin: 0 16px 16px 0;
+    background-color: #262626;
+    border-radius: 50%;
+    cursor: pointer;
+
+
+
+}

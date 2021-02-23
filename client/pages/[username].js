@@ -5,8 +5,9 @@ import ContentPrivate from "../components/page-header/content-private";
 import { Instagram } from "../components/icons";
 import { ScrollContext } from "../store/scroll";
 import { publicFetch } from "../util/fetcher";
-import UserItemStories from "../components/page-header/user-item-stories";
+import HeaderStories from "../components/page-header/header-stories";
 import HeaderUser from "../components/page-header/header-user";
+import Stories from "../components/page-main/stories";
 
 export default function Username({ username }) {
     const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
@@ -41,7 +42,7 @@ export default function Username({ username }) {
         return (
             <Layout>
                 <HeaderUser userData={userData} />
-                { userData.storiesArray && userData.storiesArray.length && <UserItemStories storiesArray={userData.storiesArray} /> }
+                { userData.storiesArray && userData.storiesArray.length && <HeaderStories storiesArray={userData.storiesArray} /> }
                 { userData.isPrivate ? <ContentPrivate /> : <FeedGallery mediaArray={userData.timelineMedia.mediaArray}/> }
             </Layout>
         )

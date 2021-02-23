@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 
 import styles from "./feed-item-add-comment.module.css"
-import {Emoji} from "../../icons";
+import {Emoji} from "../../../icons";
 
 const FeedItemAddComment= () => {
     const changeRef = useRef(null);

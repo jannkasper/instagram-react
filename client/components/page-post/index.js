@@ -12,7 +12,7 @@ const FeedItemMain = ({ postData }) => {
     return (
         <div className={styles.feedItemMainContainer}>
             <div className={styles.feedItemMainContent}>
-                <FeedItemContent resourceArray={postData.resourceArray} />
+                <FeedItemContent resourceArray={postData.resourceArray} isVideo={postData.isVideo} videoUrl={postData.videoUrl} />
             </div>
             <div className={styles.feedItemMainDescription}>
                 <FeedItemHeader owner={postData.owner} location={postData.location}/>

@@ -1,7 +1,7 @@
 import Layout from "../components/layout";
-import FeedItem from "../components/feed-item";
-import Stories from "../components/stories";
-import Sidebar from "../components/layout/sidebar";
+import FeedItem from "../components/page-main/feed-item";
+import Stories from "../components/page-main/stories";
+import Sidebar from "../components/page-main/sidebar";
 
 import styles from '../styles/Home.module.css'
 import FeedItemMain from "../components/feed-item-main";

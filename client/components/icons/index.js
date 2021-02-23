@@ -19,3 +19,5 @@ export { default as Camera } from "./CameraIcon";
 export { default as Posts } from "./PostsIcon";
 export { default as Tagged } from "./TaggedIcon";
 export { default as Location } from "./LocationIcon";
+export { default as Muted } from "./MutedIcon";
+export { default as Sound } from "./SoundIcon";

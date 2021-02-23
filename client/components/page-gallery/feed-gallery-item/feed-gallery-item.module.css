@@ -42,3 +42,29 @@
     display: inline-flex;
     flex-direction: row;
 }
+
+.feedGalleryItem_iconBox {
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.feedGalleryItem_icon {
+    display: block;
+    background-image: url("../../../static/images/icons.png");
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+}
+
+.feedGalleryItem_sidecarIcon {
+}
+
+.feedGalleryItem_videoIcon {
+    background-position: 0 -34px;
+}
+

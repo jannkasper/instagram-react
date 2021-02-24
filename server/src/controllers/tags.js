@@ -69,12 +69,12 @@ export const nextPageTagContent = async (req, res) => {
 
     const url = 'https://www.instagram.com/graphql/query/?query_hash=9b498c08113f1e09617a1703c22b2f32&variables=';
     const params = `{"tag_name":"${tagName}","first":${first},"after":"${endCursor}"}`
-    const transformParams = params.replaceAll(',', '%2C')
-        .replaceAll('{', '%7B')
-        .replaceAll('}', '%7D')
-        .replaceAll(':', '%3A')
-        .replaceAll('"', '%22')
-        .replaceAll('=', '%3D');
+    const transformParams = params.replace(/,/g, '%2C')
+        .replace(/{/g, '%7B')
+        .replace(/}/g, '%7D')
+        .replace(/:/g, '%3A')
+        .replace(/"/g, '%22')
+        .replace(/=/g, '%3D');
     const data = await axios.get(url + transformParams, config)
         .then(function (response) {
             // handle success

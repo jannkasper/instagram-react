@@ -161,12 +161,12 @@ export const morePostsContent = async (req, res) => {
 
     const url = 'https://www.instagram.com/graphql/query/?query_hash=003056d32c2554def87228bc3fd9668a&variables=';
     const params = `{"id":"${userId}","first":${first}}`
-    const transformParams = params.replaceAll(',', '%2C')
-        .replaceAll('{', '%7B')
-        .replaceAll('}', '%7D')
-        .replaceAll(':', '%3A')
-        .replaceAll('"', '%22')
-        .replaceAll('=', '%3D');
+    const transformParams = params.replace(/,/g, '%2C')
+        .replace(/{/g, '%7B')
+        .replace(/}/g, '%7D')
+        .replace(/:/g, '%3A')
+        .replace(/"/g, '%22')
+        .replace(/=/g, '%3D');
     const data = await axios.get(url + transformParams, config)
         .then(function (response) {
             // handle success
@@ -192,15 +192,15 @@ export const postMoreComments = async (req, res) => {
     let { shortcode, first, endCursor} = req.query;
 
     const url = 'https://www.instagram.com/graphql/query/?query_hash=bc3296d1ce80a24b1b6e40b1e72903f5&variables=';
-    endCursor = endCursor.replaceAll('"', '\\"').replaceAll(" ", "+")
+    endCursor = endCursor.replace(/"/g, '\\"').replace(/ /g, "+")
     const params = `{"shortcode":"${shortcode}","first":${first},"after":"${endCursor}"}`
-    const transformParams = params.replaceAll(',', '%2C')
-        .replaceAll('{', '%7B')
-        .replaceAll('}', '%7D')
-        .replaceAll(':', '%3A')
-        .replaceAll('"', '%22')
-        .replaceAll('=', '%3D')
-        .replaceAll('\\', '%5C');
+    const transformParams = params.replace(/,/g, '%2C')
+        .replace(/{/g, '%7B')
+        .replace(/}/g, '%7D')
+        .replace(/:/g, '%3A')
+        .replace(/"/g, '%22')
+        .replace(/=/g, '%3D')
+        .replace(/\\/g, '%5C');
     const data = await axios.get(url + transformParams, config)
         .then(function (response) {
             // handle success

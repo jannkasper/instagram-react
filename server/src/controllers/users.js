@@ -171,12 +171,12 @@ export const nextPageContent = async (req, res) => {
     // console.log(`https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${first}&after=${endCursor}`)
     const url = 'https://www.instagram.com/graphql/query/?query_hash=003056d32c2554def87228bc3fd9668a&variables=';
     const params = `{"id":"${userId}","first":${first},"after":"${endCursor}"}`
-    const transformParams = params.replaceAll(',', '%2C')
-        .replaceAll('{', '%7B')
-        .replaceAll('}', '%7D')
-        .replaceAll(':', '%3A')
-        .replaceAll('"', '%22')
-        .replaceAll('=', '%3D');
+    const transformParams = params.replace(/,/g, '%2C')
+        .replace(/{/g, '%7B')
+        .replace(/}/g, '%7D')
+        .replace(/:/g, '%3A')
+        .replace(/"/g, '%22')
+        .replace(/=/g, '%3D');
     const data = await axios.get(url + transformParams, config)
         .then(function (response) {
             // handle success

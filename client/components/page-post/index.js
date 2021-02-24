@@ -17,7 +17,8 @@ const FeedItemMain = ({ postData }) => {
             <div className={styles.feedItemMainDescription}>
                 <FeedItemHeader owner={postData.owner} location={postData.location}/>
                 <FeedItemComments
-                    commentsData={postData.commentsData}
+                    shortcode={postData.shortcode}
+                    commentsData1={postData.commentsData}
                     owner={postData.owner}
                     text={postData.description}
                     createdAt={postData.createdAt}

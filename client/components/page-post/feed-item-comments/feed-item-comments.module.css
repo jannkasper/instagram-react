@@ -15,3 +15,25 @@
 .feedItemCommentsSlider::-webkit-scrollbar {
     display: none;
 }
+
+.moreComments {
+    min-height: 40px;
+    min-width: 40px;
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    background: 0 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.moreCommentsIcon {
+    display: block;
+    background-repeat: no-repeat;
+    background-position: -440px -234px;
+    height: 24px;
+    width: 24px;
+    background-image: url("../../../static/images/icons3.png");
+}

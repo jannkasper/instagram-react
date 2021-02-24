@@ -158,46 +158,15 @@ export const morePostsContent = async (req, res) => {
     const postId = req.params.postId;
 
     console.log("START FETCH POSTS")
-    // const config = {
-    //     params: {
-    //         query_id: '17888483320059182',
-    //         id: userId,
-    //         first: first,
-    //         after: endCursor
-    //     }
-    // };
 
-    const {page} = await startBrowser();
-
-    console.log("*\tOpen user in browser\t*")
-    console.log(`https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${first}`)
-    // const config = {
-    //     params: {
-    //         query_id: '17888483320059182',
-    //         id: userId,
-    //         first: first,
-    //         after: endCursor
-    //     },
-    //     withCredentials: true,
-    //     headers: {
-    //         'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-    //         'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-    //         'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY',
-    //         Cookie: {
-    //             'X-CSRF-TOKEN': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-    //             'csrf-token': "345Kulb8w9jSD0yhKdJ8brA17sVR8qnY",
-    //             'csrftoken': '345Kulb8w9jSD0yhKdJ8brA17sVR8qnY'
-    //         }
-    //     }
-    // };
     const url = 'https://www.instagram.com/graphql/query/?query_hash=003056d32c2554def87228bc3fd9668a&variables=';
     const params = `{"id":"${userId}","first":${first}}`
-    const transformParams = params.replace(',', '%2C')
-        .replace('{', '%7B')
-        .replace('}', '%7D')
-        .replace(':', '%3A')
-        .replace('"', '%22')
-        .replace('=', '%3D');
+    const transformParams = params.replaceAll(',', '%2C')
+        .replaceAll('{', '%7B')
+        .replaceAll('}', '%7D')
+        .replaceAll(':', '%3A')
+        .replaceAll('"', '%22')
+        .replaceAll('=', '%3D');
     const data = await axios.get(url + transformParams, config)
         .then(function (response) {
             // handle success
@@ -219,7 +188,39 @@ export const morePostsContent = async (req, res) => {
     return res.status(200).json();
 }
 
-// https://instagram.com/graphql/query/?query_id=17888483320059182&id=489992346&first=12
+export const postMoreComments = async (req, res) => {
+    let { shortcode, first, endCursor} = req.query;
+
+    const url = 'https://www.instagram.com/graphql/query/?query_hash=bc3296d1ce80a24b1b6e40b1e72903f5&variables=';
+    endCursor = endCursor.replaceAll('"', '\\"').replaceAll(" ", "+")
+    const params = `{"shortcode":"${shortcode}","first":${first},"after":"${endCursor}"}`
+    const transformParams = params.replaceAll(',', '%2C')
+        .replaceAll('{', '%7B')
+        .replaceAll('}', '%7D')
+        .replaceAll(':', '%3A')
+        .replaceAll('"', '%22')
+        .replaceAll('=', '%3D')
+        .replaceAll('\\', '%5C');
+    const data = await axios.get(url + transformParams, config)
+        .then(function (response) {
+            // handle success
+            return response.data;
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+
+    if (data?.data?.shortcode_media?.edge_media_to_parent_comment) {
+        console.log("TRANSFORM COMMENTS")
+        const response = transformComments(data.data.shortcode_media.edge_media_to_parent_comment)
+        return res.status(200).json(response);
+    }
+    console.log("EMPTY POSTS")
+    return res.status(200).json();
+
+
+}
 
 export const transformMediaData = (fetchData) => {
 

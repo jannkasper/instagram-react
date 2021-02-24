@@ -11,7 +11,7 @@ export function numFormatter(num) {
 }
 
 export function numCommaFormatter(num) {
-    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    return num.toString().replaceAll(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
 export function dateFormatter(date) {

@@ -4,6 +4,7 @@
     margin: 0 30px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .feedGalleryTab_title {
     margin-left: 6px;

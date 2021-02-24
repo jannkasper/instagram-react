@@ -2,10 +2,10 @@ import React from "react";
 
 import styles from "./feed-gallery-tab.module.css";
 
-const FeedGalleryTab = ({ title, icon }) => {
+const FeedGalleryTab = ({ title, icon, isSelected, handleSelect }) => {
 
     return (
-            <span className={styles.feedGalleryTab} style={{opacity: true ? 1 : 0.5}}>
+            <span className={styles.feedGalleryTab} onClick={() => handleSelect(title)} style={{opacity: isSelected ? 1 : 0.5}}>
                 {icon}
                 <span className={styles.feedGalleryTab_title}>{title}</span>
             </span>

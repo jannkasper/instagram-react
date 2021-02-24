@@ -132,6 +132,7 @@ const convertUserData = (fetchData) => {
 
         isVerified: fetchData.is_verified,
         isPrivate: fetchData.is_private,
+        hasClips: fetchData.has_clips,
 
         mutualFollow: {
             count: fetchData.edge_mutual_followed_by.count,
@@ -170,12 +171,12 @@ export const nextPageContent = async (req, res) => {
     // console.log(`https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${first}&after=${endCursor}`)
     const url = 'https://www.instagram.com/graphql/query/?query_hash=003056d32c2554def87228bc3fd9668a&variables=';
     const params = `{"id":"${userId}","first":${first},"after":"${endCursor}"}`
-    const transformParams = params.replace(',', '%2C')
-        .replace('{', '%7B')
-        .replace('}', '%7D')
-        .replace(':', '%3A')
-        .replace('"', '%22')
-        .replace('=', '%3D');
+    const transformParams = params.replaceAll(',', '%2C')
+        .replaceAll('{', '%7B')
+        .replaceAll('}', '%7D')
+        .replaceAll(':', '%3A')
+        .replaceAll('"', '%22')
+        .replaceAll('=', '%3D');
     const data = await axios.get(url + transformParams, config)
         .then(function (response) {
             // handle success
@@ -223,17 +224,17 @@ const oldFetchUserData = async (page) => {
 
     // get number of total posts
     let postsCount = await page.evaluate(() => {
-        return document.querySelectorAll('header > section > ul > li span')[0].textContent.replace(/\,/g, '');
+        return document.querySelectorAll('header > section > ul > li span')[0].textContent.replaceAll(/\,/g, '');
     });
 
     // get number of total followers
     let followersCount = await page.evaluate(() => {
-        return document.querySelectorAll('header > section > ul > li a span')[0].getAttribute('title').replace(/\,/g, '');
+        return document.querySelectorAll('header > section > ul > li a span')[0].getAttribute('title').replaceAll(/\,/g, '');
     });
 
     // get number of total followings
     let followingsCount = await page.evaluate(() => {
-        return document.querySelectorAll('header > section > ul > li a span')[1].textContent.replace(/\,/g, '');
+        return document.querySelectorAll('header > section > ul > li a span')[1].textContent.replaceAll(/\,/g, '');
     });
 
     // get bio name

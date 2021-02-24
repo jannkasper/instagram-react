@@ -17,12 +17,12 @@
 .headerText {
     margin-left: 16px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .verifiedBandage {
     margin-left: 8px;
-    margin-top: 2px;
+    bottom: 0px;
 }
 
 .userName {

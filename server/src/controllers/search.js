@@ -23,12 +23,12 @@ export const searchContent = async (req, res) => {
 
     const url = `https://www.instagram.com/web/search/topsearch/?context=blended&query=${query}&rank_token=0.9681968460805339&include_reel=true`;
     // const params = `{"id":"${userId}","first":${first},"after":"${endCursor}"}`
-    // const transformParams = params.replace(',', '%2C')
-    //     .replace('{', '%7B')
-    //     .replace('}', '%7D')
-    //     .replace(':', '%3A')
-    //     .replace('"', '%22')
-    //     .replace('=', '%3D');
+    // const transformParams = params.replaceAll(',', '%2C')
+    //     .replaceAll('{', '%7B')
+    //     .replaceAll('}', '%7D')
+    //     .replaceAll(':', '%3A')
+    //     .replaceAll('"', '%22')
+    //     .replaceAll('=', '%3D');
     const data = await axios.get(url, config)
         .then(function (response) {
             // handle success

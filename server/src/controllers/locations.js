@@ -72,12 +72,12 @@ export const nextPageLocationContent = async (req, res) => {
 
     const url = 'https://www.instagram.com/graphql/query/?query_hash=36bd0f2bf5911908de389b8ceaa3be6d&variables=';
     const params = `{"id":"${locationId}","first":${first},"after":"${endCursor}"}`
-    const transformParams = params.replace(',', '%2C')
-        .replace('{', '%7B')
-        .replace('}', '%7D')
-        .replace(':', '%3A')
-        .replace('"', '%22')
-        .replace('=', '%3D');
+    const transformParams = params.replaceAll(',', '%2C')
+        .replaceAll('{', '%7B')
+        .replaceAll('}', '%7D')
+        .replaceAll(':', '%3A')
+        .replaceAll('"', '%22')
+        .replaceAll('=', '%3D');
     const data = await axios.get(url + transformParams, config)
         .then(function (response) {
             // handle success

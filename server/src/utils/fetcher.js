@@ -13,7 +13,7 @@ const headers = {
     'accept-encoding': 'gzip, deflate, br',
     'accept-language': 'pl,en-US;q=0.9,en;q=0.8,nl;q=0.7,nb;q=0.6',
     'cache-control': 'max-age=0',
-    'cookie': 'ig_cb=2; ig_did=88BB498E-E955-405F-A830-3DB7BC47A8AE; mid=X-DhrwAEAAFWBn9a9lE9zRScjQRf; fbm_124024574287414=base_domain=.instagram.com; shbid=19194; datr=Ay8iYAsdTFJuw4kRnu92mOox; shbts=1613798901.7801588; rur=FRC; ig_lang=en; csrftoken=uvWkS4lMcOsld8BrOCp5zSFt60MUIrql; ds_user_id=46117109912; sessionid=46117109912%3AUZF6gBHttPTOA0%3A23; fbsr_124024574287414=dU9CwpI44710fO_JndPdiBk4uFIxc-l8ekT59nZ_xGM.eyJ1c2VyX2lkIjoiMTAwMDAxMTMyMjcxMzU5IiwiY29kZSI6IkFRQVNmX0RWVy1aaVNYYzkzOU9wYmloZHJVVkt6UU5mU3I2eHMtZlUzSnJ6bXAwTTJtSmdGT1lfbEVvOGhUN2ZmT3NfNS13N1k2WkYxT0dncDFfM3BCNHJFdzZaUTdTb2xGMlNwQzBCREp6S0lUcjVmREtCUEhhaFJHQXR5RTJfTU1wTC1XU1NhZWRnTm9WTEF3UHBjZ0JYdkd5WWhYWUk4TnpQYkRSQ1VfelFaOHN0RkRzejVEdFlzWU92ak5rSDFqanlGQUVlMDlPNlRDVnZnVUlObjJpYlAxSjNtVk5jcFpfYUtKbzh0QnEtTXppelZDQUk5S1I4bHBZYndEZTNxWFNpUkkwTzFZS19md0lNTzdNZk1Eem8xaG9wZ29QQnZpYTRSQzhmRXJMZ21yQV9CQkoxWlJqMmJTUU1GR2F3OG90VUp4emZmaGpKWXAzaTB3TkNLNmEzIiwib2F1dGhfdG9rZW4iOiJFQUFCd3pMaXhuallCQUZ0cFVmY3p5WkF4SjFSTnRmSG5XZXVTYXlnYXdvOWtRdjBJVlpCNHNvZTJHeW9xYk40ZFdIMXVQaHpxSjRKSldaQzQxQTE4dThzM2Q4emtobVVHYXRrb1B6UTZaQ3RobVZRWkFrbFVJWkNUSTF2c21ETU84dGFBWGJaQzVkSGJHZEl5V20zWkNtamVDM3RDdjE2VFFOdTYxRWh4am53VmQ3d1JxaUFxb3B2dCIsImFsZ29yaXRobSI6IkhNQUMtU0hBMjU2IiwiaXNzdWVkX2F0IjoxNjE0MjM0ODk3fQ',
+    'cookie': 'ig_cb=2; ig_did=88BB498E-E955-405F-A830-3DB7BC47A8AE; mid=X-DhrwAEAAFWBn9a9lE9zRScjQRf; fbm_124024574287414=base_domain=.instagram.com; shbid=19194; datr=Ay8iYAsdTFJuw4kRnu92mOox; shbts=1613798901.7801588; rur=FRC; ig_lang=en; csrftoken=eNH8y6nNnJ4BJEpekTOq9DGt07JjX7M1; ds_user_id=46186666448; sessionid=46186666448%3AhG2oDixH0aaHHr%3A23; fbsr_124024574287414=cb5iQQ7dcHNHJmr-cDXHh4rAC2PxiqkpziszDQ_0MDM.eyJ1c2VyX2lkIjoiMTAwMDAxMTMyMjcxMzU5IiwiY29kZSI6IkFRQUFmRDZvR0pjUGIwMnN2SzNVel9Qa1IwMm8wZVh1YlBGOFZESXI5YTBiRHJ3Wk1TSUpBQmtmNy1CYS1SdkZ3WU9oZFVRcHVJcmFLalhGRmVxN3lQTW0zMUVuSVlDeGxtYmt3Zk14TjZ5dk5DMzRiVTVMZEdQRTFYS1VXcUU0Skg3RVVKZlQtaFY4c1ZZMmtSeEFzNC1PN0xSZ21FRldRR0hnTjlZOHZ4eFUyMnV4aEo3dWNfcy1pTXJjQXNWblhPM211SE94VGN4Q25HY0RXSEFGSncxUjc1Si1OYjhKOHVFaVBONGp6Yk9qaTBMWVlESllpUVFIR1UydkVmMWFUVXdaRDFEd0g4QTRCdlFFOGdOV2h4MHpoN1E0b0N5d3JrU0RBb1NtQzd5Q2RlaU9DMTRfWG5GOW1ub0dudXNNdVIzd3hQWE9OME90TWpjTTUxUEVjU1VuIiwib2F1dGhfdG9rZW4iOiJFQUFCd3pMaXhuallCQUF3MGdUQUR6MjJGak56SzlLWkJFWkJoNWRKY1VIWVVvemxWREdaQ29JNDFFUTFzWkE1TnZXaXBsMlpBUjFlWXNPY3VhUFRNUk1UdFlHMmQ5N2VUYWdQSWRhdUFaQk9jdFFxWkF5R2ZaQUtlZVU5WkNSZU5HWkF5YlVXT2tJaThrVE1XU0txVlBIc1pCYmxXQ2lzWkJVeWVtSnF3bnZTaHRiMnphYnVSdDJaQWpFS21GIiwiYWxnb3JpdGhtIjoiSE1BQy1TSEEyNTYiLCJpc3N1ZWRfYXQiOjE2MTQyNzMyNTZ9',
     'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
     'sec-ch-ua-mobile': '?0',
     'sec-fetch-dest': 'document',
@@ -27,9 +27,18 @@ const headers = {
 const instagramFetch = axios.create({
     baseURL,
     headers
-})
+});
 
-const convertPathParams = (paramsString) => {
+const convertPathParams = (params) => {
+    const paramArray = [];
+    for (const[key, value] of Object.entries(params)) {
+        paramArray.push(`"${key}":"${value}"`)
+    }
+    const result = `{${paramArray.join(",")}}`;
+    return replaceInString(result);
+}
+
+const replaceInString = (paramsString) => {
     return paramsString.replace(/,/g, '%2C')
         .replace(/{/g, '%7B')
         .replace(/}/g, '%7D')
@@ -37,6 +46,33 @@ const convertPathParams = (paramsString) => {
         .replace(/"/g, '%22')
         .replace(/=/g, '%3D')
         .replace(/\\/g, '%5C');
+}
+
+const errorHandling = (error) => {
+    if (error.response) {
+        // Request made and server responded
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.statusText);
+        return { error: true, errorStatus: error.response.status, errorMessage: error.response.statusText}
+    } else if (error.request) {
+        // The request was made but no response was received
+        console.log(error.request);
+        return { error: true,  errorMessage: error.request.statusText}
+    } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+        return { error: true,  errorMessage: error.message}
+    }
+}
+
+const getGraphql = (response) => {
+    if (response.status >= 200 && response.status < 300) {
+        return response.data.graphql || response.data.data || response.data;
+    } else {
+        // throw error and go to catch block
+        throw new Error(response.statusText);
+    }
 }
 
 export {
@@ -47,5 +83,7 @@ export {
     TAG_PATH,
     FEED_PATH,
     COMMENT_PATH,
-    SEARCH_PATH
+    SEARCH_PATH,
+    errorHandling,
+    getGraphql
 }

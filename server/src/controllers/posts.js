@@ -1,64 +1,50 @@
-import {instagramFetch, convertPathParams, FEED_PATH, COMMENT_PATH} from "../utils/fetcher.js";
+import {
+    instagramFetch,
+    FEED_PATH,
+    COMMENT_PATH,
+    convertPathParams,
+    getGraphql,
+    errorHandling
+} from "../utils/fetcher.js";
 
 
 export const postContent = async (req, res) => {
     const postId = req.params.postId;
 
-    const sharedData = await instagramFetch.get(`/p/${postId}`)
-        .then(function (response) {
-            // handle success
-            // const jsonObject = response.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0, -1)
-            // const userInfo = JSON.parse(jsonObject)
-            let jsonObject2 = response.data.match(/<script type="text\/javascript">window\.__additionalDataLoaded(.*)<\/script>/);
+    const graphql = await instagramFetch.get(`/p/${postId}`)
+        .then(response => response.data.match(/<script type="text\/javascript">window\.__additionalDataLoaded(.*)<\/script>/))
+        .then(response => response[1])
+        .then(response => response.match(/\{(.*)\}/)[0])
+        .then(response =>  JSON.parse(response))
+        .then(response => response.graphql)
+        .catch(errorHandling);
 
-            if (jsonObject2) {
-                jsonObject2 = jsonObject2[1]
-                const jsonObject3 = jsonObject2.match(/\{(.*)\}/)[0];
-                const userInfo2 = JSON.parse(jsonObject3)
-
-                return userInfo2.graphql.shortcode_media
-            }
-            console.log(jsonObject2);
-            return null;
-        })
-
-    if (sharedData == null) {
-        return res.status(200).json({hasError: true });
+    if (graphql.error || !graphql.shortcode_media) {
+        return res.status(200).json({error: true, ...graphql});
     }
 
-    // sharedData = sharedData[`/p/${postId}/`].data.graphql.shortcode_media;
-    const cleanData = transformPostData(sharedData);
-    //
-    return res.status(200).json(cleanData);
-
+    const convertedData = {
+        ...transformPostData(graphql.shortcode_media),
+        commentsData: transformComments(graphql.shortcode_media.edge_media_to_parent_comment),
+        sidecarArray: graphql.shortcode_media.edge_sidecar_to_children ? transformMediaCollection(graphql.shortcode_media.edge_sidecar_to_children) : null,
+    }
+    return res.status(200).json(convertedData);
 }
 
 export const morePostsContent = async (req, res) => {
     const { userId, first, endCursor} = req.query;
     const postId = req.params.postId;
+    const graphql = await instagramFetch.get(FEED_PATH + convertPathParams({id: userId, first: first}))
+        .then(getGraphql)
+        .catch(errorHandling);
 
-    console.log("START FETCH POSTS")
-
-    const params = `{"id":"${userId}","first":${first}}`
-    const data = await instagramFetch.get(FEED_PATH + convertPathParams(params))
-        .then(function (response) {
-            // handle success
-            return response.data;
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-
-    console.log("FINISH FETCH POSTS")
-    if (data?.data?.user?.edge_owner_to_timeline_media) {
-        console.log("TRANSFORM POSTS")
-        const result = transformMediaData(data.data.user.edge_owner_to_timeline_media);
-        result.mediaArray = result.mediaArray.filter(el => el.postId != postId).slice(0, 6);
-        return res.status(200).json(result);
+    if (graphql.error || !graphql.user) {
+        return res.status(200).json({error: true, ...graphql});
     }
-    console.log("EMPTY POSTS")
-    return res.status(200).json();
+
+    const convertedData = transformMediaData(graphql.user.edge_owner_to_timeline_media);
+    convertedData.mediaArray = convertedData.mediaArray.filter(item => item.postId != postId).slice(0, 6);
+    return res.status(200).json(convertedData);
 }
 
 export const postMoreComments = async (req, res) => {
@@ -66,23 +52,16 @@ export const postMoreComments = async (req, res) => {
     endCursor = endCursor.replace(/"/g, '\\"').replace(/ /g, "+")
     const params = `{"shortcode":"${shortcode}","first":${first},"after":"${endCursor}"}`
 
-    const data = await instagramFetch.get(COMMENT_PATH + convertPathParams(params))
-        .then(function (response) {
-            // handle success
-            return response.data;
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
+    const graphql = await instagramFetch.get(COMMENT_PATH + convertPathParams({shortcode: shortcode, first: first, after: endCursor}))
+        .then(getGraphql)
+        .catch(errorHandling);
 
-    if (data?.data?.shortcode_media?.edge_media_to_parent_comment) {
-        console.log("TRANSFORM COMMENTS")
-        const response = transformComments(data.data.shortcode_media.edge_media_to_parent_comment)
-        return res.status(200).json(response);
+    if (graphql.error || !graphql.shortcode_media) {
+        return res.status(200).json({error: true, ...graphql});
     }
-    console.log("EMPTY POSTS")
-    return res.status(200).json();
+
+    const convertedData = transformComments(graphql.shortcode_media.edge_media_to_parent_comment)
+    return res.status(200).json(convertedData);
 }
 
 const transformPostData = (fetchData) => {
@@ -111,12 +90,6 @@ const transformPostData = (fetchData) => {
         viewerHasSaved: fetchData.viewer_has_saved,
 
     };
-
-    postData.commentsData = transformComments(fetchData.edge_media_to_parent_comment);
-
-    if (fetchData.edge_sidecar_to_children) {
-        postData.sidecarArray = transformMediaCollection(fetchData.edge_sidecar_to_children);
-    }
 
     return postData;
 }

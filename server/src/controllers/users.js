@@ -1,74 +1,67 @@
-import {instagramFetch, convertPathParams, FEED_PATH} from "../utils/fetcher.js";
+import {instagramFetch, convertPathParams, FEED_PATH, getGraphql, errorHandling} from "../utils/fetcher.js";
 import delay from "delay";
 import { transformMediaData } from "./posts.js";
 
+const convertUserData = (fetchData) => {
+    return {
+        id: fetchData.id,
+        username: fetchData.username,
+        name: fetchData.full_name,
+        userImageUrl: fetchData.profile_pic_url,
+
+        bio: fetchData.biography,
+        bioUrl: fetchData.external_url_linkshimmed,
+        bioUrlName: fetchData.external_url,
+
+        postCount: fetchData.edge_owner_to_timeline_media.count,
+        followersCount: fetchData.edge_followed_by.count,
+        followingsCount: fetchData.edge_follow.count,
+
+        isVerified: fetchData.is_verified,
+        isPrivate: fetchData.is_private,
+        hasClips: fetchData.has_clips,
+
+        mutualFollow: {
+            count: fetchData.edge_mutual_followed_by.count,
+            usernameArray: fetchData.edge_mutual_followed_by.edges.map(element => element.node.username)
+        }
+    };
+}
+
 export const userContent = async (req, res) => {
     const username1 = req.params.username;
-    // const page = getPage()
-    // const {page} = await startBrowser();
-    //
-    // console.log("*\tOpen user in browser\t*")
-    // await page.goto(`https://www.instagram.com/${username1}`, { waitUntil: 'networkidle0' });
-    //
-    // const userExists = await validationUserExist(page);
-    // if(!userExists) {
-    //     console.log("*\tUsername doesn't exist\t*")
-    //     return res.status(200).json({hasError: true, message: 'Account not exists!'});
-    // }
-    //
-    // let sharedData = await page.evaluate(() => {
-    //     return window._sharedData.entry_data.ProfilePage[0].graphql.user;
-    // });
 
-    const sharedData = await instagramFetch.get(`/${username1}`)
-        .then(function (response) {
-            // handle success
-            let jsonObject = response.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/);
-            if (jsonObject) {
-                jsonObject = jsonObject[1].slice(0, -1);
-                const userInfo = JSON.parse(jsonObject)
-                return userInfo.entry_data.ProfilePage[0].graphql.user
-            }
-            console.log(jsonObject)
-            return null
-        })
+    const graphql = await instagramFetch.get(`/${username1}`)
+        .then(response => response.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/))
+        .then(response => response[1].slice(0, -1))
+        .then(response => JSON.parse(response))
+        .then(response => response.entry_data.ProfilePage[0].graphql)
+        .catch(errorHandling);
 
-    if (sharedData == null) {
-        return res.status(200).json(null);
-    }
-    // const cleanData = oldFetchUserData(page);
-    const cleanData = convertUserData(sharedData);
-
-    if (!cleanData.isPrivate) {
-        // cleanData.storiesArray = fetchUserStories(page);
-        cleanData.timelineMedia = transformMediaData(sharedData.edge_owner_to_timeline_media);
+    if (graphql.error || !graphql.user) {
+        return res.status(200).json({error: true, ...graphql});
     }
 
-    return res.status(200).json(cleanData);
+    const convertedData = {
+        ...convertUserData(graphql.user),
+        timelineMedia: transformMediaData(graphql.user.edge_owner_to_timeline_media)
+    };
+    return res.status(200).json(convertedData);
 }
 
 export const nextPageContent = async (req, res) => {
     const { userId, first, endCursor} = req.query;
     const params = `{"id":"${userId}","first":${first},"after":"${endCursor}"}`
-    const data = await instagramFetch.get(FEED_PATH + convertPathParams(params))
-        .then(function (response) {
-            // handle success
-            return response.data;
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
+    const graphql = await instagramFetch.get(FEED_PATH + convertPathParams({id: userId, first: first, after: endCursor}))
+        .then(getGraphql)
+        .catch(errorHandling);
 
-    console.log(data)
-    console.log("FINISH FETCH POSTS")
-    if (data?.data?.user?.edge_owner_to_timeline_media) {
-        console.log("TRANSFORM POSTS")
-        const result = transformMediaData(data.data.user.edge_owner_to_timeline_media);
-        return res.status(200).json(result);
+    if (graphql.error || !graphql.user) {
+        return res.status(200).json({error: true, ...graphql});
     }
-    console.log("EMPTY POSTS")
-    return res.status(200).json();
+
+    const convertedData = transformMediaData(graphql.user.edge_owner_to_timeline_media)
+    return res.status(200).json(convertedData);
 }
 
 const validationUserExist = async (page) => {
@@ -116,35 +109,6 @@ const fetchUserStories = async (page) => {
     }
 
     return storiesArray;
-}
-
-const convertUserData = (fetchData) => {
-
-    const userData = {
-        id: fetchData.id,
-        username: fetchData.username,
-        name: fetchData.full_name,
-        userImageUrl: fetchData.profile_pic_url,
-
-        bio: fetchData.biography,
-        bioUrl: fetchData.external_url_linkshimmed,
-        bioUrlName: fetchData.external_url,
-
-        postCount: fetchData.edge_owner_to_timeline_media.count,
-        followersCount: fetchData.edge_followed_by.count,
-        followingsCount: fetchData.edge_follow.count,
-
-        isVerified: fetchData.is_verified,
-        isPrivate: fetchData.is_private,
-        hasClips: fetchData.has_clips,
-
-        mutualFollow: {
-            count: fetchData.edge_mutual_followed_by.count,
-            usernameArray: fetchData.edge_mutual_followed_by.edges.map(element => element.node.username)
-        }
-    };
-
-    return userData;
 }
 
 const oldFetchUserData = async (page) => {

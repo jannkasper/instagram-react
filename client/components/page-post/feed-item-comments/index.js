@@ -27,7 +27,7 @@ const FeedItemComments = ({ commentsData1, owner, text, createdAt, shortcode }) 
     return (
         <div className={styles.feedItemCommentsContainer}>
                 <div className={styles.feedItemCommentsSlider}>
-                    <Comment feedDescription owner={owner} text={text} createdAt={createdAt} />
+                    {text ?<Comment feedDescription owner={owner} text={text} createdAt={createdAt} /> : null }
                     {commentsData.commentsArray.map((el, index) => <Comment key={index} {...el} />)}
                     {commentsData.pageInfo?.hasNextPage ?
                         <button className={styles.moreComments} onClick={handleClick}><span className={styles.moreCommentsIcon}></span></button>

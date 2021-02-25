@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import {Like, Verified} from "../../../icons";
-import { bioFormatter, timeFormatter } from "../../../../util/formatter";
+import { bioFormatter, timeFormatter, hashtagFormatter } from "../../../../util/formatter";
 
 import styles from "./feed-item-comment.module.css";
 
@@ -18,12 +18,16 @@ const Comment = ({ feedDescription, owner, text, createdAt, likes }) => {
                     <a className={styles.commentUserName}>{owner.username}</a>
                 </Link>
                 {owner.isVerified ? <div className={styles.verifiedBandage}><Verified width={"15px"} height={"15px"} /></div> : null }
-                {bioFormatter(text)}
+                {hashtagFormatter(text).map(item => item.startsWith('#') ?
+                    <a className={styles.hashHtml} href={`/explore/tags/${item.slice(1)}`} >{item}</a>
+                    :
+                    bioFormatter(item)
+                )}
                 <div className={styles.commentActions}>
                     <a className={styles.commentDate}>{timeFormatter(createdAt)}</a>
                     { feedDescription ? null :
                             <>
-                                <button className={styles.commentButton}>{likes} like</button>
+                            { likes ? <button className={styles.commentButton}>{likes} like</button> : null}
                                 <button className={styles.commentButton}>Reply</button>
                             </>
                     }

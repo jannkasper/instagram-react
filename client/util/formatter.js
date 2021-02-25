@@ -55,12 +55,37 @@ export function urlFormatter(url) {
 }
 
 export function bioFormatter(bio) {
-    return bio.split(/(?:\r\n|\r|\n)/g).map(function(item) {
-        return (
-            <>
-                {item}
-                <br/>
-            </>
-        )
-    })
+
+    let test = bio.replace("\n", "<ERR>").split("<ERR>")
+    if (test.length > 1) {
+        return bio.split(/(?:\r\n|\r|\n)/g).map(function(item) {
+            return (
+                <>
+                    {item}
+                    <br/>
+                </>
+            )
+        })
+    }
+    return test
+
+}
+
+export function hashtagFormatter(text) {
+    if (!text) {
+        return [text];
+    }
+    const hashArray = text.match(/#(\w+)/g);
+
+    if (!hashArray || hashArray.length === 0) {
+        return [text];
+    }
+
+    let splitHashesArray = text.replace(/#/gi, "<ERR>#").split("<ERR>");
+    let splitSpacesArray = [];
+    for (const item of splitHashesArray) {
+        splitSpacesArray.push(...item.replace(" ", "<ERR> ").split("<ERR>"))
+    }
+
+    return splitSpacesArray
 }

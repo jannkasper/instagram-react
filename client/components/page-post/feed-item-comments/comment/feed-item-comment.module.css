@@ -33,6 +33,7 @@
     font-size: 14px;
     font-weight: 700;
     line-height: 18px;
+    cursor: pointer;
 }
 
 .commentUserName:hover {
@@ -64,4 +65,10 @@
     margin-right: 12px;
     padding: 0;
     color: #8e8e8e;
+}
+
+.hashHtml {
+    color: #00376b;
+    text-decoration: none;
+    cursor: pointer;
 }

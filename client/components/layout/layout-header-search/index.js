@@ -4,6 +4,7 @@ import { Search as SearchIcon } from "../../icons";
 import { publicFetch } from "../../../util/fetcher";
 
 import styles from "./layout-header-search.module.css";
+import Router from "next/router";
 
 const Search = () => {
     const searchContainerRef = useRef(null);
@@ -15,7 +16,9 @@ const Search = () => {
     useEffect( () => {
         if (searchValue && searchValue.length > 1) {
             publicFetch.get(`/search/${searchValue}`).then( response => {
-                if (!response.data.hasError) {
+                if (response.data.error) {
+                    Router.push('/404')
+                } else {
                     setSearchResult(response.data);
                 }
             })

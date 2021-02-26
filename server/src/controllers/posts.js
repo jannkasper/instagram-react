@@ -137,7 +137,8 @@ export const instagramFeedToFeedCollection = (fetchData) => {
             commentCount: edge.edge_media_to_comment?.count,
             isVideo: edge.is_video,
             isSidecar: edge.edge_sidecar_to_children && edge.edge_sidecar_to_children.edges.length > 0,
-            thumbnailArray : edge.thumbnail_resources
+            thumbnailArray : edge.thumbnail_resources,
+            thumbnailSrc:  edge.thumbnail_src,
         })
     }
 

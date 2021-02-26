@@ -4,18 +4,19 @@ import { Posts, Tagged, Tv } from "../../icons";
 
 import styles from "./feed-gallery-tabs.module.css";
 
-const FeedGalleryTabs = () => {
-    const [selected, setSelected] = useState("Posts");
+const FeedGalleryTabs = ({ setCurrentFeed }) => {
+    const [selected, setSelected] = useState("timelineMedia");
 
-    const handleSelect = (text) => {
-        setSelected(text);
+    const handleSelect = (keyName) => {
+        setCurrentFeed(keyName);
+        setSelected(keyName);
     }
 
     return (
         <div className={styles.feedGalleryTabs}>
-            <FeedGalleryTab title='Posts' icon={<Posts/>} handleSelect={handleSelect} isSelected={'Posts' === selected} />
+            <FeedGalleryTab keyName='timelineMedia' title='Posts' icon={<Posts/>} handleSelect={handleSelect} isSelected={'timelineMedia' === selected} />
             {/*<FeedGalleryTab title='IgTv' icon={<Tv/>} handleSelect={handleSelect} isSelected={'IgTv' === selected}/>*/}
-            <FeedGalleryTab title='Tagged' icon={<Tagged/>} handleSelect={handleSelect} isSelected={'Tagged' === selected}/>
+            <FeedGalleryTab keyName='tagged' title='Tagged' icon={<Tagged/>} handleSelect={handleSelect} isSelected={'tagged' === selected}/>
         </div>
     )
 }

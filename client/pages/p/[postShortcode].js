@@ -4,6 +4,7 @@ import FeedItemMain from "../../components/page-post";
 import FeedGallery from "../../components/page-gallery";
 import { Instagram } from "../../components/icons";
 import { publicFetch } from "../../util/fetcher";
+import Router from "next/router";
 
 export default function Post({ postShortcode }) {
     const [postData, setPostData] = useState(null)
@@ -11,7 +12,9 @@ export default function Post({ postShortcode }) {
 
     useEffect( () => {
         publicFetch.get(`/posts/${postShortcode}`).then( response => {
-            if (!response.data.hasError) {
+            if (response.data.error) {
+                Router.push('/404')
+            } else {
                 setPostData(response.data);
                 fetchMoreMedia(response.data.owner.id, 12 , undefined)
             }

@@ -21,7 +21,7 @@ const FeedGalleryItem = ({ mediaData }) => {
     return (
         <Link href="/p/[postId]" as={`/p/${mediaData.postId}`}>
             <div className={styles.feedGalleryItem}>
-                <img src={mediaData.thumbnailArray[1].src} />
+                <img src={mediaData.thumbnailSrc || mediaData.thumbnailArray[1].src} />
                 { AdditionalIcon() }
 
                 <div className={styles.feedGalleryItem_hover}>

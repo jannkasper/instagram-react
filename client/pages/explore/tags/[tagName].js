@@ -5,6 +5,7 @@ import HeaderExplore from "../../../components/page-header/header-explore";
 import { Instagram } from "../../../components/icons";
 import { ScrollContext } from "../../../store/scroll";
 import { publicFetch } from "../../../util/fetcher";
+import Router from "next/router";
 
 export default function TagName({ tagName }) {
     const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
@@ -12,7 +13,9 @@ export default function TagName({ tagName }) {
 
     useEffect( () => {
         publicFetch.get(`/tags/${tagName}`).then( response => {
-            if (!response.data.hasError) {
+            if (response.data.error) {
+                Router.push('/404')
+            } else {
                 setTagData(response.data);
             }
         })

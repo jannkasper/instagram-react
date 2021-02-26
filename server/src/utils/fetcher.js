@@ -7,6 +7,7 @@ const LOCATION_PATH = QUERY_PATH("36bd0f2bf5911908de389b8ceaa3be6d");
 const TAG_PATH = QUERY_PATH("9b498c08113f1e09617a1703c22b2f32");
 const FEED_PATH = QUERY_PATH("003056d32c2554def87228bc3fd9668a");
 const COMMENT_PATH = QUERY_PATH("bc3296d1ce80a24b1b6e40b1e72903f5");
+const TAGGED_PATH = QUERY_PATH("31fe64d9463cbbe58319dced405c6206");
 
 const headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -32,6 +33,9 @@ const instagramFetch = axios.create({
 const convertPathParams = (params) => {
     const paramArray = [];
     for (const[key, value] of Object.entries(params)) {
+        if (!value) {
+            continue;
+        }
         paramArray.push(`"${key}":"${value}"`)
     }
     const result = `{${paramArray.join(",")}}`;
@@ -83,6 +87,7 @@ export {
     TAG_PATH,
     FEED_PATH,
     COMMENT_PATH,
+    TAGGED_PATH,
     SEARCH_PATH,
     errorHandling,
     getGraphql

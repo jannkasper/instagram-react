@@ -5,7 +5,7 @@ import FeedGalleryEmpty from "./feed-gallery-empty";
 
 import styles from "./page-gallery.module.css";
 
-const FeedGallery = ({ mediaArray, title }) => {
+const FeedGallery = ({ mediaArray, title, setCurrentFeed }) => {
 
     const Content = [];
     if (mediaArray && mediaArray.length > 0) {
@@ -25,7 +25,7 @@ const FeedGallery = ({ mediaArray, title }) => {
             {title}
             {/*<a className={styles.galleryUserName}>partieangelique</a>*/}
         </div>
-    ) : <FeedGalleryTabs />
+    ) : <FeedGalleryTabs setCurrentFeed={setCurrentFeed} />
 
     return (
         <div className={styles.feedGalleryContainer}>

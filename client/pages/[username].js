@@ -8,14 +8,19 @@ import { publicFetch } from "../util/fetcher";
 import HeaderStories from "../components/page-header/header-stories";
 import HeaderUser from "../components/page-header/header-user";
 import Stories from "../components/page-main/stories";
+import Router from 'next/router'
+
 
 export default function Username({ username }) {
     const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
     const [userData, setUserData] = useState(null);
+    const [currentFeed, setCurrentFeed] = useState('timelineMedia');
 
     useEffect( () => {
         publicFetch.get(`/users/${username}`).then( response => {
-            if (!response.data.hasError) {
+            if (response.data.error) {
+                Router.push('/404')
+            } else {
                 setUserData(response.data);
             }
         })
@@ -26,24 +31,39 @@ export default function Username({ username }) {
             const params = {
                 userId: userData.id,
                 first: 12,
-                endCursor: userData.timelineMedia.pageInfo.endCursor
+                endCursor: userData[currentFeed].pageInfo.endCursor
             };
-            publicFetch.get(`/users/${username}/page`, { params }).then( response => {
+            publicFetch.get(`/users/${username}/${currentFeed}/page`, { params }).then( response => {
                 setTriggerLoad(false);
                 setUserData({
                     ...userData,
-                    timelineMedia: { pageInfo: response.data.pageInfo, mediaArray: userData.timelineMedia.mediaArray.concat(response.data.mediaArray) }
+                    [currentFeed]: { pageInfo: response.data.pageInfo, mediaArray: userData[currentFeed].mediaArray.concat(response.data.mediaArray) }
                 })
             })
         }
     }, [triggerLoad]);
+
+    useEffect( () => {
+        if (userData && !userData[currentFeed]) {
+            const params = {
+                userId: userData.id,
+                first: 12,
+            };
+            publicFetch.get(`/users/${username}/${currentFeed}/page`, { params }).then( response => {
+                setUserData({
+                    ...userData,
+                    [currentFeed]: response.data
+                })
+            })
+        }
+    }, [currentFeed]);
 
     if (userData) {
         return (
             <Layout>
                 <HeaderUser userData={userData} />
                 { userData.storiesArray && userData.storiesArray.length && <HeaderStories storiesArray={userData.storiesArray} /> }
-                { userData.isPrivate ? <ContentPrivate /> : <FeedGallery mediaArray={userData.timelineMedia.mediaArray}/> }
+                { userData.isPrivate ? <ContentPrivate /> : <FeedGallery mediaArray={userData[currentFeed]?.mediaArray} setCurrentFeed={setCurrentFeed}/> }
             </Layout>
         )
     } else {

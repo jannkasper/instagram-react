@@ -1,4 +1,11 @@
-import {instagramFetch, convertPathParams, FEED_PATH, getGraphql, errorHandling} from "../utils/fetcher.js";
+import {
+    instagramFetch,
+    convertPathParams,
+    FEED_PATH,
+    getGraphql,
+    errorHandling,
+    TAGGED_PATH
+} from "../utils/fetcher.js";
 import delay from "delay";
 import { instagramFeedToFeedCollection } from "./posts.js";
 
@@ -30,7 +37,6 @@ const instagramUserToUserObject = (fetchData) => {
 
 export const loadUser = async (req, res) => {
     const username1 = req.params.username;
-
     const graphql = await instagramFetch.get(`/${username1}`)
         .then(response => response.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/))
         .then(response => response[1].slice(0, -1))
@@ -51,7 +57,6 @@ export const loadUser = async (req, res) => {
 
 export const loadUserFeed = async (req, res) => {
     const { userId, first, endCursor} = req.query;
-    const params = `{"id":"${userId}","first":${first},"after":"${endCursor}"}`
     const graphql = await instagramFetch.get(FEED_PATH + convertPathParams({id: userId, first: first, after: endCursor}))
         .then(getGraphql)
         .catch(errorHandling);
@@ -61,6 +66,20 @@ export const loadUserFeed = async (req, res) => {
     }
 
     const convertedData = instagramFeedToFeedCollection(graphql.user.edge_owner_to_timeline_media)
+    return res.status(200).json(convertedData);
+}
+
+export const loadUserTaggedFeed = async (req, res) => {
+    const { userId, first, endCursor} = req.query;
+    const graphql = await instagramFetch.get(TAGGED_PATH + convertPathParams({id: userId, first: first, after: endCursor}))
+        .then(getGraphql)
+        .catch(errorHandling);
+
+    if (graphql.error || !graphql.user) {
+        return res.status(200).json({error: true, ...graphql});
+    }
+
+    const convertedData = instagramFeedToFeedCollection(graphql.user.edge_user_to_photos_of_you)
     return res.status(200).json(convertedData);
 }
 

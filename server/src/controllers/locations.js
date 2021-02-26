@@ -1,7 +1,7 @@
 import { LOCATION_PATH, instagramFetch, convertPathParams, getGraphql, errorHandling} from "../utils/fetcher.js";
-import { transformMediaData } from "./posts.js";
+import { instagramFeedToFeedCollection } from "./posts.js";
 
-const convertLocationData = (fetchData) => {
+const instagramLocationToLocationObject = (fetchData) => {
     return {
         id: fetchData.id,
         locationName: fetchData.name,
@@ -13,7 +13,7 @@ const convertLocationData = (fetchData) => {
     };
 }
 
-export const locationContent = async (req, res) => {
+export const loadLocation = async (req, res) => {
     const {locationId, locationName} = req.params;
 
     const graphql = await instagramFetch.get(`/explore/locations/${locationId}/${locationName}/?__a=1`)
@@ -25,14 +25,14 @@ export const locationContent = async (req, res) => {
     }
 
     const convertedData = {
-        ...convertLocationData(graphql.location),
-        topMedia: transformMediaData(graphql.location.edge_location_to_top_posts),
-        timelineMedia: transformMediaData(graphql.location.edge_location_to_media)
+        ...instagramLocationToLocationObject(graphql.location),
+        topMedia: instagramFeedToFeedCollection(graphql.location.edge_location_to_top_posts),
+        timelineMedia: instagramFeedToFeedCollection(graphql.location.edge_location_to_media)
     };
     return res.status(200).json(convertedData);
 }
 
-export const nextPageLocationContent = async (req, res) => {
+export const loadLocationFeed = async (req, res) => {
     const {locationId, first, endCursor} = req.query;
     const graphql = await instagramFetch.get(LOCATION_PATH + convertPathParams({id: locationId, first: first, after: endCursor}))
         .then(getGraphql)
@@ -42,6 +42,6 @@ export const nextPageLocationContent = async (req, res) => {
         return res.status(200).json(graphql);
     }
 
-    const convertedData = transformMediaData(graphql.location.edge_location_to_media)
+    const convertedData = instagramFeedToFeedCollection(graphql.location.edge_location_to_media)
     return res.status(200).json(convertedData);
 }

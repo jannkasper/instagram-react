@@ -1,31 +1,31 @@
 import express from "express";
-import { userContent, nextPageContent } from "./controllers/users.js";
-import { postContent, morePostsContent, postMoreComments } from "./controllers/posts.js";
-import { searchContent } from "./controllers/search.js"
-import { tagContent, nextPageTagContent } from "./controllers/tags.js";
-import { locationContent, nextPageLocationContent } from "./controllers/locations.js";
+import { loadUser, loadUserFeed } from "./controllers/users.js";
+import { loadPost, loadPostFeed, loadPostComment } from "./controllers/posts.js";
+import { loadSearch } from "./controllers/search.js"
+import { loadTag, loadTagFeed } from "./controllers/tags.js";
+import { loadLocation, loadLocationFeed } from "./controllers/locations.js";
 
 const router = express.Router();
 
 //users
-router.get("/users/:username", userContent);
-router.get("/users/:username/page", nextPageContent);
+router.get("/users/:username", loadUser);
+router.get("/users/:username/page", loadUserFeed);
 
 //posts
-router.get("/posts/:postId", postContent);
-router.get("/posts/:postId/more", morePostsContent);
-router.get("/posts/:postId/comments", postMoreComments);
+router.get("/posts/:postId", loadPost);
+router.get("/posts/:postId/more", loadPostFeed);
+router.get("/posts/:postId/comments", loadPostComment);
 
 //tag
-router.get("/tags/:tag", tagContent);
-router.get("/tags/:tag/page", nextPageTagContent);
+router.get("/tags/:tag", loadTag);
+router.get("/tags/:tag/page", loadTagFeed);
 
 //location
-router.get("/locations/:locationId/:locationName", locationContent);
-router.get("/locations/:locationId/:locationName/page", nextPageLocationContent);
+router.get("/locations/:locationId/:locationName", loadLocation);
+router.get("/locations/:locationId/:locationName/page", loadLocationFeed);
 
 //search
-router.get("/search/:query", searchContent);
+router.get("/search/:query", loadSearch);
 
 export default (app) => {
     app.use("/api", router);

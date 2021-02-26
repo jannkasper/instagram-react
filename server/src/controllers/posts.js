@@ -1,14 +1,6 @@
-import {
-    instagramFetch,
-    FEED_PATH,
-    COMMENT_PATH,
-    convertPathParams,
-    getGraphql,
-    errorHandling
-} from "../utils/fetcher.js";
+import { instagramFetch, FEED_PATH, COMMENT_PATH, convertPathParams, getGraphql, errorHandling } from "../utils/fetcher.js";
 
-
-export const postContent = async (req, res) => {
+export const loadPost = async (req, res) => {
     const postId = req.params.postId;
 
     const graphql = await instagramFetch.get(`/p/${postId}`)
@@ -24,14 +16,14 @@ export const postContent = async (req, res) => {
     }
 
     const convertedData = {
-        ...transformPostData(graphql.shortcode_media),
-        commentsData: transformComments(graphql.shortcode_media.edge_media_to_parent_comment),
-        sidecarArray: graphql.shortcode_media.edge_sidecar_to_children ? transformMediaCollection(graphql.shortcode_media.edge_sidecar_to_children) : null,
+        ...instagramPostToPostObject(graphql.shortcode_media),
+        commentsData: instagramCommentsToCommentsCollection(graphql.shortcode_media.edge_media_to_parent_comment),
+        sidecarArray: graphql.shortcode_media.edge_sidecar_to_children ? instagramSidecarToSidecarCollection(graphql.shortcode_media.edge_sidecar_to_children) : null,
     }
     return res.status(200).json(convertedData);
 }
 
-export const morePostsContent = async (req, res) => {
+export const loadPostFeed = async (req, res) => {
     const { userId, first, endCursor} = req.query;
     const postId = req.params.postId;
     const graphql = await instagramFetch.get(FEED_PATH + convertPathParams({id: userId, first: first}))
@@ -42,12 +34,12 @@ export const morePostsContent = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = transformMediaData(graphql.user.edge_owner_to_timeline_media);
+    const convertedData = instagramFeedToFeedCollection(graphql.user.edge_owner_to_timeline_media);
     convertedData.mediaArray = convertedData.mediaArray.filter(item => item.postId != postId).slice(0, 6);
     return res.status(200).json(convertedData);
 }
 
-export const postMoreComments = async (req, res) => {
+export const loadPostComment = async (req, res) => {
     let { shortcode, first, endCursor} = req.query;
     endCursor = endCursor.replace(/"/g, '\\"').replace(/ /g, "+")
     const params = `{"shortcode":"${shortcode}","first":${first},"after":"${endCursor}"}`
@@ -60,13 +52,12 @@ export const postMoreComments = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = transformComments(graphql.shortcode_media.edge_media_to_parent_comment)
+    const convertedData = instagramCommentsToCommentsCollection(graphql.shortcode_media.edge_media_to_parent_comment)
     return res.status(200).json(convertedData);
 }
 
-const transformPostData = (fetchData) => {
-
-    const postData = {
+const instagramPostToPostObject = (fetchData) => {
+    return {
         id: fetchData.id,
         shortcode: fetchData.shortcode,
         isVideo: fetchData.is_video,
@@ -90,21 +81,18 @@ const transformPostData = (fetchData) => {
         viewerHasSaved: fetchData.viewer_has_saved,
 
     };
-
-    return postData;
 }
 
-const transformComments = (fetchData) => {
-    const commentsArray = { count: fetchData.count, commentsArray: []};
+const instagramCommentsToCommentsCollection = (fetchData) => {
+    const commentsCollection = { count: fetchData.count, commentsArray: []};
 
     if (fetchData.page_info) {
-        commentsArray.pageInfo = { hasNextPage:  fetchData.page_info.has_next_page, endCursor: fetchData.page_info.end_cursor };
+        commentsCollection.pageInfo = { hasNextPage:  fetchData.page_info.has_next_page, endCursor: fetchData.page_info.end_cursor };
     }
 
     for (let edge of fetchData.edges) {
         edge = edge.node;
-
-        const comment = {
+        commentsCollection.commentsArray.push({
             id: edge.id,
             createdAt: edge.created_at,
             likes: edge.edge_liked_by.count,
@@ -116,55 +104,45 @@ const transformComments = (fetchData) => {
             },
             text: edge.text,
             viewerHasLiked: edge.viewer_has_liked,
-        }
-
-        commentsArray.commentsArray.push(comment);
+        });
     }
 
-    return commentsArray;
+    return commentsCollection;
 }
 
-const transformMediaCollection = (fetchData) => {
-    const mediaArray = [];
+const instagramSidecarToSidecarCollection = (fetchData) => {
+    const sidecarCollection = [];
 
     for (let edge of fetchData.edges) {
         edge = edge.node;
-
-        const media = {
+        sidecarCollection.push({
             id: edge.id,
             shortcode: edge.shortcode,
             isVideo: edge.is_video,
             resourceArray: edge.display_resources,
-
-        }
-
-        mediaArray.push(media);
+        });
     }
 
-    return mediaArray
+    return sidecarCollection
 }
 
-export const transformMediaData = (fetchData) => {
-
-    const mediaArray = [];
+export const instagramFeedToFeedCollection = (fetchData) => {
+    const feedCollection = [];
 
     for (let edge of fetchData.edges) {
         edge = edge.node;
-
-        const mediaData = {
+        feedCollection.push({
             postId: edge.shortcode,
             likeCount: edge.edge_liked_by?.count || edge.edge_media_preview_like?.count,
             commentCount: edge.edge_media_to_comment?.count,
             isVideo: edge.is_video,
             isSidecar: edge.edge_sidecar_to_children && edge.edge_sidecar_to_children.edges.length > 0,
             thumbnailArray : edge.thumbnail_resources
-        }
-
-        mediaArray.push(mediaData)
+        })
     }
 
     return {
-        mediaArray: mediaArray,
+        mediaArray: feedCollection,
         pageInfo: {
             hasNextPage: fetchData.page_info?.has_next_page,
             endCursor: fetchData.page_info?.end_cursor,

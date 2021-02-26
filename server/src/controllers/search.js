@@ -1,6 +1,6 @@
 import {errorHandling, getGraphql, instagramFetch, SEARCH_PATH} from "../utils/fetcher.js";
 
-export const searchContent = async (req, res) => {
+export const loadSearch = async (req, res) => {
     const query = req.params.query;
     const graphql = await instagramFetch.get(SEARCH_PATH(query))
         .then(getGraphql)

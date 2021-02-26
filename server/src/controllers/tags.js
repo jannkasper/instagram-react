@@ -1,7 +1,7 @@
 import {TAG_PATH, instagramFetch, convertPathParams, errorHandling, getGraphql} from "../utils/fetcher.js";
-import { transformMediaData } from "./posts.js";
+import { instagramFeedToFeedCollection } from "./posts.js";
 
-const convertTagData = (fetchData) => {
+const instagramTagToTagObject = (fetchData) => {
     return {
         id: fetchData.id,
         tagName: fetchData.name,
@@ -10,7 +10,7 @@ const convertTagData = (fetchData) => {
     };
 }
 
-export const tagContent = async (req, res) => {
+export const loadTag = async (req, res) => {
     const tag = req.params.tag;
 
     const graphql = await instagramFetch.get(`/explore/tags/${tag}/?__a=1`)
@@ -22,15 +22,15 @@ export const tagContent = async (req, res) => {
     }
 
     const convertedData = {
-        ...convertTagData(graphql.hashtag),
-        topMedia: transformMediaData(graphql.hashtag.edge_hashtag_to_top_posts),
-        timelineMedia: transformMediaData(graphql.hashtag.edge_hashtag_to_media),
+        ...instagramTagToTagObject(graphql.hashtag),
+        topMedia: instagramFeedToFeedCollection(graphql.hashtag.edge_hashtag_to_top_posts),
+        timelineMedia: instagramFeedToFeedCollection(graphql.hashtag.edge_hashtag_to_media),
     };
 
     return res.status(200).json(convertedData);
 }
 
-export const nextPageTagContent = async (req, res) => {
+export const loadTagFeed = async (req, res) => {
     const {tagName, first, endCursor} = req.query;
     const graphql = await instagramFetch.get(TAG_PATH + convertPathParams({tag_name: tagName, first: first, after: endCursor}))
         .then(getGraphql)
@@ -40,6 +40,6 @@ export const nextPageTagContent = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = transformMediaData(graphql.hashtag.edge_hashtag_to_media)
+    const convertedData = instagramFeedToFeedCollection(graphql.hashtag.edge_hashtag_to_media)
     return res.status(200).json(convertedData);
 }

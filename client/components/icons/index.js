@@ -22,3 +22,4 @@ export { default as Location } from "./LocationIcon";
 export { default as Muted } from "./MutedIcon";
 export { default as Sound } from "./SoundIcon";
 export { default as Tv } from "./TvIcon";
+export { default as Reels } from "./ReelsIcon";

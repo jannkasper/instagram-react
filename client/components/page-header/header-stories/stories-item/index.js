@@ -7,7 +7,7 @@ const StoriesItem = ({ content }) => {
     return (
         <div className={styles.storiesItemContainer}>
             <div className={styles.storyImage}>
-                <img src={content.src} />
+                <img src={content.thumbnailSrc} />
             </div>
             <div className={styles.storyName}>{content.title}</div>
         </div>

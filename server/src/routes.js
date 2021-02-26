@@ -1,5 +1,5 @@
 import express from "express";
-import {loadUser, loadUserFeed, loadUserTaggedFeed} from "./controllers/users.js";
+import {loadUser, loadUserFeed, loadUserTaggedFeed, loadUserReelsFeed, loadUserStories } from "./controllers/users.js";
 import { loadPost, loadPostFeed, loadPostComment } from "./controllers/posts.js";
 import { loadSearch } from "./controllers/search.js"
 import { loadTag, loadTagFeed } from "./controllers/tags.js";
@@ -11,6 +11,8 @@ const router = express.Router();
 router.get("/users/:username", loadUser);
 router.get("/users/:username/timelineMedia/page", loadUserFeed);
 router.get("/users/:username/tagged/page", loadUserTaggedFeed);
+router.get("/users/:username/reels/page", loadUserReelsFeed);
+router.get("/users/:username/stories", loadUserStories);
 
 //posts
 router.get("/posts/:postId", loadPost);

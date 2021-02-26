@@ -16,12 +16,29 @@ export default function Username({ username }) {
     const [userData, setUserData] = useState(null);
     const [currentFeed, setCurrentFeed] = useState('timelineMedia');
 
+    // const fetchStories = () => {
+    //     if (!userData) {
+    //         return;
+    //     }
+    //     publicFetch.get(`/users/${username}/stories`, { params: {userId: userData.id} }).then( response => {
+    //         if (response.data.error) {
+    //             Router.push('/404')
+    //         } else {
+    //             Promise.resolve()
+    //                 .then(() => setUserData({...userData, storiesArray: response.data}))
+    //         }
+    //     })
+    // };
+
     useEffect( () => {
         publicFetch.get(`/users/${username}`).then( response => {
             if (response.data.error) {
                 Router.push('/404')
             } else {
-                setUserData(response.data);
+                debugger
+                Promise.resolve()
+                    .then(() => setUserData(response.data))
+                    // .then(() => fetchStories());
             }
         })
     }, [username]);

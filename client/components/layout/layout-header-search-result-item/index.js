@@ -50,7 +50,7 @@ const SearchResultItem = ({item, handleChangeValue}) => {
                         { determineImage() }
                     </div>
                     <div className={styles.searchResultItem_text}>
-                        <div className={styles.searchResultItem_name}>
+                        <div className="label">
                             {item.hashtag ? '#':''}{item.name}{Verified}
                         </div>
                         { determineDescription() }

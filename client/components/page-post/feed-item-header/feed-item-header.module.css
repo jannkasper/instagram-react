@@ -8,40 +8,8 @@
 
 }
 
-.userImage {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-}
-
 .headerText {
     margin-left: 16px;
     display: flex;
     flex-direction: column;
-}
-
-.verifiedBandage {
-    margin-left: 8px;
-    bottom: 0px;
-}
-
-.userName {
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 18px;
-    cursor: pointer;
-}
-.userName:hover {
-    text-decoration: underline;
-}
-
-.localization {
-    font-size: 12px;
-    font-weight: 300;
-    line-height: 18px;
-}
-
-.moreIcon {
-    margin-left: auto;
-    right: 4px;
 }

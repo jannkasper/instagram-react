@@ -6,11 +6,8 @@
 
 }
 
-.commentUserImage {
-    width: 32px;
-    height: 32px;
+.avatarMargin {
     margin-right: 18px;
-    border-radius: 50%;
 }
 
 .commentContent {
@@ -21,54 +18,8 @@
     line-height: 18px;
 }
 
-.verifiedBandage {
-    display: inline-flex;
-    margin-left: 2px;
-    margin-right: 4px;
-}
-
-.commentUserName {
-    display: inline-block;
-    margin-right: 0.25rem;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 18px;
-    cursor: pointer;
-}
-
-.commentUserName:hover {
-    text-decoration: underline;
-}
-
 .commentActions {
     display: block;
     margin-top: 16px;
     margin-bottom: 4px;
-}
-
-.commentDate {
-    line-height: 14px;
-    font-size: 12px;
-    font-weight: 400;
-    margin-right: 12px;
-    color: #8e8e8e;
-}
-
-.commentButton {
-    background: 0 0;
-    border: 0;
-    cursor: pointer;
-    display: inline;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 14px;
-    margin-right: 12px;
-    padding: 0;
-    color: #8e8e8e;
-}
-
-.hashHtml {
-    color: #00376b;
-    text-decoration: none;
-    cursor: pointer;
 }

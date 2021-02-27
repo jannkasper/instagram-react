@@ -25,3 +25,75 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
   /*font: inherit;*/
   vertical-align: baseline;
 }
+
+input, button, submit {
+  background: transparent;
+  box-shadow: 0px 0px 0px transparent;
+  border: 0px solid transparent;
+  text-shadow: 0px 0px 0px transparent;
+}
+
+button:hover {
+  background: transparent;
+  box-shadow: 0px 0px 0px transparent;
+  border: 0px solid transparent;
+  text-shadow: 0px 0px 0px transparent;
+}
+
+button:active {
+  outline: none;
+  border: none;
+}
+
+button:focus {
+  outline: 0;
+}
+
+
+.imageAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.label {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+}
+
+.open {
+  cursor: pointer;
+}
+.open:hover {
+  text-decoration: underline;
+}
+
+.info {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auto-right {
+  margin-left: auto;
+}
+
+.link {
+  color: #00376b;
+  text-decoration: none;
+  cursor: pointer;
+}
+.bold {
+  font-weight: 600;
+}
+.small {
+  font-size: 10px;
+}
+.grey {
+  color: #8e8e8e;
+}

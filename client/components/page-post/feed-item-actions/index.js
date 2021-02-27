@@ -9,18 +9,20 @@ const FeedItemActions = ({ likes, createdAt, viewerHasLiked, viewerHasSaved }) =
     return (
         <div className={styles.feedItemActionsContainer}>
             <div className={styles.itemButtonGroup}>
-                <Activity height={24} width={24} size={24}/>
-                <Comment height={24} width={24} size={24}/>
-                <Message height={24} width={24} size={24}/>
-                <Save height={24} width={24} size={24}/>
+                <Activity/>
+                <Comment/>
+                <Message/>
+                <Save/>
             </div>
-            <a className={styles.itemLikes} href="#">{numCommaFormatter(likes.count)} likes</a>
-            <br/>
-            {createdAt ?
-                <a className={styles.itemDateText} href="#">
-                    {dateFormatter(createdAt)}
-                </a>
-                : null}
+            <div className={styles.infoGroup}>
+                <a className="label" href="#">{numCommaFormatter(likes.count)} likes</a>
+                <br/>
+                {createdAt ?
+                    <a className="info small grey" href="#">
+                        {dateFormatter(createdAt)}
+                    </a>
+                    : null}
+            </div>
         </div>
     );
 }

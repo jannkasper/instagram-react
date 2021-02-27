@@ -71,6 +71,20 @@ export function bioFormatter(bio) {
 
 }
 
+function linkFormatter (array) {
+    return array.map(item => {
+        if (item.startsWith('#')) {
+            return <a className="link" href={`/explore/tags/${item.slice(1)}`} >{item}</a>
+        } else if (item.startsWith('@')) {
+            return <a className="link" href={`/${item.slice(1)}`}>{item}</a>
+        } else if (item == "<br/>") {
+            return <br/>
+        } else {
+            return item;
+        }
+    })
+}
+
 export function hashtagFormatter(text) {
     if (!text) {
         return [text];
@@ -90,5 +104,5 @@ export function hashtagFormatter(text) {
                 .replace(/(?! )\s/g, "<ERR><br/><ERR>") // find new lines
                 .split("<ERR>")) // separate spaces and new lines
     }
-    return splitSpacesArray
+    return linkFormatter(splitSpacesArray)
 }

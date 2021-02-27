@@ -8,17 +8,16 @@ const FeedItemHeader = ({ owner, location }) => {
 
     return (
         <div className={styles.header}>
-            <img className={styles.userImage} src={owner.userImageUrl}/>
+            <img className="imageAvatar" src={owner.userImageUrl}/>
             <div className={styles.headerText}>
                 <Link href="/[username]" as={`/${owner.username}`}>
-                    <span className={styles.userName}>
-                        {owner.username}
-                        {owner.isVerified ? <span className={styles.verifiedBandage}><Verified width={"15px"} height={"15px"} /></span> : null }
+                    <span className="label open">
+                        {owner.username}&nbsp;{owner.isVerified ? <Verified width={"15px"} height={"15px"} /> : null }
                     </span>
                 </Link>
-                <div className={styles.localization}>{location}</div>
+                <div className="info">{location}</div>
             </div>
-            <div className={styles.moreIcon}>
+            <div className="auto-right">
                 <More />
             </div>
         </div>

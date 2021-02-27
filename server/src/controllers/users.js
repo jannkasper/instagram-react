@@ -1,38 +1,30 @@
-import {
-    instagramFetch,
-    convertPathParams,
-    FEED_PATH,
-    getGraphql,
-    errorHandling,
-    TAGGED_PATH, STORIES_PATH,
-} from "../utils/fetcher.js";
-import delay from "delay";
-import FormData from "form-data";
-import { instagramFeedToFeedCollection } from "./posts.js";
+import { instagramFetch, errorHandling } from "../utils/fetcher.js";
+import { instagramFeedToFeedCollection } from "./feed.js";
+// import delay from "delay";
 
-const instagramUserToUserObject = (fetchData) => {
+const instagramUserToUserObject = (instagramUser) => {
     return {
-        id: fetchData.id,
-        username: fetchData.username,
-        name: fetchData.full_name,
-        userImageUrl: fetchData.profile_pic_url,
+        id: instagramUser.id,
+        username: instagramUser.username,
+        name: instagramUser.full_name,
+        userImageUrl: instagramUser.profile_pic_url,
 
-        bio: fetchData.biography,
-        bioUrl: fetchData.external_url_linkshimmed,
-        bioUrlName: fetchData.external_url,
+        bio: instagramUser.biography,
+        bioUrl: instagramUser.external_url_linkshimmed,
+        bioUrlName: instagramUser.external_url,
 
-        postCount: fetchData.edge_owner_to_timeline_media.count,
-        followersCount: fetchData.edge_followed_by.count,
-        followingsCount: fetchData.edge_follow.count,
+        postCount: instagramUser.edge_owner_to_timeline_media.count,
+        followersCount: instagramUser.edge_followed_by.count,
+        followingsCount: instagramUser.edge_follow.count,
 
-        isVerified: fetchData.is_verified,
-        isPrivate: fetchData.is_private,
-        hasClips: fetchData.has_clips,
-        hasStories: Boolean(fetchData.highlight_reel_count),
+        isVerified: instagramUser.is_verified,
+        isPrivate: instagramUser.is_private,
+        hasClips: instagramUser.has_clips,
+        hasStories: Boolean(instagramUser.highlight_reel_count),
 
         mutualFollow: {
-            count: fetchData.edge_mutual_followed_by.count,
-            usernameArray: fetchData.edge_mutual_followed_by.edges.map(element => element.node.username)
+            count: instagramUser.edge_mutual_followed_by.count,
+            usernameArray: instagramUser.edge_mutual_followed_by.edges.map(element => element.node.username)
         }
     };
 }
@@ -57,90 +49,8 @@ export const loadUser = async (req, res) => {
     return res.status(200).json(convertedData);
 }
 
-export const loadUserFeed = async (req, res) => {
-    const { userId, first, endCursor} = req.query;
-    const graphql = await instagramFetch.get(FEED_PATH + convertPathParams({id: userId, first: first, after: endCursor}))
-        .then(getGraphql)
-        .catch(errorHandling);
 
-    if (graphql.error || !graphql.user) {
-        return res.status(200).json({error: true, ...graphql});
-    }
-
-    const convertedData = instagramFeedToFeedCollection(graphql.user.edge_owner_to_timeline_media)
-    return res.status(200).json(convertedData);
-}
-
-export const loadUserTaggedFeed = async (req, res) => {
-    const { userId, first, endCursor} = req.query;
-    const graphql = await instagramFetch.get(TAGGED_PATH + convertPathParams({id: userId, first: first, after: endCursor}))
-        .then(getGraphql)
-        .catch(errorHandling);
-
-    if (graphql.error || !graphql.user) {
-        return res.status(200).json({error: true, ...graphql});
-    }
-
-    const convertedData = instagramFeedToFeedCollection(graphql.user.edge_user_to_photos_of_you)
-    return res.status(200).json(convertedData);
-}
-
-export const loadUserReelsFeed = async (req, res) => {
-    const { userId, first, endCursor} = req.query;
-    const formData = new FormData();
-    formData.append('target_user_id', userId);
-    formData.append('page_size', 12);
-    formData.append('max_id', '');
-
-    const graphql = await instagramFetch.post('https://i.instagram.com/api/v1/clips/user/', formData, { headers: formData.getHeaders() })
-        .then(function (response) {
-            return response
-        })
-        .catch(errorHandling);
-
-    if (graphql.error || !graphql.user) {
-        return res.status(200).json({error: true, ...graphql});
-    }
-
-    const convertedData = instagramFeedToFeedCollection(graphql.user.edge_user_to_photos_of_you)
-    return res.status(200).json(convertedData);
-}
-
-export const loadUserStories = async (req, res) => {
-    const { userId } = req.query;
-    const graphql = await instagramFetch.get(STORIES_PATH + convertPathParams({user_id: userId, include_chaining: true, include_reel: true, include_suggested_users: false, include_logged_out_extras: false, include_highlight_reels: true, include_live_status: true }))
-        .then(getGraphql)
-        .catch(errorHandling);
-
-    if (graphql.error || !graphql.user) {
-        return res.status(200).json({error: true, ...graphql});
-    }
-
-    const convertedData = instagramStoryToStoryCollection(graphql.user.edge_highlight_reels)
-    return res.status(200).json(convertedData);
-}
-
-export const instagramStoryToStoryCollection = (fetchData) => {
-    const storiesCollection = [];
-
-    for (let edge of fetchData.edges) {
-        edge = edge.node;
-        storiesCollection.push({
-            id: edge.id,
-            title: edge.title,
-            thumbnailSrc:  edge.cover_media_cropped_thumbnail.url,
-            owner: {
-                id: edge.owner.id,
-                username: edge.owner.username,
-                userImageUrl: edge.owner.profile_pic_url,
-                isVerified: edge.owner.is_verified,
-            },
-        })
-    }
-    return storiesCollection
-}
-
-const validationUserExist = async (page) => {
+const outdatedValidationUserExist = async (page) => {
     // check username exists or not exists
     const isUsernameNotFound = await page.evaluate(() => {
         // check selector exists
@@ -155,7 +65,7 @@ const validationUserExist = async (page) => {
     return isUsernameNotFound
 }
 
-const fetchUserStories = async (page) => {
+const outdatedFetchUserStories = async (page) => {
     // check if will contain stories
     let hasStories = await page.evaluate(async () => {
         // return document.querySelectorAll('header > section > div > h2')[0].innerHTML;
@@ -187,7 +97,7 @@ const fetchUserStories = async (page) => {
     return storiesArray;
 }
 
-const oldFetchUserData = async (page) => {
+const outdatedFetchUserData = async (page) => {
 
     // get username
     let username = await page.evaluate(() => {

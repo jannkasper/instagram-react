@@ -1,9 +1,12 @@
 import express from "express";
-import {loadUser, loadUserFeed, loadUserTaggedFeed, loadUserReelsFeed, loadUserStories } from "./controllers/users.js";
-import { loadPost, loadPostFeed, loadPostComment } from "./controllers/posts.js";
+import { loadPosts, loadPost } from "./controllers/posts.js";
+import { loadUser } from "./controllers/users.js";
 import { loadSearch } from "./controllers/search.js"
-import { loadTag, loadTagFeed } from "./controllers/tags.js";
-import { loadLocation, loadLocationFeed } from "./controllers/locations.js";
+import { loadTag } from "./controllers/tags.js";
+import { loadLocation } from "./controllers/locations.js";
+import { loadUserStories } from "./controllers/stories.js";
+import { loadComments } from "./controllers/comments.js";
+import { loadLocationFeed, loadPostFeed, loadTagFeed, loadUserFeed, loadUserReelsFeed, loadUserTaggedFeed } from "./controllers/feed.js";
 
 const router = express.Router();
 
@@ -15,9 +18,10 @@ router.get("/users/:username/reels/page", loadUserReelsFeed);
 router.get("/users/:username/stories", loadUserStories);
 
 //posts
+router.get("/posts", loadPosts);
 router.get("/posts/:postId", loadPost);
 router.get("/posts/:postId/more", loadPostFeed);
-router.get("/posts/:postId/comments", loadPostComment);
+router.get("/posts/:postId/comments", loadComments);
 
 //tag
 router.get("/tags/:tag", loadTag);

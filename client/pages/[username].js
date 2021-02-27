@@ -7,7 +7,6 @@ import { ScrollContext } from "../store/scroll";
 import { publicFetch } from "../util/fetcher";
 import HeaderStories from "../components/page-header/header-stories";
 import HeaderUser from "../components/page-header/header-user";
-import Stories from "../components/page-main/stories";
 import Router from 'next/router'
 
 
@@ -16,26 +15,11 @@ export default function Username({ username }) {
     const [userData, setUserData] = useState(null);
     const [currentFeed, setCurrentFeed] = useState('timelineMedia');
 
-    // const fetchStories = () => {
-    //     if (!userData) {
-    //         return;
-    //     }
-    //     publicFetch.get(`/users/${username}/stories`, { params: {userId: userData.id} }).then( response => {
-    //         if (response.data.error) {
-    //             Router.push('/404')
-    //         } else {
-    //             Promise.resolve()
-    //                 .then(() => setUserData({...userData, storiesArray: response.data}))
-    //         }
-    //     })
-    // };
-
     useEffect( () => {
         publicFetch.get(`/users/${username}`).then( response => {
             if (response.data.error) {
                 Router.push('/404')
             } else {
-                debugger
                 Promise.resolve()
                     .then(() => setUserData(response.data))
                     // .then(() => fetchStories());
@@ -79,7 +63,7 @@ export default function Username({ username }) {
         return (
             <Layout>
                 <HeaderUser userData={userData} />
-                { userData.storiesArray && userData.storiesArray.length && <HeaderStories storiesArray={userData.storiesArray} /> }
+                { userData.hasStories && <HeaderStories username={username} userId={userData.id} /> }
                 { userData.isPrivate ? <ContentPrivate /> : <FeedGallery mediaArray={userData[currentFeed]?.mediaArray} setCurrentFeed={setCurrentFeed}/> }
             </Layout>
         )

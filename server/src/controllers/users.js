@@ -28,6 +28,7 @@ const instagramUserToUserObject = (fetchData) => {
         isVerified: fetchData.is_verified,
         isPrivate: fetchData.is_private,
         hasClips: fetchData.has_clips,
+        hasStories: Boolean(fetchData.highlight_reel_count),
 
         mutualFollow: {
             count: fetchData.edge_mutual_followed_by.count,
@@ -127,7 +128,7 @@ export const instagramStoryToStoryCollection = (fetchData) => {
         storiesCollection.push({
             id: edge.id,
             title: edge.title,
-            thumbnailSrc:  edge.cover_media.thumbnail_src,
+            thumbnailSrc:  edge.cover_media_cropped_thumbnail.url,
             owner: {
                 id: edge.owner.id,
                 username: edge.owner.username,

@@ -75,17 +75,20 @@ export function hashtagFormatter(text) {
     if (!text) {
         return [text];
     }
-    const hashArray = text.match(/#(\w+)/g);
+    const hashArray = text.match(/#(\w+)/g); // find hashtags
+    const userArray = text.match(/@(\w+)/g); // find users
 
-    if (!hashArray || hashArray.length === 0) {
+    if (!hashArray && !userArray) {
         return [text];
     }
 
-    let splitHashesArray = text.replace(/#/gi, "<ERR>#").split("<ERR>");
+    let splitHashesArray = text.replace(/#/gi, "<ERR>#").replace(/@/gi, "<ERR>@").split("<ERR>");
     let splitSpacesArray = [];
     for (const item of splitHashesArray) {
-        splitSpacesArray.push(...item.replace(" ", "<ERR> ").split("<ERR>"))
+        splitSpacesArray.push(
+            ...item.replace(" ", "<ERR> ") // find spaces
+                .replace(/(?! )\s/g, "<ERR><br/><ERR>") // find new lines
+                .split("<ERR>")) // separate spaces and new lines
     }
-
     return splitSpacesArray
 }

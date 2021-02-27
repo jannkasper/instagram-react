@@ -1,15 +1,35 @@
+import React, {useEffect, useState} from "react";
+import Router from "next/router";
 import Layout from "../components/layout";
 import FeedItem from "../components/page-main/feed-item";
 import Stories from "../components/page-main/stories";
 import Sidebar from "../components/page-main/sidebar";
-
-import styles from '../styles/Home.module.css'
-// import FeedItemMain from "../components/feed-item-main";
-import {Instagram} from "../components/icons";
+import { publicFetch } from "../util/fetcher";
+import { Instagram } from "../components/icons";
 
 export default function Home() {
-  return (
-      <Instagram />
+  const [postsData, setPostsData] = useState(null);
+
+  useEffect( () => {
+    publicFetch.get("/posts").then( response => {
+      if (response.data.error) {
+        Router.push('/404')
+      } else {
+        Promise.resolve()
+            .then(() => setPostsData(response.data))
+      }
+    })
+  }, []);
+
+  if (postsData) {
+    return (
+        <Layout>
+          {postsData.postArray.map(item => <FeedItem postData={item} />)}
+        </Layout>
+    )
+  } else {
+    return ( <Instagram /> );
+  }
       // <Layout>
       //     <div className={styles.mainContent} >
       //         <Stories />
@@ -26,6 +46,8 @@ export default function Home() {
       //         </div>
       //     </div>
       // </Layout>
+
+
     // <div className={styles.container}>
     //   <Head>
     //     <title>Create Next App</title>
@@ -84,5 +106,4 @@ export default function Home() {
     //     </a>
     //   </footer>
     // </div>
-  )
 }

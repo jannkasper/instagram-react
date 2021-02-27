@@ -34,7 +34,11 @@ export const instagramPostsToPostCollection = (instagramPostCollection) => {
     for (let edge of instagramPostCollection.edges) {
         edge = edge.node;
         if (edge.__typename === 'GraphImage' || edge.__typename === 'GraphVideo' || edge.__typename === 'GraphSidecar') {
-            postCollection.push(instagramPostToPostObject(edge))
+            postCollection.push({
+                ...instagramPostToPostObject(edge),
+                commentsData: instagramCommentsToCommentsCollection(edge.edge_media_preview_comment),
+                sidecarArray: edge.edge_sidecar_to_children ? instagramSidecarToSidecarCollection(edge.edge_sidecar_to_children) : null,
+            })
         }
     }
     return postCollection;
@@ -53,7 +57,7 @@ export const loadPosts = async (req, res) => {
 
     const convertedData = {
         ...instagramLoggedToLoggedObject(graphql.user),
-        timelineMedia: instagramPostsToPostCollection(graphql.user.edge_web_feed_timeline)
+        postArray: instagramPostsToPostCollection(graphql.user.edge_web_feed_timeline)
     };
     return res.status(200).json(convertedData);
 }

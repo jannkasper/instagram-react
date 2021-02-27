@@ -7,3 +7,23 @@
     border-radius: 3px;
     margin-bottom: 60px;
 }
+
+.viewAllComments {
+    margin-left: 1rem;
+    color: #9a9a9a;
+    display: flex;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 22px;
+    cursor: pointer;
+}
+
+.itemDateText {
+    margin-left: 1rem;
+    line-height: 22px;
+    font-size: 10px;
+    text-transform: uppercase;
+
+    color: #9a9a9a;
+    cursor: pointer;
+}

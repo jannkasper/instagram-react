@@ -9,7 +9,7 @@ const FeedGalleryEmpty = () => {
             <div className={styles.feedGalleryEmpty_icon}>
                 <Camera />
             </div>
-            <div className={styles.feedGalleryEmpty_message}>No Posts Yet</div>
+            <div className={styles.feedGalleryEmpty_message}>No Photos</div>
         </>
     )
 }

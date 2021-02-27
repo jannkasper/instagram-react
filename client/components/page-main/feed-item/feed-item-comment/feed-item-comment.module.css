@@ -1,8 +1,8 @@
 .feedItemCommentContainer {
     margin: 0 1rem 4px 1rem;
-    /*display: flex;*/
-    /*vertical-align: bottom;*/
-
+    /*margin: 0 1rem 4px 1rem;*/
+    display: flex;
+    flex-direction: row;
 }
 
 .commentUserName {
@@ -11,6 +11,9 @@
     font-size: 14px;
     font-weight: 700;
     line-height: 18px;
+}
+.commentUserName:hover {
+    text-decoration: underline;
 }
 
 .commentTextDescription {
@@ -25,6 +28,22 @@
 }
 
 .showMore {
-    font-size: 14px;
     color: #9a9a9a;
+    font-size: 14px;
+    line-height: 22px;
+    cursor: pointer;
+}
+
+.commentContent {
+    word-break: break-word;
+    flex: 1 1 auto;
+    padding-right: 5px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.hashHtml {
+    color: #00376b;
+    text-decoration: none;
+    cursor: pointer;
 }

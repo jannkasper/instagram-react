@@ -12,7 +12,7 @@ export const instagramCommentsToCommentsCollection = (instagramCommentCollection
         commentsCollection.commentsArray.push({
             id: edge.id,
             createdAt: edge.created_at,
-            likes: edge.edge_liked_by.count,
+            likes: edge.edge_liked_by?.count,
             owner: {
                 id: edge.owner.id,
                 username: edge.owner.username,

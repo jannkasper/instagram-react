@@ -1,7 +1,7 @@
 import React from "react";
-import SearchResultItem from "../layout-header-search-result-item";
+import Item from "./item";
 
-import styles from "./layout-header-search-result.module.css";
+import styles from "./search-result.module.css"
 
 const SearchResult = ({ searchResult, visible, setSearchValue}) => {
 
@@ -14,7 +14,7 @@ const SearchResult = ({ searchResult, visible, setSearchValue}) => {
             <div className={styles.searchResult_shape} />
             <div className={styles.searchResult_content}>
                 <div className={styles.searchResult_slider} >
-                    { searchResult.map((item, index) => <SearchResultItem key={index} item={item} handleChangeValue={handleChangeValue} />)}
+                    { searchResult.map((item, index) => <Item key={index} item={item} handleChangeValue={handleChangeValue} />)}
                 </div>
             </div>
         </div>

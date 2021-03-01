@@ -3,9 +3,9 @@ import { useRouter } from 'next/router'
 import { Location, Verified as VerifiedIcon } from "../../icons";
 import { numCommaFormatter } from "../../../util/formatter";
 
-import styles from "./layout-header-search-result-item.module.css";
+import styles from "./item.module.css";
 
-const SearchResultItem = ({item, handleChangeValue}) => {
+const Item = ({item, handleChangeValue}) => {
     const router = useRouter()
 
     const Verified = item && item.isVerified && (
@@ -62,4 +62,4 @@ const SearchResultItem = ({item, handleChangeValue}) => {
     )
 }
 
-export default SearchResultItem
+export default Item

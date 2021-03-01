@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import SearchResult from "../layout-header-search-result";
-import { Search as SearchIcon } from "../../icons";
+import Router from "next/router";
+import SearchInput from "../../search-input";
+import SearchResult from "../../search-result";
 import { publicFetch } from "../../../util/fetcher";
 
 import styles from "./layout-header-search.module.css";
-import Router from "next/router";
 
 const Search = () => {
     const searchContainerRef = useRef(null);
@@ -42,9 +42,16 @@ const Search = () => {
 
     return (
         <div ref={searchContainerRef} className={styles.searchContainer}>
-            <input placeholder="Search" value={searchValue} onChange={e => setSearchValue(e.target.value)} onFocus={() => setOnFocused(true)}/>
-            <SearchIcon className={styles.searchIcon} color="#8e8e8e" />
-            <SearchResult searchResult={searchResult} visible={onFocused && searchValue && searchResult.length > 0} setSearchValue={setSearchValue} />
+            <SearchInput
+                value={searchValue}
+                setValue={setSearchValue}
+                setOnFocused={setOnFocused}
+            />
+            <SearchResult
+                searchResult={searchResult}
+                visible={onFocused && searchValue && searchResult.length > 0}
+                setSearchValue={setSearchValue}
+            />
         </div>
     )
 }

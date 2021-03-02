@@ -1,10 +1,11 @@
 import React,  { useState } from "react";
-import Search from "../layout-header-search";
+import Search from "../../search";
 import ButtonGroup from "../../button-group";
 import {Activity, ActivityActive, Explore, ExploreActive, Home, HomeActive, Message, MessageActive} from "../../icons";
 import Avatar from "../../avatar";
 
 import styles from "./layout-header.module.css";
+import Button from "../../button";
 
 const Header = () => {
     const [mode, setMode] = useState("Home")
@@ -12,9 +13,9 @@ const Header = () => {
     return (
         <header className={styles.container}>
             <div className={styles.centered}>
-                <div style={{ flex: "1 9999 0" }}>
+                <Button href="/" style={{ flex: "1 9999 0" }}>
                     <img className={styles.logo} src="../../../static/images/logo.png" />
-                </div>
+                </Button>
                 <Search />
                 <div style={{ flex: "1 0 0" }}>
                     <ButtonGroup

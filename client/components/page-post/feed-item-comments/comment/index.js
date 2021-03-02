@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import cn from 'classnames'
+import Avatar from "../../../avatar";
+import Button from "../../../button";
+import {Label} from "../../../Text";
 import { Like, Verified } from "../../../icons";
 import { timeFormatter, hashtagFormatter } from "../../../../util/formatter";
 
@@ -10,14 +12,15 @@ const Comment = ({ feedDescription, owner, text, createdAt, likes }) => {
 
     return (
         <div className={styles.commentContainer}>
-            <div>
-                <img className={cn("imageAvatar", styles.avatarMargin)} src={owner.userImageUrl}/>
-            </div>
+            <Avatar src={owner.userImageUrl} size={32} />
             <div className={styles.commentContent}>
                 <Link href="/[username]" as={`/${owner.username}`}>
                     <a className="label open">{owner.username}</a>
                 </Link>
                 &nbsp;{ owner.isVerified ? <Verified width={"15px"} height={"15px"} />: null }
+                {/*<Button href="/[username]" as={`/${owner.username}`} style={{ display: "inline" }}>*/}
+                {/*    <Label verified={owner.isVerified} hover>{owner.username}</Label>*/}
+                {/*</Button>*/}
                 &nbsp;{ hashtagFormatter(text) }
                 <div className={styles.commentActions}>
                     <a className="info grey">{timeFormatter(createdAt)}</a>

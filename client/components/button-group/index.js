@@ -1,8 +1,6 @@
 import React from 'react'
 import Button from '../button'
 
-import styles from './button-group.module.css'
-
 export default function ButtonGroup ({
     buttons,
     icons,
@@ -10,9 +8,17 @@ export default function ButtonGroup ({
     buttonStyle,
     selected,
     setSelected,
+    ...props
 }) {
     return (
-        <div className={styles.container}>
+        <div
+            style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "flex-end",
+            }}
+            {...props}
+        >
             {buttons.map((button, index) => (
                 <Button
                     key={button}

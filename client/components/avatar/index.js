@@ -15,8 +15,8 @@ export default function Avatar ({
             style={{
                 width: size || 22,
                 height: size || 22,
+                border: border && "1px solid rgba(0,0,0,.0975)",
                 borderRadius: border || 50,
-                border: border && "2px solid white",
             }}
         />
     );

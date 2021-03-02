@@ -23,3 +23,36 @@ export { default as Muted } from "./MutedIcon";
 export { default as Sound } from "./SoundIcon";
 export { default as Tv } from "./TvIcon";
 export { default as Reels } from "./ReelsIcon";
+
+const dynamicIcons = {
+    location: { backgroundImage: "url('../../static/images/icons3.png')", backgroundPosition: "-465px -180px"},
+    plus: { backgroundImage: "url('../../static/images/icons3.png')", backgroundPosition: "-440px -234px"},
+}
+export function DynamicIcon ({
+    type,
+    size,
+    border,
+}) {
+    return (
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: size || 44,
+                width: size || 44,
+                borderRadius: border && 50,
+                border: border && "1px solid rgba(0,0,0,.0975)"
+            }}
+        >
+            <span
+                style={{
+                    ...dynamicIcons[type],
+                    display: "block",
+                    height: "26px",
+                    width: "26px"
+                }}
+            />
+        </div>
+    );
+}

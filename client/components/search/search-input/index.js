@@ -1,6 +1,5 @@
 import React from "react";
-import { Search } from "../icons";
-
+import { Search } from "../../icons";
 
 import styles from "./search-input.module.css";
 
@@ -14,7 +13,7 @@ export default function SearchInput ({value, setValue, setOnFocused}) {
                 onChange={e => setValue(e.target.value)}
                 onFocus={() => setOnFocused(true)}
             />
-            <Search className={styles.searchIcon} color="#8e8e8e" />
+            <Search className={styles.inputIcon} color="#8e8e8e" />
         </>
     )
 }

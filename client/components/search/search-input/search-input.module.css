@@ -1,12 +1,4 @@
-.searchContainer {
-    position: relative;
-    flex: 0 1 auto;
-    height: 28px;
-    width: 215px;
-    min-width: 125px;
-}
-
-.searchContainer > input {
+.input {
     width: 100%;
     height: 100%;
     border: solid 1px #dbdbdb;
@@ -15,12 +7,10 @@
     color: #262626;
     outline: 0;
     padding: 3px 10px 3px 26px;
-    /*font-size: 14px;*/
     font-weight: lighter;
-    /*text-align: center;*/
-
 }
-.searchIcon {
+
+.inputIcon {
     position: absolute;
     left: 6px;
     top: 50%;

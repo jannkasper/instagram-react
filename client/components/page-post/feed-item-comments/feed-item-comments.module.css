@@ -28,12 +28,3 @@
     align-items: center;
     justify-content: center;
 }
-
-.moreCommentsIcon {
-    display: block;
-    background-repeat: no-repeat;
-    background-position: -440px -234px;
-    height: 24px;
-    width: 24px;
-    background-image: url("../../../static/images/icons3.png");
-}

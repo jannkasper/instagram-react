@@ -79,10 +79,6 @@ button:focus {
   white-space: nowrap;
 }
 
-.auto-right {
-  margin-left: auto;
-}
-
 .link {
   color: #00376b;
   text-decoration: none;

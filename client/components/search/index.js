@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Router from "next/router";
-import SearchInput from "../../search-input";
-import SearchResult from "../../search-result";
-import { publicFetch } from "../../../util/fetcher";
+import SearchInput from "./search-input";
+import SearchResult from "./search-result";
+import { publicFetch } from "../../util/fetcher";
 
-import styles from "./layout-header-search.module.css";
+import styles from "./search.module.css";
 
 const Search = () => {
     const searchContainerRef = useRef(null);
-
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [onFocused, setOnFocused] = useState(false);
@@ -31,17 +30,14 @@ const Search = () => {
                 setOnFocused(false)
             }
         }
-
-        // Bind the event listener
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-            // Unbind the event listener on clean up
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [searchContainerRef]);
 
     return (
-        <div ref={searchContainerRef} className={styles.searchContainer}>
+        <div ref={searchContainerRef} className={styles.container}>
             <SearchInput
                 value={searchValue}
                 setValue={setSearchValue}

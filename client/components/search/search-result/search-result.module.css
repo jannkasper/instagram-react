@@ -1,4 +1,4 @@
-.searchResultContainer {
+.container {
     visibility: hidden;
     z-index: 3;
     background: #fff;
@@ -11,11 +11,11 @@
     filter: drop-shadow(0 0 0.75rem rgba(0,0,0,.0975));
 }
 
-.searchResultVisible {
+.visibility {
     visibility: visible;
 }
 
-.searchResult_content {
+.content {
     height: 362px;
     width: 100%;
     border-radius: 6px;
@@ -28,7 +28,7 @@
     outline: 0;
 }
 
-.searchResult_slider {
+.scrollable {
     padding: 12px 0 0 0;
     width: 100%;
     overflow-x: hidden;
@@ -36,7 +36,7 @@
     white-space: nowrap;
 }
 
-.searchResult_shape {
+.triangle_shape {
     position: absolute;
     width: 14px;
     height: 14px;

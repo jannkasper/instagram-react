@@ -6,11 +6,8 @@
 
 }
 
-.avatarMargin {
-    margin-right: 18px;
-}
-
 .commentContent {
+    margin-left: 18px;
     word-break: break-word;
     flex: 1 1 auto;
     padding-right: 5px;

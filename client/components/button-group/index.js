@@ -6,6 +6,8 @@ export default function ButtonGroup ({
     icons,
     activeIcons,
     buttonStyle,
+    groupStyle,
+    lastStyle,
     selected,
     setSelected,
     ...props
@@ -15,14 +17,14 @@ export default function ButtonGroup ({
             style={{
                 display: "flex",
                 flexWrap: "wrap",
-                justifyContent: "flex-end",
+                ...groupStyle
             }}
             {...props}
         >
             {buttons.map((button, index) => (
                 <Button
                     key={button}
-                    style={buttonStyle}
+                    style={{...buttonStyle, ...(index === button.length - 1 && lastStyle)}}
                     onClick={() => setSelected(button)}
                 >
                     { (button === selected && activeIcons && activeIcons[index]) || (icons && icons[index]) || button }

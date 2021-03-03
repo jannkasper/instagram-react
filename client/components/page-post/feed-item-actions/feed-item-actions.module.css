@@ -4,21 +4,21 @@
     border-top: 1px solid #efefef;
 }
 
-.itemButtonGroup {
-    display: flex;
-    padding: 0 0.5rem 0 0.5rem;
-    align-items: stretch;
-    flex-direction: row;
-}
+/*.itemButtonGroup {*/
+/*    display: flex;*/
+/*    padding: 0 0.5rem 0 0.5rem;*/
+/*    align-items: stretch;*/
+/*    flex-direction: row;*/
+/*}*/
 
-.itemButtonGroup > svg {
-    margin: 0.5rem;
-    cursor: pointer;
-}
+/*.itemButtonGroup > svg {*/
+/*    margin: 0.5rem;*/
+/*    cursor: pointer;*/
+/*}*/
 
-.itemButtonGroup > :last-child {
-    margin-left: auto;
-}
+/*.lastChild {*/
+/*    margin-left: auto;*/
+/*}*/
 
 .infoGroup {
     margin-left: 1rem;

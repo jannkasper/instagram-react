@@ -29,14 +29,13 @@ const FeedItemComments = ({ commentsData1, owner, text, createdAt, shortcode }) 
     return (
         <div className={styles.feedItemCommentsContainer}>
             <div className={styles.feedItemCommentsSlider}>
-                {text ? <Comment feedDescription owner={owner} text={text} createdAt={createdAt}/> : null}
+                {text && <Comment feedDescription owner={owner} text={text} createdAt={createdAt}/>}
                 {commentsData.commentsArray.map((el, index) => <Comment key={index} {...el} />)}
-                {commentsData.pageInfo?.hasNextPage ? (
+                {commentsData.pageInfo?.hasNextPage && (
                     <Button className={styles.moreComments} onClick={loadComments}>
                         <DynamicIcon type="plus"/>
                     </Button>
-                ) : null
-                }
+                )}
             </div>
         </div>
     );

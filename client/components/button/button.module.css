@@ -6,7 +6,7 @@
 }
 
 .button {
-    display: flex;
+    /*display: flex;*/
     /*align-self: center;*/
     cursor: pointer;
 }

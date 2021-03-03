@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../components/button";
 
 export function numFormatter(num) {
     if (num > 999 && num < 1000000) {
@@ -74,9 +75,9 @@ export function bioFormatter(bio) {
 function linkFormatter (array) {
     return array.map(item => {
         if (item.startsWith('#')) {
-            return <a className="link" href={`/explore/tags/${item.slice(1)}`} >{item}</a>
+            return <Button style={{  color: "#00376b", display: "inline" }} href={`/explore/tags/${item.slice(1)}`} >{item}</Button>
         } else if (item.startsWith('@')) {
-            return <a className="link" href={`/${item.slice(1)}`}>{item}</a>
+            return <Button style={{  color: "#00376b", display: "inline" }} href={`/${item.slice(1)}`}>{item}</Button>
         } else if (item == "<br/>") {
             return <br/>
         } else {

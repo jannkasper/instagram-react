@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Avatar from "../../../avatar";
 import Button from "../../../button";
-import {Label} from "../../../Text";
+import {Info, Label} from "../../../Text";
 import { Like, Verified } from "../../../icons";
 import { timeFormatter, hashtagFormatter } from "../../../../util/formatter";
 
@@ -14,25 +14,21 @@ const Comment = ({ feedDescription, owner, text, createdAt, likes }) => {
         <div className={styles.commentContainer}>
             <Avatar src={owner.userImageUrl} size={32} />
             <div className={styles.commentContent}>
-                <Link href="/[username]" as={`/${owner.username}`}>
-                    <a className="label open">{owner.username}</a>
-                </Link>
-                &nbsp;{ owner.isVerified ? <Verified width={"15px"} height={"15px"} />: null }
-                {/*<Button href="/[username]" as={`/${owner.username}`} style={{ display: "inline" }}>*/}
-                {/*    <Label verified={owner.isVerified} hover>{owner.username}</Label>*/}
-                {/*</Button>*/}
-                &nbsp;{ hashtagFormatter(text) }
+                <Button href="/[username]" as={`/${owner.username}`} style={{ display: "inline" }}>
+                    <Label verified={owner.isVerified} useHover>{owner.username}</Label>
+                </Button>
+                { hashtagFormatter(text) }
                 <div className={styles.commentActions}>
-                    <a className="info grey">{timeFormatter(createdAt)}</a>
-                    { feedDescription ? null :
+                    <Info color={"#8e8e8e"}>{timeFormatter(createdAt)}</Info>
+                    { !feedDescription &&
                             <>
-                            { likes ? <button className="info bold grey">{likes} like</button> : null}
-                                <button className="info bold grey">Reply</button>
+                            { likes && <Button><Info color={"#8e8e8e"} weight={600}>{likes} like</Info></Button> }
+                                <Button><Info color={"#8e8e8e"} weight={600}>Reply</Info></Button>
                             </>
                     }
                 </div>
             </div>
-            { feedDescription ? null :
+            { !feedDescription &&
                 <div>
                     <Like/>
                 </div>

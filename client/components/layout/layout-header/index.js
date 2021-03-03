@@ -23,6 +23,7 @@ const Header = () => {
                         icons={[<Home/>, <Message/>, <Explore/>, <Activity/>, <Avatar/>]}
                         activeIcons={[<HomeActive/>, <MessageActive/>, <ExploreActive/>, <ActivityActive/>, <Avatar/>]}
                         buttonStyle={{ marginLeft: "10px" }}
+                        groupStyle={{ justifyContent: "flex-end" }}
                         selected={mode}
                         setSelected={setMode}
                     />

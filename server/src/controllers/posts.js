@@ -11,7 +11,11 @@ export const instagramPostToPostObject = (instagramPost) => {
         resourceArray: instagramPost.display_resources,
         createdAt: instagramPost.taken_at_timestamp,
         description: instagramPost.edge_media_to_caption?.edges?.map(el => el.node.text).shift(),
-        location: instagramPost.location?.name,
+        location: instagramPost.location && {
+            id: instagramPost.location.id,
+            slug: instagramPost.location.slug,
+            name: instagramPost.location.name
+        },
         owner: {
             id: instagramPost.owner.id,
             username: instagramPost.owner.username,

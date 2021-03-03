@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Verified } from "../icons";
 
 export function Label ({
     size = 14,
     height = 18,
-    weight = 700,
+    weight = 600,
     verified = false,
+    color,
     display = "inherit",
+    useHover,
     children
 }) {
+    const [isHover, setHover] = useState(false);
+    const toggleHover = () => setHover(!isHover);
+
+    const textStyle = useHover && isHover ? { textDecoration: "underline" } : { textDecoration: "none" };
     return (
         <div
             style={{
@@ -16,9 +22,17 @@ export function Label ({
                 fontSize: size,
                 lineHeight: `${height}px`,
                 fontWeight: weight,
+                color: color,
+                textDecoration: "none",
             }}
         >
-            {children}
+            <span
+                style={textStyle}
+                onMouseEnter={toggleHover}
+                onMouseLeave={toggleHover}
+            >
+                {children}
+            </span>
             &nbsp;
             {verified ? <Verified width={size} height={size} /> : null}
         </div>
@@ -29,12 +43,13 @@ export function Info ({
    size = 12,
    height = 18,
    weight = 400,
-    color,
+   color,
    children
 }) {
     return children ? (
-        <div
+        <span
             style={{
+                // display: "inline",
                 fontSize: size,
                 lineHeight: `${height}px`,
                 fontWeight: weight,
@@ -46,6 +61,6 @@ export function Info ({
             }}
         >
             {children}
-        </div>
+        </span>
     ) : null
 }

@@ -14,13 +14,17 @@ const FeedItemHeader = ({ owner, location }) => {
             <Avatar src={owner.userImageUrl} size={32} />
             <div className={styles.textWrapper}>
                 <Button href={`/${owner.username}`}>
-                    <Label verified={owner.isVerified}>
+                    <Label verified={owner.isVerified} useHover>
                         {owner.username}
                     </Label>
                 </Button>
-                <Info>
-                    {location}
-                </Info>
+                { location &&
+                <Button href={`/explore/locations/${location.id}/${location.slug}`}>
+                    <Info>
+                        {location.name}
+                    </Info>
+                </Button>
+                }
             </div>
             <div style={{ marginLeft: "auto "}}>
                 <More />

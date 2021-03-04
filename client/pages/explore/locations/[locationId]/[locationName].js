@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from "../../../../components/layout";
-import FeedGallery from "../../../../components/page-gallery";
+import FeedGallery from "../../../../components/feed-gallery";
 import HeaderExplore from "../../../../components/page-header/header-explore";
 import { Instagram } from "../../../../components/icons";
 import { ScrollContext } from "../../../../store/scroll";

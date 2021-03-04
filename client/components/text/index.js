@@ -9,12 +9,14 @@ export function Label ({
     color,
     display = "inherit",
     useHover,
+    textTransform = "none",
+    additionalStyle,
     children
 }) {
     const [isHover, setHover] = useState(false);
     const toggleHover = () => setHover(!isHover);
 
-    const textStyle = useHover && isHover ? { textDecoration: "underline" } : { textDecoration: "none" };
+    const hoverStyle = useHover && isHover ? { textDecoration: "underline" } : { textDecoration: "none" };
     return (
         <div
             style={{
@@ -24,10 +26,12 @@ export function Label ({
                 fontWeight: weight,
                 color: color,
                 textDecoration: "none",
+                textTransform: textTransform,
+                ...additionalStyle
             }}
         >
             <span
-                style={textStyle}
+                style={hoverStyle}
                 onMouseEnter={toggleHover}
                 onMouseLeave={toggleHover}
             >

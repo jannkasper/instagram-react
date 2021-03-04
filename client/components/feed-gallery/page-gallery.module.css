@@ -11,15 +11,6 @@
     justify-content: center;
 }
 
-.feedGallery_header {
-    /*flex: 1 1 auto;*/
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 18px;
-    color: #8e8e8e;
-}
-
 .galleryUserName {
     display: inline;
     color: #262626;

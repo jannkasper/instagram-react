@@ -2,11 +2,12 @@ import React, { useRef, useState } from "react";
 
 import styles from "./feed-item-add-comment.module.css"
 import {Emoji} from "../../icons";
+import Button from "../../button";
 
 const FeedItemAddComment= () => {
     const changeRef = useRef(null);
     const [textAreaSize, setAreaSize] = useState(18);
-    const [isTyped, setTyped] = useState(false);
+    const [isTyping, setTyping] = useState(false);
 
     return (
         <form method="POST" className={styles.addCommentContainer}>
@@ -21,12 +22,12 @@ const FeedItemAddComment= () => {
                 ref={changeRef}
                 onChange={(e) => {
                     setAreaSize(changeRef.current.scrollHeight);
-                    setTyped(e.target.value.length > 0);
+                    setTyping(e.target.value.length > 0);
                 }}
             />
-            <button className={styles.addCommentButton} style={{ opacity: isTyped ? 1 : 0.3 }}>
-                Share
-            </button>
+            <Button secondary active={isTyping}>
+                Post
+            </Button>
         </form>
     );
 }

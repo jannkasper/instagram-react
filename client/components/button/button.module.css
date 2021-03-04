@@ -12,10 +12,10 @@
 }
 
 .button:hover {
-    background: transparent;
-    box-shadow: 0 0 0 transparent;
-    border: 0 solid transparent;
-    text-shadow: 0 0 0 transparent;
+    /*background: transparent;*/
+    /*box-shadow: 0 0 0 transparent;*/
+    /*border: 0 solid transparent;*/
+    /*text-shadow: 0 0 0 transparent;*/
 }
 
 .button:active {
@@ -25,4 +25,14 @@
 
 .button:focus {
     outline: 0;
+}
+
+.secondary {
+    font-size: 14px;
+    color: #0095f6;
+    background-color: transparent;
+}
+
+.transparent {
+    opacity: 0.3;
 }

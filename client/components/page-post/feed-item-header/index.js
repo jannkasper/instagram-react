@@ -4,7 +4,7 @@ import styles from "./feed-item-header.module.css"
 import {More, Verified} from "../../icons";
 import Link from "next/link";
 import Button from "../../button";
-import {Info, Label} from "../../Text";
+import {Info, Label} from "../../text";
 import Avatar from "../../avatar";
 
 const FeedItemHeader = ({ owner, location }) => {

@@ -23,6 +23,7 @@ const BaseButton = ({ children, ...props }) => {
 export default function Button ({
     primary,
     secondary,
+    active = true,
     full = false,
     isLoading = false,
     children,
@@ -36,6 +37,7 @@ export default function Button ({
                 styles.button,
                 primary && styles.primary,
                 secondary && styles.secondary,
+                !active && styles.transparent,
                 full && styles.full,
                 isLoading && styles.isLoading,
                 className

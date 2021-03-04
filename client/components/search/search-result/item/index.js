@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "../../../avatar";
 import { DynamicIcon } from "../../../icons";
-import { Label, Info } from "../../../Text";
+import { Label, Info } from "../../../text";
 import { numCommaFormatter } from "../../../../util/formatter";
 
 import styles from "./item.module.css";

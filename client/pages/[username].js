@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from "../components/layout";
-import FeedGallery from "../components/page-gallery";
+import FeedGallery from "../components/feed-gallery";
 import ContentPrivate from "../components/page-header/content-private";
 import { Instagram } from "../components/icons";
 import { ScrollContext } from "../store/scroll";
@@ -64,7 +64,7 @@ export default function Username({ username }) {
             <Layout>
                 <HeaderUser userData={userData} />
                 { userData.hasStories && <HeaderStories username={username} userId={userData.id} /> }
-                { userData.isPrivate ? <ContentPrivate /> : <FeedGallery mediaArray={userData[currentFeed]?.mediaArray} setCurrentFeed={setCurrentFeed}/> }
+                { userData.isPrivate ? <ContentPrivate /> : <FeedGallery useTabGroup mediaArray={userData[currentFeed]?.mediaArray} setCurrentFeed={setCurrentFeed}/> }
             </Layout>
         )
     } else {

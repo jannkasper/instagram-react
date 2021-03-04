@@ -27,10 +27,14 @@ export { default as Reels } from "./ReelsIcon";
 const dynamicIcons = {
     location: { backgroundImage: "url('../../static/images/icons3.png')", backgroundPosition: "-465px -180px"},
     plus: { backgroundImage: "url('../../static/images/icons3.png')", backgroundPosition: "-440px -234px"},
+    previous: { backgroundImage: "url('../../static/images/icons2.png')", backgroundPosition: "-130px -98px"},
+    next: { backgroundImage: "url('../../static/images/icons2.png')", backgroundPosition: "-162px -98px"},
+
 }
 export function DynamicIcon ({
     type,
     size,
+    iconSize,
     border,
 }) {
     return (
@@ -49,8 +53,8 @@ export function DynamicIcon ({
                 style={{
                     ...dynamicIcons[type],
                     display: "block",
-                    height: "26px",
-                    width: "26px"
+                    height: iconSize || 26,
+                    width: iconSize || 26
                 }}
             />
         </div>

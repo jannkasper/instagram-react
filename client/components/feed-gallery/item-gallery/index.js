@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { ActivityActive, CommentActive } from "../../icons";
 import { numFormatter } from "../../../util/formatter";
 
-import styles from "./feed-gallery-item.module.css";
+import styles from "./item-gallery.module.css";
 
-const FeedGalleryItem = ({ mediaData }) => {
+const ItemGallery = ({ mediaData }) => {
 
     const AdditionalIcon = () => {
         if (mediaData.isVideo || mediaData.isSidecar) {
@@ -39,4 +39,4 @@ const FeedGalleryItem = ({ mediaData }) => {
     )
 }
 
-export default FeedGalleryItem
+export default ItemGallery

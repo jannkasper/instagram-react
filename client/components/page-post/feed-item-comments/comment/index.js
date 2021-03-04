@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Avatar from "../../../avatar";
 import Button from "../../../button";
-import {Info, Label} from "../../../Text";
+import {Info, Label} from "../../../text";
 import { Like, Verified } from "../../../icons";
 import { timeFormatter, hashtagFormatter } from "../../../../util/formatter";
 
@@ -22,7 +22,7 @@ const Comment = ({ feedDescription, owner, text, createdAt, likes }) => {
                     <Info color={"#8e8e8e"}>{timeFormatter(createdAt)}</Info>
                     { !feedDescription &&
                             <>
-                            { likes && <Button><Info color={"#8e8e8e"} weight={600}>{likes} like</Info></Button> }
+                            { likes > 0 && <Button><Info color={"#8e8e8e"} weight={600}>{likes} like</Info></Button> }
                                 <Button><Info color={"#8e8e8e"} weight={600}>Reply</Info></Button>
                             </>
                     }

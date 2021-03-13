@@ -1,0 +1,12 @@
+.addComments {
+    min-height: 40px;
+    min-width: 40px;
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    background: 0 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

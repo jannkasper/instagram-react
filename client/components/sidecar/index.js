@@ -4,6 +4,7 @@ import Button from "../button";
 import { DynamicIcon } from "../icons";
 
 import styles from "./sidecar.module.css";
+import Image from "../image";
 
 export default function Sidecar ({
     imageArray,
@@ -24,16 +25,7 @@ export default function Sidecar ({
                     <DynamicIcon type="next" iconSize={30} />
                 </Button>
             ) : null }
-            <img
-                src={imageArray[currentSlide].resourceArray[1].src}
-                style={{
-                    maxWidth: "inherit",
-                    height: "inherit",
-                    left: 0,
-                    top: 0,
-                    objectFit: "cover"
-                }}
-            />
+            <Image src={imageArray[currentSlide].resourceArray[1].src} />
         </>
     );
 }

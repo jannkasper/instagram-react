@@ -23,12 +23,15 @@ export { default as Muted } from "./MutedIcon";
 export { default as Sound } from "./SoundIcon";
 export { default as Tv } from "./TvIcon";
 export { default as Reels } from "./ReelsIcon";
+export { default as Triangle } from "./TriangleIcon";
 
 const dynamicIcons = {
     location: { backgroundImage: "url('../../static/images/icons3.png')", backgroundPosition: "-465px -180px"},
     plus: { backgroundImage: "url('../../static/images/icons3.png')", backgroundPosition: "-440px -234px"},
     previous: { backgroundImage: "url('../../static/images/icons2.png')", backgroundPosition: "-130px -98px"},
     next: { backgroundImage: "url('../../static/images/icons2.png')", backgroundPosition: "-162px -98px"},
+    sidecar: { backgroundImage: "url('../../static/images/icons.png')" },
+    video: { backgroundImage: "url('../../static/images/icons.png')", backgroundPosition: "0 -34px"},
 
 }
 export function DynamicIcon ({
@@ -36,13 +39,15 @@ export function DynamicIcon ({
     size,
     iconSize,
     border,
+    justifyContent,
+    alignItems
 }) {
     return (
         <div
             style={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: justifyContent || "center",
+                alignItems: alignItems || "center",
                 height: size || 44,
                 width: size || 44,
                 borderRadius: border && 50,

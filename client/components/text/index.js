@@ -6,10 +6,12 @@ export function Label ({
     height = 18,
     weight = 600,
     verified = false,
+    iconSize,
     color,
     display = "inherit",
     useHover,
     textTransform = "none",
+    textAlign = "none",
     additionalStyle,
     children
 }) {
@@ -27,18 +29,19 @@ export function Label ({
                 color: color,
                 textDecoration: "none",
                 textTransform: textTransform,
+                textAlign: textAlign,
                 ...additionalStyle
             }}
         >
             <span
-                style={hoverStyle}
+                style={{...hoverStyle}}
                 onMouseEnter={toggleHover}
                 onMouseLeave={toggleHover}
             >
                 {children}
             </span>
             &nbsp;
-            {verified ? <Verified width={size} height={size} /> : null}
+            {verified ? <Verified width={iconSize || size} height={iconSize || size} /> : null}
         </div>
     );
 }
@@ -48,7 +51,8 @@ export function Info ({
    height = 18,
    weight = 400,
    color,
-   children
+   children,
+   textTransformation,
 }) {
     return children ? (
         <span
@@ -61,7 +65,8 @@ export function Info ({
                 maxWidth: "100%",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                whiteSpace: "nowrap"
+                whiteSpace: "nowrap",
+                textTransform: textTransformation || "none",
             }}
         >
             {children}

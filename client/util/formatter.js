@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../components/button";
+import {Info} from "../components/text";
 
 export function numFormatter(num) {
     if (num > 999 && num < 1000000) {
@@ -107,3 +108,22 @@ export function hashtagFormatter(text) {
     }
     return linkFormatter(splitSpacesArray)
 }
+
+export function mutualFollow(mutualFollow) {
+    const result = ["Followed by "];
+    for (let step = 0; step < mutualFollow.usernameArray.length; step++) {
+        result.push(
+            <Button href={`/${mutualFollow.usernameArray[step]}`} key={step}>
+                <Info weight="500" color="#262626">{mutualFollow.usernameArray[step]}</Info>
+            </Button>
+        )
+        result.push(step + 1 == mutualFollow.usernameArray.length ? " " : ", ")
+    }
+
+    if (mutualFollow.count - mutualFollow.usernameArray.length > 0) {
+        result.push(`+${mutualFollow.count - mutualFollow.usernameArray.length} more`)
+    }
+
+    return result
+}
+

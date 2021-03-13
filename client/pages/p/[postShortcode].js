@@ -1,47 +1,32 @@
 import React, {useEffect, useState} from "react";
 import Layout from "../../components/layout";
-import FeedItemMain from "../../components/page-post";
-import FeedGallery from "../../components/feed-gallery";
+import InstagramPost from "../../components/instagram-post";
 import { Instagram } from "../../components/icons";
-import { publicFetch } from "../../util/fetcher";
-import Router from "next/router";
+import InstagramGrid from "../../components/instagram-grid";
+import { fetchState } from "../../util/context";
 
 export default function Post({ postShortcode }) {
-    const [postData, setPostData] = useState(null)
-    const [mediaData, setMediaData] = useState(null)
+    const [dataState, setDataState] = useState(null);
+    const [extraDataState, setExtraDataState] = useState({});
 
-    useEffect( () => {
-        publicFetch.get(`/posts/${postShortcode}`).then( response => {
-            if (response.data.error) {
-                Router.push('/404')
-            } else {
-                setPostData(response.data);
-                fetchMoreMedia(response.data.owner.id, 12 , undefined)
-            }
-        })
-    }, [postShortcode]);
+    useEffect(() => {
+        fetchState(setDataState,`/posts/${postShortcode}`)
+    }, [postShortcode])
 
-    const fetchMoreMedia = async (userId, first, endCursor) => {
-        const params = {
-            userId: userId,
-            first: first,
-            after: endCursor
+    useEffect(() => {
+        if (dataState) {
+            fetchState(setExtraDataState,`/posts/${postShortcode}/more`, { userId: dataState.owner.id, first: 12, after: undefined })
         }
-        publicFetch.get(`/posts/${postShortcode}/more`, { params }).then( response => {
-            setMediaData(response.data);
-        });
-    }
+    }, [dataState])
 
-    if (postData) {
-        return (
+    return (dataState ?
             <Layout>
-                <FeedItemMain postData={postData} />
-                <FeedGallery mediaArray={mediaData?.mediaArray} title={`More posts from ${postData.owner.username}`} />
+                <InstagramPost post={dataState} />
+                <InstagramGrid mediaArray={extraDataState.mediaArray} title={`More posts from ${dataState.owner.username}`} />
             </Layout>
-        )
-    } else {
-        return ( <Instagram /> );
-    }
+            :
+            <Instagram />
+    )
 };
 
 
@@ -49,7 +34,8 @@ export async function getServerSideProps(context) {
     const postShortcode = context.params.postShortcode
     return {
         props: {
-            postShortcode
+            postShortcode,
+            fetchURL: `/posts/${postShortcode}`
         }
     }
 }

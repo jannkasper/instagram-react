@@ -11,7 +11,7 @@ export default function Avatar ({
             alt={`${username}'s profile pic`}
             data-testid="avatar"
             draggable="false"
-            src={src || "../../static/images/avatar.jpg"}
+            src={src || "../../../static/images/avatar.jpg"}
             style={{
                 width: size || 22,
                 height: size || 22,

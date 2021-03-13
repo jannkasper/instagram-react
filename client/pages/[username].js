@@ -1,76 +1,44 @@
-import React, { useEffect, useState, useContext } from 'react'
-import Layout from "../components/layout";
-import FeedGallery from "../components/feed-gallery";
-import ContentPrivate from "../components/page-header/content-private";
-import { Instagram } from "../components/icons";
+import React, { useState, useEffect, useContext } from "react";
 import { ScrollContext } from "../store/scroll";
-import { publicFetch } from "../util/fetcher";
-import HeaderStories from "../components/page-header/header-stories";
-import HeaderUser from "../components/page-header/header-user";
-import Router from 'next/router'
-
+import Layout from "../components/layout";
+import { Instagram } from "../components/icons";
+import InstagramGrid from "../components/instagram-grid";
+import InstagramProfile from "../components/instagram-profile";
+import InstagramStories from "../components/instagram-stories";
+import ContentPrivate from "../components/private";
+import {fetchState, fetchExtendState} from "../util/context";
 
 export default function Username({ username }) {
+    const [dataState, setDataState] = useState(null);
+    const [isFetching, setIsFetching] = useState(false);
     const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
-    const [userData, setUserData] = useState(null);
-    const [currentFeed, setCurrentFeed] = useState('timelineMedia');
 
-    useEffect( () => {
-        publicFetch.get(`/users/${username}`).then( response => {
-            if (response.data.error) {
-                Router.push('/404')
-            } else {
-                Promise.resolve()
-                    .then(() => setUserData(response.data))
-                    // .then(() => fetchStories());
-            }
-        })
-    }, [username]);
+    useEffect(() => {
+        fetchState(setDataState,`/users/${username}`)
+    }, [username])
 
-    useEffect( () => {
-        if (triggerLoad && userData) {
-            const params = {
-                userId: userData.id,
-                first: 12,
-                endCursor: userData[currentFeed].pageInfo.endCursor
-            };
-            publicFetch.get(`/users/${username}/${currentFeed}/page`, { params }).then( response => {
-                setTriggerLoad(false);
-                setUserData({
-                    ...userData,
-                    [currentFeed]: { pageInfo: response.data.pageInfo, mediaArray: userData[currentFeed].mediaArray.concat(response.data.mediaArray) }
-                })
-            })
+    useEffect(async () => {
+        if (triggerLoad && !isFetching && dataState) {
+            setIsFetching(true);
+            await fetchExtendState(dataState, setDataState, `/users/${username}/timelineMedia/page`, { userId: dataState.id, first: 12, endCursor: dataState.timelineMedia.pageInfo.endCursor });
+            setTriggerLoad(false);
         }
-    }, [triggerLoad]);
+        setIsFetching(false);
+    }, [triggerLoad])
 
-    useEffect( () => {
-        if (userData && !userData[currentFeed]) {
-            const params = {
-                userId: userData.id,
-                first: 12,
-            };
-            publicFetch.get(`/users/${username}/${currentFeed}/page`, { params }).then( response => {
-                setUserData({
-                    ...userData,
-                    [currentFeed]: response.data
-                })
-            })
-        }
-    }, [currentFeed]);
-
-    if (userData) {
+    if (dataState) {
         return (
             <Layout>
-                <HeaderUser userData={userData} />
-                { userData.hasStories && <HeaderStories username={username} userId={userData.id} /> }
-                { userData.isPrivate ? <ContentPrivate /> : <FeedGallery useTabGroup mediaArray={userData[currentFeed]?.mediaArray} setCurrentFeed={setCurrentFeed}/> }
+                <InstagramProfile userData={dataState} />
+                { dataState.hasStories && <InstagramStories username={username} userId={dataState.id} /> }
+                { dataState.isPrivate && <ContentPrivate /> }
+                { !dataState.isPrivate && dataState.timelineMedia.mediaArray && <InstagramGrid useTabGroup mediaArray={dataState.timelineMedia.mediaArray} setCurrentFeed={null}/> }
             </Layout>
         )
     } else {
         return ( <Instagram /> );
     }
-}
+};
 
 export async function getServerSideProps(context) {
     const username = context.params.username

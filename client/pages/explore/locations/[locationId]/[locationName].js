@@ -1,49 +1,35 @@
-import React, { useEffect, useState, useContext } from 'react'
-import Layout from "../../../../components/layout";
-import FeedGallery from "../../../../components/feed-gallery";
-import HeaderExplore from "../../../../components/page-header/header-explore";
-import { Instagram } from "../../../../components/icons";
+import React, { useEffect, useContext, useState } from 'react'
 import { ScrollContext } from "../../../../store/scroll";
-import { publicFetch } from "../../../../util/fetcher";
-import Router from "next/router";
+import Layout from "../../../../components/layout";
+import InstagramExplore from "../../../../components/instagram-explore";
+import InstagramGrid from "../../../../components/instagram-grid";
+import { Instagram } from "../../../../components/icons";
+import {fetchExtendState, fetchState} from "../../../../util/context";
 
 export default function LocationName ({ locationId, locationName }) {
+    const [dataState, setDataState] = useState(null);
+    const [isFetching, setIsFetching] = useState(false);
     const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
-    const [locationData, setLocationData] = useState(null)
 
-    useEffect( () => {
-        publicFetch.get(`/locations/${locationId}/${locationName}`).then( response => {
-            if (response.data.error) {
-                Router.push('/404')
-            } else {
-                setLocationData(response.data);
-            }
-        })
-    }, [locationId]);
+    useEffect(() => {
+        fetchState(setDataState,`/locations/${locationId}/${locationName}`)
+    }, [locationId])
 
-    useEffect( () => {
-        if (triggerLoad && locationData) {
-            const params = {
-                locationId: locationId,
-                first: 12,
-                endCursor: locationData.timelineMedia.pageInfo.endCursor
-            };
-            publicFetch.get(`/locations/${locationId}/${locationName}/page`, { params }).then( response => {
-                setTriggerLoad(false);
-                setLocationData({
-                    ...locationData,
-                    timelineMedia: { pageInfo: response.data.pageInfo, mediaArray: locationData.timelineMedia.mediaArray.concat(response.data.mediaArray) }
-                })
-            })
+    useEffect(async () => {
+        if (triggerLoad && !isFetching && dataState) {
+            setIsFetching(true);
+            await fetchExtendState(dataState, setDataState, `/locations/${locationId}/${locationName}/page`, { locationId: locationId, first: 12, endCursor: dataState.timelineMedia.pageInfo.endCursor });
+            setTriggerLoad(false);
         }
-    }, [triggerLoad]);
+        setIsFetching(false);
+    }, [triggerLoad])
 
-    if (locationData) {
+    if (dataState) {
         return (
             <Layout>
-                <HeaderExplore isLocation id={locationData.id} postCount={locationData.postCount} name={locationData.locationName} imageUrl={locationData.locationImageUrl} />
-                <FeedGallery mediaArray={locationData.topMedia.mediaArray} title='Top posts' />
-                <FeedGallery mediaArray={locationData.timelineMedia.mediaArray} title='Most recent' />
+                <InstagramExplore isLocation id={dataState.id} postCount={dataState.postCount} name={dataState.locationName} imageUrl={dataState.locationImageUrl} />
+                <InstagramGrid mediaArray={dataState.topMedia.mediaArray} title='Top posts' />
+                <InstagramGrid mediaArray={dataState.timelineMedia.mediaArray} title='Most recent' />
             </Layout>
         )
     } else {
@@ -56,7 +42,8 @@ export async function getServerSideProps(context) {
     return {
         props: {
             locationId,
-            locationName
+            locationName,
+
         }
     }
 }

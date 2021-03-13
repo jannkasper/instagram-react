@@ -1,0 +1,29 @@
+.feedItemMainContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 48px;
+}
+
+.feedItemMainContent {
+    max-width: 598px;
+    height: 598px;
+}
+
+.feedItemMainDescription {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #efefef;
+    background-color: white;
+    width: 335px;
+    height: 598px;
+}
+
+.feedItemMainLine {
+    display: block;
+    margin-top: 48px;
+    background-color: #dbdbdb;
+    border: 0;
+    height: 100px;
+    width: 100%;
+}

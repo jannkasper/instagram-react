@@ -1,50 +1,36 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import Layout from "../../../components/layout";
-import FeedGallery from "../../../components/feed-gallery";
-import HeaderExplore from "../../../components/page-header/header-explore";
+import InstagramExplore from "../../../components/instagram-explore";
+import InstagramGrid from "../../../components/instagram-grid";
 import { Instagram } from "../../../components/icons";
 import { ScrollContext } from "../../../store/scroll";
-import { publicFetch } from "../../../util/fetcher";
-import Router from "next/router";
+import {DataContext} from "../../../store/data";
+import {fetchExtendState, fetchState} from "../../../util/context";
 
 export default function TagName({ tagName }) {
+    const [dataState, setDataState] = useState(null);
+    const [isFetching, setIsFetching] = useState(false);
     const { triggerLoad, setTriggerLoad } = useContext(ScrollContext);
-    const [tagData, setTagData] = useState(null);
 
-    useEffect( () => {
-        publicFetch.get(`/tags/${tagName}`).then( response => {
-            if (response.data.error) {
-                Router.push('/404')
-            } else {
-                setTagData(response.data);
-            }
-        })
-    }, [tagName]);
+    useEffect(() => {
+        fetchState(setDataState,`/tags/${tagName}`)
+    }, [tagName])
 
-    useEffect( () => {
-        if (triggerLoad && tagData) {
-            const params = {
-                tagName: tagName,
-                first: 12,
-                endCursor: tagData.timelineMedia.pageInfo.endCursor
-            };
-
-            publicFetch.get(`/tags/${tagName}/page`, { params }).then( response => {
-                setTriggerLoad(false);
-                setTagData({
-                    ...tagData,
-                    timelineMedia: { pageInfo: response.data.pageInfo, mediaArray: tagData.timelineMedia.mediaArray.concat(response.data.mediaArray) }
-                })
-            })
+    useEffect(async () => {
+        if (triggerLoad && !isFetching && dataState) {
+            setIsFetching(true);
+            await fetchExtendState(dataState, setDataState, `/tags/${tagName}/page`, { tagName: tagName, first: 12, endCursor: dataState.timelineMedia.pageInfo.endCursor });
+            setTriggerLoad(false);
         }
-    }, [triggerLoad]);
+        setIsFetching(false);
+    }, [triggerLoad])
 
-    if (tagData) {
+    if (dataState) {
         return (
             <Layout>
-                <HeaderExplore isTag id={tagData.id} postCount={tagData.postCount} name={tagData.tagName} imageUrl={tagData.tagImageUrl} />
-                <FeedGallery mediaArray={tagData.topMedia.mediaArray} title='Top posts' />
-                <FeedGallery mediaArray={tagData.timelineMedia.mediaArray} title='Most recent' />
+                <InstagramExplore isTag id={dataState.id} postCount={dataState.postCount} name={dataState.tagName} imageUrl={dataState.tagImageUrl} />
+                <InstagramGrid mediaArray={dataState.topMedia.mediaArray} title='Top posts' />
+                <InstagramGrid mediaArray={dataState.timelineMedia.mediaArray} title='Most recent' />
             </Layout>
         )
     } else {
@@ -56,7 +42,7 @@ export async function getServerSideProps(context) {
     const tagName = context.params.tagName
     return {
         props: {
-            tagName
+            tagName,
         }
     }
 }

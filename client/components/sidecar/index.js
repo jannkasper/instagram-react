@@ -15,6 +15,7 @@ export default function Sidecar ({
 
     return (
         <>
+            <Image src={imageArray[currentSlide].resourceArray[1].src} />
             { currentSlide > 0 ? (
                 <Button className={cn(styles.position, styles.left)} onClick={handlePreviousSlide}>
                     <DynamicIcon type="previous" iconSize={30} />
@@ -25,7 +26,6 @@ export default function Sidecar ({
                     <DynamicIcon type="next" iconSize={30} />
                 </Button>
             ) : null }
-            <Image src={imageArray[currentSlide].resourceArray[1].src} />
-        </>
+            </>
     );
 }

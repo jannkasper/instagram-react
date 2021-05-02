@@ -4,7 +4,7 @@ import { FlexWrapper } from "../flex-wrapper";
 import Item from "./item";
 import TabGroup from "./tab-group";
 import EmptyGallery from "./empty-gallery";
-import { Label } from "../Text";
+import { Label } from "../text";
 
 
 const InstagramGrid = ({ mediaArray, title, setCurrentFeed, useTabGroup }) => {
@@ -23,7 +23,7 @@ const InstagramGrid = ({ mediaArray, title, setCurrentFeed, useTabGroup }) => {
             )
         }
     } else {
-        Content.push( <EmptyGallery /> )
+        Content.push( <EmptyGallery key={0} /> )
     }
 
     return (

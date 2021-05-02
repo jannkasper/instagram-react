@@ -2,7 +2,7 @@ import React from "react";
 import { FlexWrapper } from "../../flex-wrapper";
 import Button from "../../button";
 import Avatar from "../../avatar";
-import { Info, Label } from "../../Text";
+import { Info, Label } from "../../text";
 import { More } from "../../icons";
 
 const Author = ({ owner, location }) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import Wrapper from "../../wrapper";
 import ButtonGroup from "../../button-group";
-import { Info, Label } from "../../Text";
+import { Info, Label } from "../../text";
 import { Activity, ActivityActive, Comment, CommentActive, Message, MessageActive, Save } from "../../icons";
 import { dateFormatter, numCommaFormatter } from "../../../util/formatter";
 

@@ -60,12 +60,12 @@ export function bioFormatter(bio) {
 
     let test = bio.replace("\n", "<ERR>").split("<ERR>")
     if (test.length > 1) {
-        return bio.split(/(?:\r\n|\r|\n)/g).map(function(item) {
+        return bio.split(/(?:\r\n|\r|\n)/g).map(function(item, index) {
             return (
-                <>
+                <span key={index}>
                     {item}
                     <br/>
-                </>
+                </span>
             )
         })
     }
@@ -74,13 +74,13 @@ export function bioFormatter(bio) {
 }
 
 function linkFormatter (array) {
-    return array.map(item => {
+    return array.map((item, index) => {
         if (item.startsWith('#')) {
-            return <Button style={{  color: "#00376b", display: "inline" }} href={`/explore/tags/${item.slice(1)}`} >{item}</Button>
+            return <Button key={index} style={{  color: "#00376b", display: "inline" }} href={`/explore/tags/${item.slice(1)}`} >{item}</Button>
         } else if (item.startsWith('@')) {
-            return <Button style={{  color: "#00376b", display: "inline" }} href={`/${item.slice(1)}`}>{item}</Button>
+            return <Button key={index} style={{  color: "#00376b", display: "inline" }} href={`/${item.slice(1)}`}>{item}</Button>
         } else if (item == "<br/>") {
-            return <br/>
+            return <br key={index} />
         } else {
             return item;
         }

@@ -2,7 +2,7 @@ import React from "react";
 import {Camera} from "../../icons";
 
 import styles from "./empty-gallery.module.css";
-import {Label} from "../../Text";
+import {Label} from "../../text";
 
 const EmptyGallery = () => {
     return (

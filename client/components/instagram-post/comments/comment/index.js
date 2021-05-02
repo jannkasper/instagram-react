@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "../../../avatar";
 import Button from "../../../button";
-import {Info, Label} from "../../../Text";
+import {Info, Label} from "../../../text";
 import { Like } from "../../../icons";
 import { timeFormatter, hashtagFormatter } from "../../../../util/formatter";
 

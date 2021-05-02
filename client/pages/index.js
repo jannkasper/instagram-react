@@ -9,13 +9,16 @@ export default function Home() {
 
     useEffect(() => {
         fetchState(setDataState,"/posts")
-    })
+    }, [])
 
-    return (dataState ?
+    if (dataState) {
+        return (
             <Layout>
-                {dataState.postArray.map(item => <Post post={item} />)}
+                {dataState.postArray.map((item, index) => <Post key={index} post={item} />)}
             </Layout>
-            :
-            <Instagram />
-    )
+        )
+    } else {
+        return <Instagram />
+
+    }
 };

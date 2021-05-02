@@ -3,7 +3,7 @@ import Avatar from "../../../avatar";
 import Button from "../../../button";
 import { FlexWrapper } from "../../../flex-wrapper";
 import { DynamicIcon } from "../../../icons";
-import { Label, Info } from "../../../Text";
+import { Label, Info } from "../../../text";
 import { numCommaFormatter } from "../../../../util/formatter";
 
 import styles from "./item.module.css";

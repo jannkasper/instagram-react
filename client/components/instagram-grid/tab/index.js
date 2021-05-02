@@ -1,5 +1,5 @@
 import React from "react";
-import { Label } from "../../Text";
+import { Label } from "../../text";
 
 import styles from "./tab.module.css";
 import Button from "../../button";

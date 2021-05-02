@@ -80,6 +80,17 @@ const getGraphql = (response) => {
     }
 }
 
+const imageBase64Convert = (url) => {
+    return axios.get(url, {
+        responseType: 'arraybuffer'
+    })
+        .then(response => {
+            const  prefix = "data:" + response.headers["content-type"] + ";base64,";
+            const img = Buffer.from(response.data, 'binary').toString("base64");
+            return prefix + img;
+        })
+}
+
 export {
     instagramFetch,
     baseURL,
@@ -92,5 +103,6 @@ export {
     STORIES_PATH,
     SEARCH_PATH,
     errorHandling,
-    getGraphql
+    getGraphql,
+    imageBase64Convert
 }

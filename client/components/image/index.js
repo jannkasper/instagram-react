@@ -1,4 +1,5 @@
-import React from "react";
+import React, {  useEffect, useState } from "react";
+import {fetchImage} from "../../util/context";
 
 export default function Image ({
     src,
@@ -9,9 +10,19 @@ export default function Image ({
     borderRadius,
     left, top,
 }) {
+    const [imageBase64, setImageBase64] = useState(null);
+
+    useEffect( () => {
+        fetchImage(setImageBase64, src);
+    }, [src])
+
+    if (!imageBase64) {
+        return <></>
+    }
+
     return (
         <img
-            src={src || "../../static/images/vertical.jpg"}
+            src={imageBase64}
             style={{
                 position: position || "relative",
                 display: display || "block",

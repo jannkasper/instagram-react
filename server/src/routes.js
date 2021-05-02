@@ -7,6 +7,7 @@ import { loadLocation } from "./controllers/locations.js";
 import { loadUserStories } from "./controllers/stories.js";
 import { loadComments } from "./controllers/comments.js";
 import { loadLocationFeed, loadPostFeed, loadTagFeed, loadUserFeed, loadUserReelsFeed, loadUserTaggedFeed } from "./controllers/feed.js";
+import { loadImage } from "./controllers/image.js";
 
 const router = express.Router();
 
@@ -33,6 +34,9 @@ router.get("/locations/:locationId/:locationName/page", loadLocationFeed);
 
 //search
 router.get("/search/:query", loadSearch);
+
+//image
+router.get("/image", loadImage);
 
 export default (app) => {
     app.use("/api", router);

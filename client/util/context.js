@@ -19,3 +19,12 @@ export async function fetchExtendState(context, setContext, url, params) {
             })
         })
 }
+
+export function fetchImage(setContext, imageUrl) {
+    if (!imageUrl) {
+        return;
+    }
+    publicFetch.get("/image/?url=" + escape(imageUrl)).then(response => {
+        setContext(response.data)
+    })
+}

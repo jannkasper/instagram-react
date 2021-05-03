@@ -32,6 +32,10 @@ const instagramFetch = axios.create({
 });
 
 const convertPathParams = (params) => {
+    if (typeof params !== 'object' || params === null) {
+        return params;
+    }
+
     const paramArray = [];
     for (const[key, value] of Object.entries(params)) {
         if (!value) {
@@ -44,6 +48,9 @@ const convertPathParams = (params) => {
 }
 
 const replaceInString = (paramsString) => {
+    if (!paramsString) {
+        return paramsString;
+    }
     return paramsString.replace(/,/g, '%2C')
         .replace(/{/g, '%7B')
         .replace(/}/g, '%7D')

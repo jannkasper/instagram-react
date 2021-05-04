@@ -1,13 +1,20 @@
 import express from "express";
-import { loadPosts, loadPost } from "./controllers/postController.js";
-import { loadUser } from "./controllers/userController.js";
-import { loadSearch } from "./controllers/searchController.js"
-import { loadTag } from "./controllers/hashtagController.js";
-import { loadLocation } from "./controllers/locationController.js";
-import { loadUserStories } from "./controllers/storyController.js";
-import { loadComments } from "./controllers/commentController.js";
-import { loadLocationFeed, loadPostFeed, loadTagFeed, loadUserFeed, loadUserReelsFeed, loadUserTaggedFeed } from "./controllers/feedController.js";
-import { loadImage } from "./controllers/imageController.js";
+import {
+    loadPosts,
+    loadPost,
+    loadUser,
+    loadSearch,
+    loadHashtag,
+    loadLocation,
+    loadUserStories,
+    loadComments,
+    loadLocationFeed,
+    loadPostFeed,
+    loadHashtagFeed,
+    loadUserFeed,
+    loadUserReelsFeed,
+    loadUserTaggedFeed,
+    loadImage } from "./controllers/index.js";
 
 const router = express.Router();
 
@@ -24,9 +31,9 @@ router.get("/posts/:postId", loadPost);
 router.get("/posts/:postId/more", loadPostFeed);
 router.get("/posts/:postId/comments", loadComments);
 
-//tag
-router.get("/tags/:tag", loadTag);
-router.get("/tags/:tag/page", loadTagFeed);
+//hashtag
+router.get("/tags/:tag", loadHashtag);
+router.get("/tags/:tag/page", loadHashtagFeed);
 
 //location
 router.get("/locations/:locationId/:locationName", loadLocation);

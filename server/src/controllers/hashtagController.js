@@ -1,7 +1,7 @@
 import { instagramFetch, errorHandling, getGraphql } from "../utils/fetcher.js";
 import { hashtagToHashtagDTO, feedCollectionToFeedCollectionDTO } from "../mappers/index.js";
 
-export const loadTag = async (req, res) => {
+export const loadHashtag = async (req, res) => {
     const tag = req.params.tag;
 
     const graphql = await instagramFetch.get(`/explore/tags/${tag}/?__a=1`)

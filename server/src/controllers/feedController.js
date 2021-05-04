@@ -38,7 +38,7 @@ export const loadPostFeed = async (req, res) => {
 }
 
 
-export const loadTagFeed = async (req, res) => {
+export const loadHashtagFeed = async (req, res) => {
     const {tagName, first, endCursor} = req.query;
     const encodedParamsURL = convertPathParams({tag_name: tagName, first: first, after: endCursor});
 

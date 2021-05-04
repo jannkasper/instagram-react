@@ -1,3 +1,23 @@
+import { commentCollectionToCommentCollectionDTO } from "./commentMapper.js";
+import { sidecarCollectionToSidecarCollectionDTO } from "./sidecarMapper.js";
+
+export function postCollectionToPostCollectionDTO(instagramPostCollection) {
+    const postCollection = [];
+
+    for (let edge of instagramPostCollection.edges) {
+        if (edge.node.__typename !== 'GraphImage' && edge.node.__typename !== 'GraphVideo' && edge.node.__typename !== 'GraphSidecar') {
+            continue;
+        }
+
+        const postDTO = postToPostDTO(edge.node);
+        postDTO.commentsData = commentCollectionToCommentCollectionDTO(edge.node.edge_media_preview_comment);
+        postDTO.sidecarArray = sidecarCollectionToSidecarCollectionDTO(edge.node.edge_sidecar_to_children);
+        postCollection.push(postDTO)
+    }
+
+    return postCollection;
+}
+
 export function postToPostDTO(instagramPost) {
     const postDTO = {
         id: instagramPost.id,

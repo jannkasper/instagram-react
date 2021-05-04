@@ -12,10 +12,10 @@ export const loadLocation = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = {
-        ...locationToLocationDTO(graphql.location),
-        topMedia: feedCollectionToFeedCollectionDTO(graphql.location.edge_location_to_top_posts),
-        timelineMedia: feedCollectionToFeedCollectionDTO(graphql.location.edge_location_to_media)
-    };
-    return res.status(200).json(convertedData);
+    const responseData = { topMedia: {}, timelineMedia: {} };
+    Object.assign(responseData, locationToLocationDTO(graphql.location));
+    Object.assign(responseData.topMedia, feedCollectionToFeedCollectionDTO(graphql.location.edge_location_to_top_posts));
+    Object.assign(responseData.timelineMedia, feedCollectionToFeedCollectionDTO(graphql.location.edge_location_to_media));
+
+    return res.status(200).json(responseData);
 }

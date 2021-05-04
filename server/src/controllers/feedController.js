@@ -1,10 +1,12 @@
 import { convertPathParams, errorHandling, FEED_PATH, getGraphql, instagramFetch, LOCATION_PATH, TAG_PATH, TAGGED_PATH } from "../utils/fetcher.js";
-import FormData from "form-data";
 import { feedCollectionToFeedCollectionDTO } from "../mappers/index.js";
+import FormData from "form-data";
 
 export const loadLocationFeed = async (req, res) => {
     const {locationId, first, endCursor} = req.query;
-    const graphql = await instagramFetch.get(LOCATION_PATH + convertPathParams({id: locationId, first: first, after: endCursor}))
+    const encodedParamsURL = convertPathParams({id: locationId, first: first, after: endCursor});
+
+    const graphql = await instagramFetch.get(LOCATION_PATH + encodedParamsURL)
         .then(getGraphql)
         .catch(errorHandling);
 
@@ -12,14 +14,17 @@ export const loadLocationFeed = async (req, res) => {
         return res.status(200).json(graphql);
     }
 
-    const convertedData = feedCollectionToFeedCollectionDTO(graphql.location.edge_location_to_media)
-    return res.status(200).json(convertedData);
+    const responseData = feedCollectionToFeedCollectionDTO(graphql.location.edge_location_to_media)
+    return res.status(200).json(responseData);
 }
 
+
 export const loadPostFeed = async (req, res) => {
-    const { userId, first, endCursor} = req.query;
+    const { userId, first, endCursor } = req.query;
     const postId = req.params.postId;
-    const graphql = await instagramFetch.get(FEED_PATH + convertPathParams({id: userId, first: first}))
+    const encodedParamsURL = convertPathParams({id: userId, first: first});
+
+    const graphql = await instagramFetch.get(FEED_PATH + encodedParamsURL)
         .then(getGraphql)
         .catch(errorHandling);
 
@@ -27,14 +32,17 @@ export const loadPostFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = feedCollectionToFeedCollectionDTO(graphql.user.edge_owner_to_timeline_media);
-    convertedData.mediaArray = convertedData.mediaArray.filter(item => item.postId != postId).slice(0, 6);
-    return res.status(200).json(convertedData);
+    const responseData = feedCollectionToFeedCollectionDTO(graphql.user.edge_owner_to_timeline_media);
+    responseData.mediaArray = responseData.mediaArray.filter(item => item.postId != postId).slice(0, 6);
+    return res.status(200).json(responseData);
 }
+
 
 export const loadTagFeed = async (req, res) => {
     const {tagName, first, endCursor} = req.query;
-    const graphql = await instagramFetch.get(TAG_PATH + convertPathParams({tag_name: tagName, first: first, after: endCursor}))
+    const encodedParamsURL = convertPathParams({tag_name: tagName, first: first, after: endCursor});
+
+    const graphql = await instagramFetch.get(TAG_PATH + encodedParamsURL)
         .then(getGraphql)
         .catch(errorHandling);
 
@@ -42,13 +50,15 @@ export const loadTagFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = feedCollectionToFeedCollectionDTO(graphql.hashtag.edge_hashtag_to_media)
-    return res.status(200).json(convertedData);
+    const responseData = feedCollectionToFeedCollectionDTO(graphql.hashtag.edge_hashtag_to_media)
+    return res.status(200).json(responseData);
 }
 
 export const loadUserFeed = async (req, res) => {
     const { userId, first, endCursor} = req.query;
-    const graphql = await instagramFetch.get(FEED_PATH + convertPathParams({id: userId, first: first, after: endCursor}))
+    const encodedParamsURL = convertPathParams({id: userId, first: first, after: endCursor});
+
+    const graphql = await instagramFetch.get(FEED_PATH + encodedParamsURL)
         .then(getGraphql)
         .catch(errorHandling);
 
@@ -56,13 +66,16 @@ export const loadUserFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = feedCollectionToFeedCollectionDTO(graphql.user.edge_owner_to_timeline_media)
-    return res.status(200).json(convertedData);
+    const responseData = feedCollectionToFeedCollectionDTO(graphql.user.edge_owner_to_timeline_media)
+    return res.status(200).json(responseData);
 }
 
 export const loadUserTaggedFeed = async (req, res) => {
     const { userId, first, endCursor} = req.query;
-    const graphql = await instagramFetch.get(TAGGED_PATH + convertPathParams({id: userId, first: first, after: endCursor}))
+    const encodedParamsURL = convertPathParams({id: userId, first: first, after: endCursor});
+
+
+    const graphql = await instagramFetch.get(TAGGED_PATH + encodedParamsURL)
         .then(getGraphql)
         .catch(errorHandling);
 
@@ -70,8 +83,8 @@ export const loadUserTaggedFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = feedCollectionToFeedCollectionDTO(graphql.user.edge_user_to_photos_of_you)
-    return res.status(200).json(convertedData);
+    const responseData = feedCollectionToFeedCollectionDTO(graphql.user.edge_user_to_photos_of_you)
+    return res.status(200).json(responseData);
 }
 
 export const loadUserReelsFeed = async (req, res) => {
@@ -91,6 +104,6 @@ export const loadUserReelsFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = feedCollectionToFeedCollectionDTO(graphql.user.edge_user_to_photos_of_you)
-    return res.status(200).json(convertedData);
+    const responseData = feedCollectionToFeedCollectionDTO(graphql.user.edge_user_to_photos_of_you)
+    return res.status(200).json(responseData);
 }

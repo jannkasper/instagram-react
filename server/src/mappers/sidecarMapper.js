@@ -1,4 +1,8 @@
 export function sidecarCollectionToSidecarCollectionDTO(instagramSidecarCollection) {
+    if (!instagramSidecarCollection) {
+        return  null;
+    }
+
     const sidecarCollectionDTO = [];
 
     for (let edge of instagramSidecarCollection.edges) {

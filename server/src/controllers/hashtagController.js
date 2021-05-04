@@ -12,11 +12,10 @@ export const loadTag = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = {
-        ...hashtagToHashtagDTO(graphql.hashtag),
-        topMedia: feedCollectionToFeedCollectionDTO(graphql.hashtag.edge_hashtag_to_top_posts),
-        timelineMedia: feedCollectionToFeedCollectionDTO(graphql.hashtag.edge_hashtag_to_media),
-    };
+    const responseData = { topMedia: {}, timelineMedia: {} };
+    Object.assign(responseData, hashtagToHashtagDTO(graphql.hashtag));
+    Object.assign(responseData.topMedia, feedCollectionToFeedCollectionDTO(graphql.hashtag.edge_hashtag_to_top_posts));
+    Object.assign(responseData.timelineMedia, feedCollectionToFeedCollectionDTO(graphql.hashtag.edge_hashtag_to_media));
 
-    return res.status(200).json(convertedData);
+    return res.status(200).json(responseData);
 }

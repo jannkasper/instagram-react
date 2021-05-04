@@ -1,13 +1,13 @@
 import express from "express";
-import { loadPosts, loadPost } from "./controllers/posts.js";
-import { loadUser } from "./controllers/users.js";
-import { loadSearch } from "./controllers/search.js"
-import { loadTag } from "./controllers/tags.js";
-import { loadLocation } from "./controllers/locations.js";
-import { loadUserStories } from "./controllers/stories.js";
-import { loadComments } from "./controllers/comments.js";
-import { loadLocationFeed, loadPostFeed, loadTagFeed, loadUserFeed, loadUserReelsFeed, loadUserTaggedFeed } from "./controllers/feed.js";
-import { loadImage } from "./controllers/image.js";
+import { loadPosts, loadPost } from "./controllers/postController.js";
+import { loadUser } from "./controllers/userController.js";
+import { loadSearch } from "./controllers/searchController.js"
+import { loadTag } from "./controllers/hashtagController.js";
+import { loadLocation } from "./controllers/locationController.js";
+import { loadUserStories } from "./controllers/storyController.js";
+import { loadComments } from "./controllers/commentController.js";
+import { loadLocationFeed, loadPostFeed, loadTagFeed, loadUserFeed, loadUserReelsFeed, loadUserTaggedFeed } from "./controllers/feedController.js";
+import { loadImage } from "./controllers/imageController.js";
 
 const router = express.Router();
 

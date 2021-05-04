@@ -1,17 +1,5 @@
 import { instagramFetch, getGraphql, errorHandling} from "../utils/fetcher.js";
-import { instagramFeedToFeedCollection } from "./feed.js";
-
-const instagramLocationToLocationObject = (instagramLocation) => {
-    return {
-        id: instagramLocation.id,
-        locationName: instagramLocation.name,
-        lat: instagramLocation.lat,
-        lng: instagramLocation.lng,
-        addressJson: instagramLocation.address_json,
-        locationImageUrl: instagramLocation.profile_pic_url,
-        postCount: instagramLocation.edge_location_to_media.count,
-    };
-}
+import { locationToLocationDTO, feedCollectionToFeedCollectionDTO } from "../mappers/index.js";
 
 export const loadLocation = async (req, res) => {
     const {locationId, locationName} = req.params;
@@ -25,9 +13,9 @@ export const loadLocation = async (req, res) => {
     }
 
     const convertedData = {
-        ...instagramLocationToLocationObject(graphql.location),
-        topMedia: instagramFeedToFeedCollection(graphql.location.edge_location_to_top_posts),
-        timelineMedia: instagramFeedToFeedCollection(graphql.location.edge_location_to_media)
+        ...locationToLocationDTO(graphql.location),
+        topMedia: feedCollectionToFeedCollectionDTO(graphql.location.edge_location_to_top_posts),
+        timelineMedia: feedCollectionToFeedCollectionDTO(graphql.location.edge_location_to_media)
     };
     return res.status(200).json(convertedData);
 }

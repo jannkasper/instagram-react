@@ -1,30 +1,6 @@
 import { convertPathParams, errorHandling, FEED_PATH, getGraphql, instagramFetch, LOCATION_PATH, TAG_PATH, TAGGED_PATH } from "../utils/fetcher.js";
 import FormData from "form-data";
-
-export const instagramFeedToFeedCollection = (instagramFeed) => {
-    const feedCollection = [];
-
-    for (let edge of instagramFeed.edges) {
-        edge = edge.node;
-        feedCollection.push({
-            postId: edge.shortcode,
-            likeCount: edge.edge_liked_by?.count || edge.edge_media_preview_like?.count,
-            commentCount: edge.edge_media_to_comment?.count,
-            isVideo: edge.is_video,
-            isSidecar: edge.edge_sidecar_to_children && edge.edge_sidecar_to_children.edges.length > 0,
-            thumbnailArray : edge.thumbnail_resources,
-            thumbnailSrc:  edge.thumbnail_src,
-        })
-    }
-
-    return {
-        mediaArray: feedCollection,
-        pageInfo: {
-            hasNextPage: instagramFeed.page_info?.has_next_page,
-            endCursor: instagramFeed.page_info?.end_cursor,
-        }
-    }
-}
+import { feedCollectionToFeedCollectionDTO } from "../mappers/index.js";
 
 export const loadLocationFeed = async (req, res) => {
     const {locationId, first, endCursor} = req.query;
@@ -36,7 +12,7 @@ export const loadLocationFeed = async (req, res) => {
         return res.status(200).json(graphql);
     }
 
-    const convertedData = instagramFeedToFeedCollection(graphql.location.edge_location_to_media)
+    const convertedData = feedCollectionToFeedCollectionDTO(graphql.location.edge_location_to_media)
     return res.status(200).json(convertedData);
 }
 
@@ -51,7 +27,7 @@ export const loadPostFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = instagramFeedToFeedCollection(graphql.user.edge_owner_to_timeline_media);
+    const convertedData = feedCollectionToFeedCollectionDTO(graphql.user.edge_owner_to_timeline_media);
     convertedData.mediaArray = convertedData.mediaArray.filter(item => item.postId != postId).slice(0, 6);
     return res.status(200).json(convertedData);
 }
@@ -66,7 +42,7 @@ export const loadTagFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = instagramFeedToFeedCollection(graphql.hashtag.edge_hashtag_to_media)
+    const convertedData = feedCollectionToFeedCollectionDTO(graphql.hashtag.edge_hashtag_to_media)
     return res.status(200).json(convertedData);
 }
 
@@ -80,7 +56,7 @@ export const loadUserFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = instagramFeedToFeedCollection(graphql.user.edge_owner_to_timeline_media)
+    const convertedData = feedCollectionToFeedCollectionDTO(graphql.user.edge_owner_to_timeline_media)
     return res.status(200).json(convertedData);
 }
 
@@ -94,7 +70,7 @@ export const loadUserTaggedFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = instagramFeedToFeedCollection(graphql.user.edge_user_to_photos_of_you)
+    const convertedData = feedCollectionToFeedCollectionDTO(graphql.user.edge_user_to_photos_of_you)
     return res.status(200).json(convertedData);
 }
 
@@ -115,6 +91,6 @@ export const loadUserReelsFeed = async (req, res) => {
         return res.status(200).json({error: true, ...graphql});
     }
 
-    const convertedData = instagramFeedToFeedCollection(graphql.user.edge_user_to_photos_of_you)
+    const convertedData = feedCollectionToFeedCollectionDTO(graphql.user.edge_user_to_photos_of_you)
     return res.status(200).json(convertedData);
 }

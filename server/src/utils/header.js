@@ -1,0 +1,15 @@
+export default {
+  'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'accept-encoding': 'gzip, deflate, br',
+  'accept-language': 'pl,en-US;q=0.9,en;q=0.8,nl;q=0.7,nb;q=0.6',
+  'cache-control': 'max-age=0',
+  'cookie': 'ig_cb=2; ig_did=88BB498E-E955-405F-A830-3DB7BC47A8AE; mid=X-DhrwAEAAFWBn9a9lE9zRScjQRf; fbm_124024574287414=base_domain=.instagram.com; datr=Ay8iYAsdTFJuw4kRnu92mOox; ig_lang=en; shbid=19194; shbts=1615619310.6533706; rur=FRC; csrftoken=BUhoVmbefyV1IrxHhcKcYimJF4vlX7gL; ds_user_id=46186666448; sessionid=46186666448%3AhdJqKrLVlX3hyc%3A8; fbsr_124024574287414=Ni0Zyq-VRizgIkYbkQnwmx85muTG1BLrTAe0FnPlhJc.eyJ1c2VyX2lkIjoiMTAwMDAxMTMyMjcxMzU5IiwiY29kZSI6IkFRQ3Y0SERSUFFDUFlnTGRBRjRaMVZqMEV5WmdKenhMMXFPUXNXNExScG5aVlZEc0VVT3dSb3JVZmFnNlVfRTc0cU9rUEFFQWVfZjFiV0o4QVFQSE1jRkFhZHJGU2N0ZGtKbm9XNlBBRUZVcFRiaXBaOVBUdWU2Uzh2WVJ2R3B5Z2pwZlU0VjFzTDRFUkppLXdCSjVNeXVaMnk1ZzE0NW1udFl3LUdLTWJTb2p5QzJYd25MUW5pZXpsTnFLZzQyTDRjLXNYMjNERFlKVmZ4M1R4a3JpeEtxenVQYnhaZDMyQy1PcjQ4cUp5SUZaMXhVdGUzdGI2R040VXhORU9vdFJheGJPS2tvcmpvSDhNLWpGa0toTWZzczB5VGxMQzV3aUtjNVQzX0EwNUZHZF9ORHQ1dV9qOEF2T1hrQWotV0sxY1BEa1JmMDRVNzI2aXFnak1xU0JpSXZ4Iiwib2F1dGhfdG9rZW4iOiJFQUFCd3pMaXhuallCQUdQb0J4SDRoNTFuSmhNYTdSOWd3b3Vja1haQ0FhYVpDUlpCbDRqUWhTcnlUc0xWYUY1b1hxdjl2TUFWeXRWVTE0SnpsSEFqWTFEbmttdEJSRjJ3SUg2V1RKWGpXb0gybEhtWkJBS09QNDVUWkFVaVF5OWRkWHBPVFpCcEVOMG8yTVhIbHBJZDJmOXQ0OXFDN29uek9LQUdqSENHVFdDa3VyaFFxSjBrMGciLCJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTYxNTY2MTk4Nn0',
+  'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-fetch-dest': 'document',
+  'sec-fetch-mode': 'navigate',
+  'sec-fetch-site': 'same-origin',
+  'sec-fetch-user': '?1',
+  'upgrade-insecure-requests': '1',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+}

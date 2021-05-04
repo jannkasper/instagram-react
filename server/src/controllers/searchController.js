@@ -1,10 +1,11 @@
-import {errorHandling, getGraphql, instagramFetch, SEARCH_PATH} from "../utils/fetcher.js";
+import { instaFetcher, SEARCH_PATH} from "../utils/fetcher.js";
+import { errorHandler, graphqlHandler } from "../utils/handler.js";
 
 export const loadSearch = async (req, res) => {
     const query = req.params.query;
-    const graphql = await instagramFetch.get(SEARCH_PATH(query))
-        .then(getGraphql)
-        .catch(errorHandling);
+    const graphql = await instaFetcher.get(SEARCH_PATH(query))
+        .then(graphqlHandler)
+        .catch(errorHandler);
 
     if (graphql.error) {
         return res.status(200).json(graphql);

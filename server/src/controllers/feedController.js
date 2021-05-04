@@ -1,14 +1,16 @@
-import { convertPathParams, errorHandling, FEED_PATH, getGraphql, instagramFetch, LOCATION_PATH, TAG_PATH, TAGGED_PATH } from "../utils/fetcher.js";
+import { FEED_PATH, instaFetcher, LOCATION_PATH, TAG_PATH, TAGGED_PATH } from "../utils/fetcher.js";
 import { feedCollectionToFeedCollectionDTO } from "../mappers/index.js";
+import { decodeParamObject } from "../utils/formatter.js";
+import { errorHandler, graphqlHandler } from "../utils/handler.js";
 import FormData from "form-data";
 
 export const loadLocationFeed = async (req, res) => {
     const {locationId, first, endCursor} = req.query;
-    const encodedParamsURL = convertPathParams({id: locationId, first: first, after: endCursor});
+    const decodedParamsURL = decodeParamObject({id: locationId, first: first, after: endCursor});
 
-    const graphql = await instagramFetch.get(LOCATION_PATH + encodedParamsURL)
-        .then(getGraphql)
-        .catch(errorHandling);
+    const graphql = await instaFetcher.get(LOCATION_PATH + decodedParamsURL)
+        .then(graphqlHandler)
+        .catch(errorHandler);
 
     if (graphql.error || !graphql.location) {
         return res.status(200).json(graphql);
@@ -22,11 +24,11 @@ export const loadLocationFeed = async (req, res) => {
 export const loadPostFeed = async (req, res) => {
     const { userId, first, endCursor } = req.query;
     const postId = req.params.postId;
-    const encodedParamsURL = convertPathParams({id: userId, first: first});
+    const decodedParamsURL = decodeParamObject({id: userId, first: first});
 
-    const graphql = await instagramFetch.get(FEED_PATH + encodedParamsURL)
-        .then(getGraphql)
-        .catch(errorHandling);
+    const graphql = await instaFetcher.get(FEED_PATH + decodedParamsURL)
+        .then(graphqlHandler)
+        .catch(errorHandler);
 
     if (graphql.error || !graphql.user) {
         return res.status(200).json({error: true, ...graphql});
@@ -40,11 +42,11 @@ export const loadPostFeed = async (req, res) => {
 
 export const loadHashtagFeed = async (req, res) => {
     const {tagName, first, endCursor} = req.query;
-    const encodedParamsURL = convertPathParams({tag_name: tagName, first: first, after: endCursor});
+    const decodedParamsURL = decodeParamObject({tag_name: tagName, first: first, after: endCursor});
 
-    const graphql = await instagramFetch.get(TAG_PATH + encodedParamsURL)
-        .then(getGraphql)
-        .catch(errorHandling);
+    const graphql = await instaFetcher.get(TAG_PATH + decodedParamsURL)
+        .then(graphqlHandler)
+        .catch(errorHandler);
 
     if (graphql.error || !graphql.hashtag) {
         return res.status(200).json({error: true, ...graphql});
@@ -56,11 +58,11 @@ export const loadHashtagFeed = async (req, res) => {
 
 export const loadUserFeed = async (req, res) => {
     const { userId, first, endCursor} = req.query;
-    const encodedParamsURL = convertPathParams({id: userId, first: first, after: endCursor});
+    const decodedParamsURL = decodeParamObject({id: userId, first: first, after: endCursor});
 
-    const graphql = await instagramFetch.get(FEED_PATH + encodedParamsURL)
-        .then(getGraphql)
-        .catch(errorHandling);
+    const graphql = await instaFetcher.get(FEED_PATH + decodedParamsURL)
+        .then(graphqlHandler)
+        .catch(errorHandler);
 
     if (graphql.error || !graphql.user) {
         return res.status(200).json({error: true, ...graphql});
@@ -72,12 +74,12 @@ export const loadUserFeed = async (req, res) => {
 
 export const loadUserTaggedFeed = async (req, res) => {
     const { userId, first, endCursor} = req.query;
-    const encodedParamsURL = convertPathParams({id: userId, first: first, after: endCursor});
+    const decodedParamsURL = decodeParamObject({id: userId, first: first, after: endCursor});
 
 
-    const graphql = await instagramFetch.get(TAGGED_PATH + encodedParamsURL)
-        .then(getGraphql)
-        .catch(errorHandling);
+    const graphql = await instaFetcher.get(TAGGED_PATH + decodedParamsURL)
+        .then(graphqlHandler)
+        .catch(errorHandler);
 
     if (graphql.error || !graphql.user) {
         return res.status(200).json({error: true, ...graphql});
@@ -94,11 +96,11 @@ export const loadUserReelsFeed = async (req, res) => {
     formData.append('page_size', 12);
     formData.append('max_id', '');
 
-    const graphql = await instagramFetch.post('https://i.instagram.com/api/v1/clips/user/', formData, { headers: formData.getHeaders() })
+    const graphql = await instaFetcher.post('https://i.instagram.com/api/v1/clips/user/', formData, { headers: formData.getHeaders() })
         .then(function (response) {
             return response
         })
-        .catch(errorHandling);
+        .catch(errorHandler);
 
     if (graphql.error || !graphql.user) {
         return res.status(200).json({error: true, ...graphql});

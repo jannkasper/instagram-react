@@ -1,4 +1,5 @@
-import { instagramFetch, errorHandling } from "../utils/fetcher.js";
+import { instaFetcher } from "../utils/fetcher.js";
+import { errorHandler } from "../utils/handler.js";
 import {
     commentCollectionToCommentCollectionDTO,
     postToPostDTO,
@@ -8,11 +9,11 @@ import {
 } from "../mappers/index.js";
 
 export const loadPosts = async (req, res) => {
-    const graphql = await instagramFetch.get()
+    const graphql = await instaFetcher.get()
         .then(response => response.data.match(/<script type="text\/javascript">window\.__additionalDataLoaded\('feed',(.*)\);<\/script>/))
         .then(response => response[1])
         .then(response => JSON.parse(response))
-        .catch(errorHandling);
+        .catch(errorHandler);
 
     if (graphql.error || !graphql.user) {
         return res.status(200).json({error: true, ...graphql});
@@ -27,13 +28,13 @@ export const loadPosts = async (req, res) => {
 export const loadPost = async (req, res) => {
     const postId = req.params.postId;
 
-    const graphql = await instagramFetch.get(`/p/${postId}`)
+    const graphql = await instaFetcher.get(`/p/${postId}`)
         .then(response => response.data.match(/<script type="text\/javascript">window\.__additionalDataLoaded(.*)<\/script>/))
         .then(response => response[1])
         .then(response => response.match(/\{(.*)\}/)[0])
         .then(response =>  JSON.parse(response))
         .then(response => response.graphql)
-        .catch(errorHandling);
+        .catch(errorHandler);
 
     if (graphql.error || !graphql.shortcode_media) {
         return res.status(200).json({error: true, ...graphql});

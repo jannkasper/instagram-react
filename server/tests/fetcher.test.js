@@ -1,60 +1,46 @@
-import utilsRewire, { convertPathParams } from "../src/utils/fetcher.js"
+import * as axios from "axios";
+import {
+    instaFetcher,
+    LOCATION_PATH,
+    TAG_PATH,
+    FEED_PATH,
+    COMMENT_PATH,
+    TAGGED_PATH,
+    STORIES_PATH,
+    SEARCH_PATH } from "../src/utils/fetcher";
 
-describe("replaceInString() -> success translation", () => {
-    const replaceInString = utilsRewire.__get__('replaceInString');
-    test("',' translates to '%2C'", async () => {
-        expect(replaceInString(',')).toBe('%2C');
-    })
-    test("'{' translates to '%7B'", async () => {
-        expect(replaceInString('{')).toBe('%7B');
-    })
-    test("'}' translates to '%7D'", async () => {
-        expect(replaceInString('}')).toBe('%7D');
-    })
-    test("':' translates to '%3A'", async () => {
-        expect(replaceInString(':')).toBe('%3A');
-    })
-    test("'\"' translates to '%22'", async () => {
-        expect(replaceInString('"')).toBe('%22');
-    })
-    test("'=' translates to '%3D'", async () => {
-        expect(replaceInString('=')).toBe('%3D');
-    })
-    test("'\\' translates to '%2C'", async () => {
-        expect(replaceInString('\\')).toBe('%5C');
+// Mock out all top level functions, such as get, put, delete and post:
+jest.mock("axios");
+
+describe("instaFetcher", () => {
+    test("initialization", () => {
+        expect(axios.create).toHaveBeenCalled()
     })
 });
 
-describe("replaceInString() -> edge cases", () => {
-    const replaceInString = utilsRewire.__get__('replaceInString');
-    test("'' translates to ''", async () => {
-        expect(replaceInString('')).toBe('');
+describe("paths", () => {
+    test("LOCATION_PATH", () => {
+        expect(LOCATION_PATH).toBe('/graphql/query/?query_hash=36bd0f2bf5911908de389b8ceaa3be6d&variables=');
     })
-    test("' ' translates to ' '", async () => {
-        expect(replaceInString(' ')).toBe(' ');
+    test("TAG_PATH", () => {
+        expect(TAG_PATH).toBe('/graphql/query/?query_hash=9b498c08113f1e09617a1703c22b2f32&variables=');
     })
-    test("NULL translates to NULL", async () => {
-        expect(replaceInString(null)).toBeNull();
+    test("FEED_PATH", () => {
+        expect(FEED_PATH).toBe('/graphql/query/?query_hash=003056d32c2554def87228bc3fd9668a&variables=');
     })
-});
-
-describe("convertPathParams() -> success translation", () => {
-    test("'{}' translated to '%7B%7D", async () => {
-        expect(convertPathParams({})).toBe('%7B%7D');
+    test("COMMENT_PATH", () => {
+        expect(COMMENT_PATH).toBe('/graphql/query/?query_hash=bc3296d1ce80a24b1b6e40b1e72903f5&variables=');
     })
-    test("'{key: 'value'}' translated to '%7B%22key%22%3A%22value%22%7D'", async () => {
-        expect(convertPathParams({key: 'value'})).toBe('%7B%22key%22%3A%22value%22%7D');
+    test("TAGGED_PATH", () => {
+        expect(TAGGED_PATH).toBe('/graphql/query/?query_hash=31fe64d9463cbbe58319dced405c6206&variables=');
     })
-    test("'{key: 'value'}' translated to '%7B%22key1%22%3A%22value1%22%2C%22key2%22%3A%22value2%22%7D'", async () => {
-        expect(convertPathParams({key1: 'value1', key2: 'value2'})).toBe('%7B%22key1%22%3A%22value1%22%2C%22key2%22%3A%22value2%22%7D');
+    test("STORIES_PATH", () => {
+        expect(STORIES_PATH).toBe('/graphql/query/?query_hash=d4d88dc1500312af6f937f7b804c68c3&variables=');
     })
-});
-
-describe("convertPathParams() -> edge cases", () => {
-    test("NULL translates to NULL", async () => {
-        expect(convertPathParams(null)).toBeNull();
+    test("SEARCH_PATH", () => {
+        expect(SEARCH_PATH("TEST")).toBe('/web/search/topsearch/?context=blended&query=TEST&rank_token=0.9681968460805339&include_reel=true');
     })
-    test("'' translates to ''", async () => {
-        expect(convertPathParams('')).toBe('');
+    test("SEARCH_PATH", () => {
+        expect(SEARCH_PATH("")).toBe('/web/search/topsearch/?context=blended&query=&rank_token=0.9681968460805339&include_reel=true');
     })
 });

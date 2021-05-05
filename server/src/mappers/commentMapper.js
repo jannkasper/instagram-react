@@ -1,6 +1,10 @@
 import { pageInfoToPageIntoDTO } from "./pageInfoMapper.js";
 
 export function commentCollectionToCommentCollectionDTO(instagramCommentCollection) {
+    if (!instagramCommentCollection) {
+        return null;
+    }
+
     const commentCollectionDTO = { count: instagramCommentCollection.count, commentsArray: []};
 
     if (instagramCommentCollection.page_info) {
@@ -16,6 +20,10 @@ export function commentCollectionToCommentCollectionDTO(instagramCommentCollecti
 }
 
 function commentToCommentDTO(comment) {
+    if (!comment) {
+        return null;
+    }
+
     const commentDTO = {
         id: comment.id,
         createdAt: comment.created_at,

@@ -2,6 +2,10 @@ import { commentCollectionToCommentCollectionDTO } from "./commentMapper.js";
 import { sidecarCollectionToSidecarCollectionDTO } from "./sidecarMapper.js";
 
 export function postCollectionToPostCollectionDTO(instagramPostCollection) {
+    if (!instagramPostCollection) {
+        return null;
+    }
+
     const postCollection = [];
 
     for (let edge of instagramPostCollection.edges) {
@@ -19,10 +23,14 @@ export function postCollectionToPostCollectionDTO(instagramPostCollection) {
 }
 
 export function postToPostDTO(instagramPost) {
+    if (!instagramPost) {
+        return instagramPost;
+    }
+
     const postDTO = {
         id: instagramPost.id,
         shortcode: instagramPost.shortcode,
-        isVideo: instagramPost.is_video,
+        isVideo: Boolean(instagramPost.is_video),
         isSidecar: Boolean(instagramPost.edge_sidecar_to_children),
         videoUrl: instagramPost.video_url,
         resourceArray: instagramPost.display_resources,
@@ -33,13 +41,13 @@ export function postToPostDTO(instagramPost) {
             slug: instagramPost.location.slug,
             name: instagramPost.location.name
         },
-        owner: {
+        owner: instagramPost.owner && {
             id: instagramPost.owner.id,
             username: instagramPost.owner.username,
             userImageUrl: instagramPost.owner.profile_pic_url,
             isVerified: instagramPost.owner.is_verified,
         },
-        likes: {
+        likes: instagramPost.edge_media_preview_like && {
             count: instagramPost.edge_media_preview_like.count,
             userArray: instagramPost.edge_media_preview_like.edges?.map(el => el.node)
         },
@@ -51,12 +59,16 @@ export function postToPostDTO(instagramPost) {
 }
 
 export function postToPostMinimumDTO(instagramPost) {
+    if (!instagramPost) {
+        return instagramPost;
+    }
+
     const postMinimumDTO = {
         postId: instagramPost.shortcode,
         likeCount: instagramPost.edge_liked_by?.count || instagramPost.edge_media_preview_like?.count,
         commentCount: instagramPost.edge_media_to_comment?.count,
-        isVideo: instagramPost.is_video,
-        isSidecar: instagramPost.edge_sidecar_to_children && instagramPost.edge_sidecar_to_children.edges.length > 0,
+        isVideo: Boolean(instagramPost.is_video),
+        isSidecar: Boolean(instagramPost.edge_sidecar_to_children && instagramPost.edge_sidecar_to_children.edges.length > 0),
         thumbnailArray : instagramPost.thumbnail_resources,
         thumbnailSrc:  instagramPost.thumbnail_src,
     }

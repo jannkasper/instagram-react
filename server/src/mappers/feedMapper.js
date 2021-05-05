@@ -2,6 +2,10 @@ import { pageInfoToPageIntoDTO } from "./pageInfoMapper.js";
 import { postToPostMinimumDTO } from "./postMapper.js";
 
 export function feedCollectionToFeedCollectionDTO(instagramFeed) {
+    if (!instagramFeed) {
+        return null;
+    }
+
     const feedCollectionDTO = { mediaArray: [] };
 
     if (instagramFeed.page_info) {

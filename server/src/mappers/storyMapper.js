@@ -1,4 +1,8 @@
 export function storyCollectionToStoryCollectionDTO(instagramStoryCollection) {
+    if (!instagramStoryCollection) {
+        return null;
+    }
+
     const storyCollectionDTO = [];
 
     for (let edge of instagramStoryCollection.edges) {
@@ -10,6 +14,10 @@ export function storyCollectionToStoryCollectionDTO(instagramStoryCollection) {
 }
 
 function storyToStoryDTO(story) {
+    if (!story) {
+        return null;
+    }
+
     const storyDTO = {
         id: story.id,
         title: story.title,

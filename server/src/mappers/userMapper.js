@@ -1,4 +1,8 @@
 export function userToUserDTO(user) {
+    if (!user) {
+        return null;
+    }
+
     return {
         id: user.id,
         username: user.username,
@@ -9,16 +13,16 @@ export function userToUserDTO(user) {
         bioUrl: user.external_url_linkshimmed,
         bioUrlName: user.external_url,
 
-        postCount: user.edge_owner_to_timeline_media.count,
-        followersCount: user.edge_followed_by.count,
-        followingsCount: user.edge_follow.count,
+        postCount: user.edge_owner_to_timeline_media?.count,
+        followersCount: user.edge_followed_by?.count,
+        followingsCount: user.edge_follow?.count,
 
-        isVerified: user.is_verified,
-        isPrivate: user.is_private,
-        hasClips: user.has_clips,
+        isVerified: Boolean(user.is_verified),
+        isPrivate: Boolean(user.is_private),
+        hasClips: Boolean(user.has_clips),
         hasStories: Boolean(user.highlight_reel_count),
 
-        mutualFollow: {
+        mutualFollow: user.edge_mutual_followed_by && {
             count: user.edge_mutual_followed_by.count,
             usernameArray: user.edge_mutual_followed_by.edges.map(element => element.node.username)
         }
@@ -26,6 +30,10 @@ export function userToUserDTO(user) {
 }
 
 export function loggedToLoggedDTO(instagramLogged) {
+    if (!instagramLogged) {
+        return null;
+    }
+
     const loggedDTO = {
         id: instagramLogged.id,
         username: instagramLogged.username,

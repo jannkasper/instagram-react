@@ -1,5 +1,9 @@
 export function sidecarCollectionToSidecarCollectionDTO(instagramSidecarCollection) {
     if (!instagramSidecarCollection) {
+        return null;
+    }
+
+    if (!instagramSidecarCollection) {
         return  null;
     }
 
@@ -14,6 +18,10 @@ export function sidecarCollectionToSidecarCollectionDTO(instagramSidecarCollecti
 }
 
 function sidecarToSidecarDTO(sidecar) {
+    if (!sidecar) {
+        return null;
+    }
+
     const sidecarDTO = {
         id: sidecar.id,
         shortcode: sidecar.shortcode,

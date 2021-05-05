@@ -1,4 +1,7 @@
 export function locationToLocationDTO(instagramLocation) {
+    if (!instagramLocation) {
+        return null;
+    }
     const locationDTO =  {
         id: instagramLocation.id,
         locationName: instagramLocation.name,

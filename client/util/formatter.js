@@ -3,13 +3,14 @@ import Button from "../components/button";
 import {Info} from "../components/text";
 
 export function numFormatter(num) {
-    if (num > 999 && num < 1000000) {
+    if (num >= 1000 && num < 1000000) {
         return (num/1000).toFixed(1) + 'k'; // convert to K for number from > 1000 < 1 million
-    }else if(num > 1000000){
+    } else if (num >= 1000000) {
         return (num/1000000).toFixed(1) + 'M'; // convert to M for number from > 1 million
-    }else if(num < 900){
+    } else if(num < 1000) {
         return num; // if value < 1000, nothing to do
     }
+    return "";
 }
 
 export function numCommaFormatter(num) {
@@ -53,7 +54,11 @@ export function timeFormatter(time) {
 }
 
 export function urlFormatter(url) {
-    return new URL(url).hostname
+    try {
+        return new URL(url).hostname;
+    } catch (_) {
+        return "";
+    }
 }
 
 export function bioFormatter(bio) {

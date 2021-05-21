@@ -2,7 +2,7 @@ import config from "../config.js";
 import fs from "fs";
 
 export async function setCookies(page) {
-    const parsedCookies = JSON.parse(config.cookieString);
+    const parsedCookies = JSON.parse(config.instagramCookie);
     if (parsedCookies.length !== 0) {
         for (let cookie of parsedCookies) {
             await page.setCookie(cookie)

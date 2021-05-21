@@ -1,5 +1,5 @@
 module.exports = {
     env: {
-        SITE_NAME: 'jkasper-instagram.herokuapp.com',
+        SITE_NAME: process.env.SITE_NAME,
     },
 }

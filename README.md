@@ -1,34 +1,145 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Instagram Clone
+- Live: https://instagram-jannkasper.vercel.app/ (be patient, server is sleeping)
 
-## Getting Started
+[![Product Name Screen Shot][product-screenshot]](https://github.com/jannkasper/instagram-react/blob/master/video.gif)
 
-First, run the development server:
+## :rocket: Tech Stack
+
+- ReactJs
+- Next
+- Axios
+- NodeJs
+- Puppeteer
+- Express
+- Testing Library
+- Jest
+
+## :warning: Prerequisite
+
+- node
+- npm
+
+## :cd: How to run local
 
 ```bash
-npm run dev
-# or
-yarn dev
+# Clone this repository
+$ git clone https://github.com/jannkasper/instagram-react
+
+# Go into server
+$ cd instagram-react/server
+
+# Create configuration file (instruction below)
+$ echo 'INSTAGRAM_COOKIE=<your-cookie>' > .env
+
+# Install dependencies
+$ npm install
+
+# Start the backend server
+$ npm run dev
+
+# On another terminal, go to the client folder
+$ cd instagram-react/client
+
+# Create configuration file
+$ echo 'SITE_NAME=<server-host>' > .env
+
+# Install dependencies
+$ npm install
+
+# Start the frontend client
+$ npm run start
+```
+Find your-cookie: Login to Instagram > DevTools (F12) > Network > Any Request -> Request Headers > cookie: <your-cookie>
+
+## :mag_right: Testing
+
+```bash
+$ cd instagram-react/server
+$ npm run test
+$
+$ cd ../client
+$ npm run test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## :globe_with_meridians: Deploy
 
-You can start editing the page by modifying `pages/server.js`. The page auto-updates as you edit the file.
+#### Deploying Server App on Heroku
+- Login to Instagram > DevTools (F12) > Network > Any Request -> Request Headers > cookie: <your-cookie>
+- Create a [Heroku](https://dashboard.heroku.com/new-app) new app.
+- Go to app settings
+- Add the following enviroments.
+    - INSTAGRAM_COOKIE (to use your Instagram connection)
+- Add Nodejs to buildpacks
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+-
+      # Go into the repository
+      $ cd instagram-react
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+      # Heroku Setup
+      $ npm install -g heroku
+      $ heroku login
+      $ heroku git:remote -a your-app-name
 
-## Learn More
+      # push subdirectory repository with subtree
+      $ git subtree push --prefix server heroku master
 
-To learn more about Next.js, take a look at the following resources:
+#### Deploying Client App on Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fjannkasper%2Fwhatsapp-react-clone&env=SITE_NAME)
+- Select client directory
+- Add heroku api url to SITE_NAME enviorement
+- Finally deploy client application
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## :book: Directory Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+├── app/
+│   ├── client/
+│   │   ├── public/
+│   │   ├── src/
+│   │   │   ├── __tests__/
+│   │   │   ├── actions/
+│   │   │   ├── api/
+│   │   │   ├── components/
+│   │   │   ├── img/
+│   │   │   ├── reducers/
+│   │   │   ├── store/
+│   │   │   ├── util/
+│   │   │   ├── index.css
+│   │   │   ├── index.js
+│   │   │   └── setupTests.js
+│   │   │
+│   │   ├── .env
+│   │   ├── jest.config.js
+│   │   └── package.json
+│   │
+│   ├── server/
+│   │   ├── public/
+│   │   ├── src/
+│   │   │   ├── controllers/
+│   │   │   ├── mappers/
+│   │   │   ├── scrappings/
+│   │   │   ├── utils/
+│   │   │   ├── app.js
+│   │   │   ├── config.js
+│   │   │   ├── routes.js
+│   │   │   └── server.js
+│   │   │
+│   │   ├── tests/
+│   │   ├── .babelrc
+│   │   ├── .env
+│   │   └── package.json
+│   │
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## :memo: License
+
+This project is made available under the MIT License.
+
+
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[product-screenshot]: video.gif

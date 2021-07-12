@@ -5,10 +5,10 @@ import { Like } from "../icons";
 import { Info, Label } from "../text";
 import { hashtagFormatter } from "../../util/formatter";
 
-const Comment = ({ feedDescription, owner, text }) => {
+const Comment = ({ feedDescription, owner, text = "" }) => {
     const [showMore, setShowMore] = useState(false);
 
-    const commentText = (!showMore && text.length > 120) ? text.slice(0, text.lastIndexOf(" ",120)) : text;
+    const commentText = (!showMore && text && text.length > 120) ? text.slice(0, text.lastIndexOf(" ",120)) : text;
 
     return (
         <FlexWrapper margin="4px 1rem 4px 1rem">

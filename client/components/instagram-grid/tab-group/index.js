@@ -17,11 +17,11 @@ const TabGroup = ({ setCurrentFeed }) => {
             alignItems="center"
             other={{borderTop: "1px solid #dbdbdb"}}
         >
-            <Tab keyName='timelineMedia' title='Posts' icon={<Posts/>} handleSelect={handleSelect}
+            <Tab keyName='timelineMedia' title='Posts' icon={<Posts/>} handleSelect={() => {return;}}
                  isSelected={'timelineMedia' === selected}/>
             {/*<Tab keyName='reels' title='Reels' icon={<Reels/>} handleSelect={handleSelect} isSelected={'reels' === selected} />*/}
             {/*<Tab title='IgTv' icon={<Tv/>} handleSelect={handleSelect} isSelected={'IgTv' === selected}/>*/}
-            <Tab keyName='tagged' title='Tagged' icon={<Tagged/>} handleSelect={handleSelect}
+            <Tab keyName='tagged' title='Tagged' icon={<Tagged/>} handleSelect={() => {return;}}
                  isSelected={'tagged' === selected}/>
         </FlexWrapper>
     )

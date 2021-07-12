@@ -6,9 +6,7 @@ import styles from "./button.module.css";
 
 const LinkButton = ({ href, children, ...props }) => {
     return (
-        <Link href={href} as={href}>
-            <a {...props}>{children}</a>
-        </Link>
+        <a href={href} {...props}>{children}</a>
     )
 }
 
